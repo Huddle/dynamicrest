@@ -9,11 +9,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Dynamic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,11 +36,21 @@ namespace DynamicRest {
         private string _operationGroup;
         private Dictionary<string, object> _parameters;
         private ICredentials _credentials;
+        private WebHeaderCollection _headers = new WebHeaderCollection();
+        private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
+        private string _xml;
+        private string _contentType;
+        private Uri _requestUri;
 
-        public RestClient(string uriFormat, RestService service) {
+        public RestClient(string uriFormat, RestService service)
+         : this( service){
             _uriFormat = uriFormat;
+        }
+
+        public RestClient(RestService service){
             _service = service;
         }
+
 
         private RestClient(string uriFormat, RestService service, string operationGroup, Dictionary<string, object> inheritedParameters)
             : this(uriFormat, service) {
@@ -51,17 +59,38 @@ namespace DynamicRest {
         }
 
         private HttpWebRequest CreateRequest(string operationName, JsonObject parameters) {
-            Uri requestUri = CreateRequestUri(operationName, parameters);
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
+
+            if (_requestUri == null){
+                _requestUri = CreateRequestUri(parameters);
+            }
+
+            var webRequest = (HttpWebRequest)WebRequest.Create(_requestUri);
+            webRequest.Method = operationName.ToUpper();
+            webRequest.Headers.Add(_headers);
 
             if (_credentials != null) {
                 webRequest.Credentials = _credentials;
             }
 
+            if (_xml != null)
+            {
+                AddBodyToRequest(webRequest,_xml);
+            }
+
+
             return webRequest;
         }
 
-        private Uri CreateRequestUri(string operationName, JsonObject parameters) {
+        public void AddBodyToRequest(HttpWebRequest request, string xml) {
+            byte[] bytes = Encoding.UTF8.GetBytes(xml);
+            request.ContentType = _contentType;
+            request.ContentLength = bytes.Length;
+            using (Stream requestStream = request.GetRequestStream()){
+                requestStream.Write(bytes, 0, bytes.Length);
+            }
+        }
+
+        private Uri CreateRequestUri(JsonObject parameters) {
             StringBuilder uriBuilder = new StringBuilder();
 
             List<object> values = new List<object>();
@@ -73,16 +102,14 @@ namespace DynamicRest {
                 Group formatGroup = m.Groups["format"];
                 Group endGroup = m.Groups["end"];
 
-                if ((operationName.Length != 0) && String.CompareOrdinal(propertyGroup.Value, "operation") == 0) {
-                    values.Add(operationName);
-                }
-                else if (_parameters != null) {
-                    values.Add(_parameters[propertyGroup.Value]);
+                if (_parameters != null) {
+                values.Add(_parameters[propertyGroup.Value]);
 
-                    if (addedParameters == null) {
-                        addedParameters = new HashSet<string>(StringComparer.Ordinal);
-                    }
-                    addedParameters.Add(propertyGroup.Value);
+                if (addedParameters == null) {
+                    addedParameters = new HashSet<string>(StringComparer.Ordinal);
+                }
+
+                addedParameters.Add(propertyGroup.Value);
                 }
 
                 return new string('{', startGroup.Captures.Count) + (values.Count - 1) + formatGroup.Value + new string('}', endGroup.Captures.Count);
@@ -147,6 +174,11 @@ namespace DynamicRest {
             }
         }
 
+        public RestClient ForUri(Uri requestUri){
+            _requestUri = requestUri;
+            return this;
+        }
+
         private RestOperation PerformOperation(string operationName, params object[] args) {
             JsonObject argsObject = null;
             if ((args != null) && (args.Length != 0)) {
@@ -159,8 +191,8 @@ namespace DynamicRest {
 
             try {
                 HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
-
-                if (webResponse.StatusCode == HttpStatusCode.OK) {
+                _responseHeaders = webResponse.Headers;
+                if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created) {
                     Stream responseStream = webResponse.GetResponseStream();
 
                     try {
@@ -199,6 +231,7 @@ namespace DynamicRest {
             webRequest.BeginGetResponse((ar) => {
                 try {
                     HttpWebResponse webResponse = (HttpWebResponse)webRequest.EndGetResponse(ar);
+                    _responseHeaders = webResponse.Headers;
                     if (webResponse.StatusCode == HttpStatusCode.OK) {
                         Stream responseStream = webResponse.GetResponseStream();
 
@@ -304,6 +337,16 @@ namespace DynamicRest {
             return true;
         }
 
+        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
+        {
+            if(indexes.Length == 1 && indexes[0].GetType() == typeof(HttpResponseHeader))
+            {
+                result = _responseHeaders[(HttpResponseHeader)indexes[0]];
+                return true;
+            }
+            return base.TryGetIndex(binder, indexes, out result);
+        }
+
         public RestClient WithCredentials(ICredentials credentials) {
             if (credentials == null) {
                 throw new ArgumentNullException("credentials");
@@ -313,6 +356,27 @@ namespace DynamicRest {
             return this;
         }
 
+        public RestClient WithHeader(HttpRequestHeader headerType, string value){
+            _headers.Add(headerType, value);
+            return this;
+        }
+
+        public RestClient WithAuthorization(OAuth oAuth){
+            WithHeader(HttpRequestHeader.Authorization, oAuth.Token);
+            return this;
+        }
+
+        public RestClient WithXmlBody(string xml){
+            _xml = xml;
+            return this;
+        }
+
+        public RestClient WithContentType(string contentType)
+         {
+             _contentType = contentType;
+             return this;
+         }
+
         public RestClient WithUriTransformer(IRestUriTransformer uriTransformer) {
             if (uriTransformer == null) {
                 throw new ArgumentNullException("uriTransformer");
@@ -320,6 +384,21 @@ namespace DynamicRest {
 
             _uriTransformer = uriTransformer;
             return this;
+        }
+
+        public IEnumerable<HttpResponseHeader> ResponseHeaders
+        {
+            get
+            {
+                foreach (HttpResponseHeader header in _headers)
+                    yield return header;
+                yield break;
+            }
+        }
+
+        public string this[HttpResponseHeader index]
+        {
+            get { return _responseHeaders[index]; }
         }
     }
 }
