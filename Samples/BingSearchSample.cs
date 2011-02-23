@@ -15,7 +15,8 @@ namespace Application {
     internal static class BingSearchSample {
 
         public static void Run() {
-            dynamic bingSearch = new RestClient(Services.BingSearchUri, RestService.Json);
+            //TODO: Fix this up with a request wrapper
+            dynamic bingSearch = new RestClient(null, Services.BingSearchUri, RestService.Json);
             bingSearch.appID = Services.BingApiKey;
 
             Console.WriteLine("Searching Bing for 'seattle'...");

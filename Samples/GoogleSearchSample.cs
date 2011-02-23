@@ -16,7 +16,8 @@ namespace Application {
     internal static class GoogleSearchSample {
 
         public static void Run() {
-            dynamic googleSearch = new RestClient(Services.GoogleSearchUri, RestService.Json);
+            //TODO: Fix this up with a request wrapper
+            dynamic googleSearch = new RestClient(null, Services.GoogleSearchUri, RestService.Json);
 
             Console.WriteLine("Searching Google for 'seattle'...");
 

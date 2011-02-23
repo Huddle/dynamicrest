@@ -15,8 +15,9 @@ namespace Application {
     internal static class AmazonSample {
 
         public static void Run() {
+            //TODO: Fix this up with a request wrapper
             AmazonUriSigner signer = new AmazonUriSigner(Services.AmazonAccessKey, Services.AmazonSecretKey);
-            dynamic amazon = new RestClient(Services.AmazonUri, RestService.Xml).
+            dynamic amazon = new RestClient(null, Services.AmazonUri, RestService.Xml).
                                  WithUriTransformer(signer);
 
             dynamic searchOptions = new JsonObject();

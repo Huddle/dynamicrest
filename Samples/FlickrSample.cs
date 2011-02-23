@@ -24,7 +24,8 @@ namespace Application {
         }
 
         public static void Run() {
-            dynamic flickr = new RestClient(Services.FlickrUri, RestService.Json);
+             //TODO: Fix this up with a request wrapper
+            dynamic flickr = new RestClient(null, Services.FlickrUri, RestService.Json);
             flickr.apiKey = Services.FlickrApiKey;
 
             Console.WriteLine("Searching photos tagged with 'seattle'...");

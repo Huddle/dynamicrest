@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml.Linq;
+using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest {
 
@@ -30,67 +31,58 @@ namespace DynamicRest {
             new Regex(@"(xmlns:?[^=]*=[""][^""]*[""])",
                       RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-        private string _uriFormat;
-        private RestService _service;
+        private readonly IHttpRequestFactory _requestFactory;
+        private readonly string _uriFormat;
+        private readonly RestService _service;
+        private readonly string _operationGroup;
+        private readonly WebHeaderCollection _headers = new WebHeaderCollection();
         private IRestUriTransformer _uriTransformer;
-        private string _operationGroup;
         private Dictionary<string, object> _parameters;
         private ICredentials _credentials;
-        private WebHeaderCollection _headers = new WebHeaderCollection();
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private string _xml;
         private string _contentType;
         private Uri _requestUri;
 
-        public RestClient(string uriFormat, RestService service)
-         : this( service){
-            _uriFormat = uriFormat;
-        }
 
-        public RestClient(RestService service){
+        public RestClient(IHttpRequestFactory requestFactory, RestService service)
+        {
+            _requestFactory = requestFactory;
             _service = service;
         }
 
+        public RestClient(IHttpRequestFactory requestFactory, string uriFormat, RestService service)
+            : this(requestFactory, service)
+        {
+            _uriFormat = uriFormat;
+        }
 
-        private RestClient(string uriFormat, RestService service, string operationGroup, Dictionary<string, object> inheritedParameters)
-            : this(uriFormat, service) {
+        private RestClient(IHttpRequestFactory requestFactory, string uriFormat, RestService service, string operationGroup, Dictionary<string, object> inheritedParameters)
+            : this(requestFactory, uriFormat, service) {
             _operationGroup = operationGroup;
             _parameters = inheritedParameters;
         }
 
-        private HttpWebRequest CreateRequest(string operationName, JsonObject parameters) {
+        private IHttpRequest CreateRequest(string operationName, JsonObject parameters) {
 
             if (_requestUri == null){
-                _requestUri = CreateRequestUri(parameters);
+                _requestUri = CreateRequestUri(operationName, parameters);
             }
 
-            var webRequest = (HttpWebRequest)WebRequest.Create(_requestUri);
-            webRequest.Method = operationName.ToUpper();
-            webRequest.Headers.Add(_headers);
+            var webRequest = _requestFactory.Create(_requestUri);
+            //TODO: replace with a strategy approach
+            //webRequest.SetHttpVerb((HttpVerb)Enum.Parse(typeof(HttpVerb), operationName));
+            webRequest.AddHeaders(_headers);
 
-            if (_credentials != null) {
-                webRequest.Credentials = _credentials;
-            }
-
-            if (_xml != null)
-            {
-                AddBodyToRequest(webRequest,_xml);
-            }
-
-
+            webRequest.AddCredentials(_credentials);
+ 
+            webRequest.AddRequestBody(_contentType,_xml);
+ 
             return webRequest;
         }
 
-        public void AddBodyToRequest(HttpWebRequest request, string xml) {
-            byte[] bytes = Encoding.UTF8.GetBytes(xml);
-            request.ContentType = _contentType;
-            request.ContentLength = bytes.Length;
-            using (Stream requestStream = request.GetRequestStream()){
-                requestStream.Write(bytes, 0, bytes.Length);
-            }
-        }
-
-        private Uri CreateRequestUri(JsonObject parameters) {
+        private Uri CreateRequestUri(string operationName, JsonObject parameters)
+        {
             StringBuilder uriBuilder = new StringBuilder();
 
             List<object> values = new List<object>();
@@ -102,7 +94,10 @@ namespace DynamicRest {
                 Group formatGroup = m.Groups["format"];
                 Group endGroup = m.Groups["end"];
 
-                if (_parameters != null) {
+                if ((operationName.Length != 0) && String.CompareOrdinal(propertyGroup.Value, "operation") == 0) {
+                    values.Add(operationName);
+                }
+                else if (_parameters != null) {
                 values.Add(_parameters[propertyGroup.Value]);
 
                 if (addedParameters == null) {
@@ -187,10 +182,10 @@ namespace DynamicRest {
 
             RestOperation operation = new RestOperation();
 
-            HttpWebRequest webRequest = CreateRequest(operationName, argsObject);
+            IHttpRequest webRequest = CreateRequest(operationName, argsObject);
 
             try {
-                HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+                IHttpResponse webResponse = webRequest.GetResponse();
                 _responseHeaders = webResponse.Headers;
                 if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created) {
                     Stream responseStream = webResponse.GetResponseStream();
@@ -226,7 +221,7 @@ namespace DynamicRest {
 
             RestOperation operation = new RestOperation();
 
-            HttpWebRequest webRequest = CreateRequest(operationName, argsObject);
+            IHttpRequest webRequest = CreateRequest(operationName, argsObject);
 
             webRequest.BeginGetResponse((ar) => {
                 try {
@@ -301,7 +296,7 @@ namespace DynamicRest {
             }
 
             RestClient operationGroupClient =
-                new RestClient(_uriFormat, _service, operationGroup, _parameters);
+                new RestClient(_requestFactory, _uriFormat, _service, operationGroup, _parameters);
 
             result = operationGroupClient;
             return true;
