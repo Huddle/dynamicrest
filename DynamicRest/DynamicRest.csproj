@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\RequestWrapper.cs" />
+    <Compile Include="IBuildRequests.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="JsonObject.cs" />
     <Compile Include="JsonReader.cs" />
     <Compile Include="JsonWriter.cs" />
+    <Compile Include="BuildRequests.cs" />
+    <Compile Include="TemplatedUriBuilder.cs" />
     <Compile Include="XmlNode.cs" />
     <Compile Include="XmlNodeList.cs" />
     <Compile Include="RestClient.cs" />
