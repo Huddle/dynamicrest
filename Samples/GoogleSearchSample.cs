@@ -18,7 +18,7 @@ namespace Application {
 
         public static void Run() {
             //TODO: Fix this up with a request wrapper
-            var templatedUriBuilder = new TemplatedUriBuilder();
+            var templatedUriBuilder = new TemplatedBuildUris();
             templatedUriBuilder.UriTemplate = Services.GoogleSearchUri;
             dynamic googleSearch = new RestClient(new RequestBuilder(null, new RequestFactory()), templatedUriBuilder, new ResponseProcessor(RestService.Json));
 

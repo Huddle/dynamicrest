@@ -50,10 +50,12 @@
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
     <Compile Include="IBuildRequests.cs" />
+    <Compile Include="IBuildUris.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
     <Compile Include="HTTPInterfaces\IHttpResponse.cs" />
+    <Compile Include="ParametersStore.cs" />
     <Compile Include="ResponseProcessor.cs" />
     <Compile Include="RestCallback.cs" />
     <Compile Include="RestOperation.cs" />

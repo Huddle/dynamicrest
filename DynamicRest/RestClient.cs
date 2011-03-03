@@ -10,10 +10,8 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest {
@@ -26,22 +24,24 @@ namespace DynamicRest {
         private readonly string _operationGroup;
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
-        private readonly TemplatedUriBuilder _templatedUriBuilder = new TemplatedUriBuilder();
+        private readonly IBuildUris uriBuilder;
+        private ParametersStore _parametersStore = new ParametersStore();
 
         private Uri _requestUri;
 
         private IProcessResponses _responseProcessor;
 
-        public RestClient(IBuildRequests requestBuilder, TemplatedUriBuilder templatedUriBuilder, IProcessResponses responseProcessor)
+        public RestClient(IBuildRequests requestBuilder, IBuildUris uriBuilder, IProcessResponses responseProcessor)
         {
             _responseProcessor = responseProcessor;
             _requestBuilder = requestBuilder;
-            _templatedUriBuilder = templatedUriBuilder;
+            this.uriBuilder = uriBuilder;
         }
 
-        private RestClient(IBuildRequests requestBuilder, TemplatedUriBuilder templatedUriBuilder, IProcessResponses responseProcessor, string operationGroup)
-            : this(requestBuilder, templatedUriBuilder, responseProcessor)
+        private RestClient(RestClient restClient, string operationGroup)
+            : this(restClient._requestBuilder, restClient.uriBuilder, restClient._responseProcessor)
         {
+            _parametersStore = restClient._parametersStore;
             _operationGroup = operationGroup;
         }
 
@@ -95,7 +95,7 @@ namespace DynamicRest {
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result) {
-            object value = this._templatedUriBuilder.GetParameter(binder.Name);
+            object value = _parametersStore.GetParameter(binder.Name);
             if (value != null)
             {
                 result = value;
@@ -107,7 +107,7 @@ namespace DynamicRest {
                 operationGroup = _operationGroup + "." + operationGroup;
             }
 
-            var operationGroupClient = new RestClient(_requestBuilder, this._templatedUriBuilder, _responseProcessor, operationGroup);
+            var operationGroupClient = new RestClient(this, operationGroup);
 
             result = operationGroupClient;
             return true;
@@ -136,7 +136,7 @@ namespace DynamicRest {
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value) {
-            this._templatedUriBuilder.SetParameter(binder.Name, value);
+            _parametersStore.SetParameter(binder.Name, value);
             return true;
         }
 
@@ -183,7 +183,7 @@ namespace DynamicRest {
                 throw new ArgumentNullException("uriTransformer");
             }
 
-            this._templatedUriBuilder.SetUriTransformer(uriTransformer);
+            uriBuilder.SetUriTransformer(uriTransformer);
             return this;
         }
 
@@ -200,12 +200,17 @@ namespace DynamicRest {
         }
 
         private Uri BuildUri(string operationName, JsonObject parameters) {
-            if (_templatedUriBuilder == null) {
+            if (uriBuilder == null) {
                 throw new InvalidOperationException("You ust set a template builder before trying to build the Uri");
             }
 
             if (_requestUri == null) {
-                _requestUri = _templatedUriBuilder.CreateRequestUri(operationName, parameters);
+                if (uriBuilder is TemplatedBuildUris)
+                {
+                    ((TemplatedBuildUris)uriBuilder).ParametersStore = _parametersStore;
+                }
+
+                _requestUri = uriBuilder.CreateRequestUri(operationName, parameters);
             }
 
             return _requestUri;

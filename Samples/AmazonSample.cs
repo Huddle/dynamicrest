@@ -18,7 +18,7 @@ namespace Application {
         public static void Run() {
             //TODO: Fix this up with a request wrapper
             AmazonUriSigner signer = new AmazonUriSigner(Services.AmazonAccessKey, Services.AmazonSecretKey);
-            var templatedUriBuilder = new TemplatedUriBuilder();
+            var templatedUriBuilder = new TemplatedBuildUris();
             templatedUriBuilder.UriTemplate = Services.AmazonUri;
             dynamic amazon = new RestClient(new RequestBuilder(null, new RequestFactory()), templatedUriBuilder, new ResponseProcessor(RestService.Xml)).
                                  WithUriTransformer(signer);

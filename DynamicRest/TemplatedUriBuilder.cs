@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
 namespace DynamicRest
 {
-    public class TemplatedUriBuilder
+    public class TemplatedBuildUris : IBuildUris
     {
         private static readonly Regex TokenFormatRewriteRegex =
             new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+",
                       RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private IRestUriTransformer _uriTransformer;
-        private readonly Dictionary<string, object> _parameters = new Dictionary<string, object>();
         private HashSet<string> _addedParameters;
 
         public string UriTemplate { get; set; }
 
-        internal Uri CreateRequestUri(string operationName, JsonObject parameters)
+        public ParametersStore ParametersStore { private get; set; }
+
+        public Uri CreateRequestUri(string operationName, JsonObject parameters)
         {
             var uriBuilder = new StringBuilder();
 
@@ -33,6 +33,11 @@ namespace DynamicRest
             return uri;
         }
 
+        public void SetUriTransformer(IRestUriTransformer uriTransformer)
+        {
+            _uriTransformer = uriTransformer;
+        }
+        
         private void BuildBaseUri(string operationName, StringBuilder uriBuilder)
         {
             var values = new List<object>();
@@ -49,9 +54,9 @@ namespace DynamicRest
                 {
                     values.Add(operationName);
                 }
-                else if (_parameters != null && _parameters.ContainsKey(propertyGroup.Value))
+                else if (this.ParametersStore != null && this.ParametersStore.Contains(propertyGroup.Value))
                 {
-                    values.Add(_parameters[propertyGroup.Value]);
+                    values.Add(this.ParametersStore.GetParameter(propertyGroup.Value));
 
                     if (_addedParameters == null)
                     {
@@ -77,7 +82,6 @@ namespace DynamicRest
             {
                 uriBuilder.Append(rewrittenUriFormat);
             }
- 
         }
 
         private void AddQueryString(StringBuilder uriBuilder, JsonObject parameters){
@@ -137,29 +141,6 @@ namespace DynamicRest
             return HttpUtility.UrlEncode(String.Format(CultureInfo.InvariantCulture, "{0}", value));
         }
 
-        internal void AddParameters(Dictionary<string, object> parameters){
-            foreach (var parameter in parameters){
-                _parameters.Add(parameter.Key, parameter.Value);
-            }
-        }
-
-        internal object GetParameter(string parameterName){
-            return _parameters.ContainsKey(parameterName) ? _parameters[parameterName] : null;
-        }
-
-        internal Dictionary<string, object> GetParameters(){
-            return _parameters;
-        }
-
-        internal void SetParameter(string name, object value)
-        {
-            _parameters[name] = value;
-        }
-
-        internal void SetUriTransformer(IRestUriTransformer uriTransformer)
-        {
-            _uriTransformer = uriTransformer;
-        }
-    }
+     }
 }
  
