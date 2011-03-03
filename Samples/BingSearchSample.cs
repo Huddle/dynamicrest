@@ -17,6 +17,7 @@ namespace Application {
 
         public static void Run() {
             //TODO: Fix this up with a request wrapper
+
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = Services.BingSearchUri;
             dynamic bingSearch = new RestClient(new BuildRequests(null, new RequestFactory()), templatedUriBuilder, RestService.Json);
