@@ -46,8 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTTPInterfaces\HttpWebResponseWrapper.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
-    <Compile Include="HTTPInterfaces\WebWrappers\RequestWrapper.cs" />
+    <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
     <Compile Include="IBuildRequests.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />

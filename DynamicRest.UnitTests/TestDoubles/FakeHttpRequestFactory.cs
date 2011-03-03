@@ -8,7 +8,7 @@ namespace DynamicRest.UnitTests.TestDoubles
         internal IHttpRequest CreatedRequest {get; set; }
         public IHttpRequest Create(Uri uri)
         {
-            CreatedRequest = new FakeHttpRequest(uri);
+            CreatedRequest = new FakeHttpWebRequestWrapper(uri);
             return CreatedRequest;
         }
     }

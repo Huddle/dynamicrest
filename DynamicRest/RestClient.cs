@@ -31,17 +31,11 @@ namespace DynamicRest {
 
         private Uri _requestUri;
 
-        public RestClient(IBuildRequests requestBuilder, RestService service)
+        public RestClient(IBuildRequests requestBuilder, TemplatedUriBuilder templatedUriBuilder, RestService service)
         {
             _service = service;
             _requestBuilder = requestBuilder;
-
-        }
-
-        public RestClient(IBuildRequests requestBuilder, TemplatedUriBuilder templatedUriBuilder, RestService service)
-            : this(requestBuilder, service)
-        {
-            this._templatedUriBuilder = templatedUriBuilder;
+            _templatedUriBuilder = templatedUriBuilder;
         }
 
         private RestClient(IBuildRequests requestBuilder, TemplatedUriBuilder templatedUriBuilder, RestService service, string operationGroup)
@@ -49,7 +43,6 @@ namespace DynamicRest {
         {
             _operationGroup = operationGroup;
         }
-
 
         //public RestClient ForUri(Uri requestUri){
         //    _requestUri = requestUri;

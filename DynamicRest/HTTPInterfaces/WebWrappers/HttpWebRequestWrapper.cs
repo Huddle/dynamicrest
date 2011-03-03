@@ -5,11 +5,11 @@ using System.Text;
 
 namespace DynamicRest.HTTPInterfaces.WebWrappers
 {
-    public class RequestWrapper : IHttpRequest
+    public class HttpWebRequestWrapper : IHttpRequest
     {
         private readonly HttpWebRequest _webrequest;
 
-        public RequestWrapper(HttpWebRequest webrequest)
+        public HttpWebRequestWrapper(HttpWebRequest webrequest)
         {
             _webrequest = webrequest;
         }
@@ -26,7 +26,7 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
 
         public void AddHeaders(WebHeaderCollection headers)
         {
-            throw new NotImplementedException();
+            _webrequest.Headers.Add(headers);
         }
  
         public void AddRequestBody(string contentType, string content)
@@ -54,7 +54,7 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
 
         public IHttpResponse GetResponse()
         {
-            throw new NotImplementedException();
+            return new HttpWebResponseWrapper(_webrequest.GetResponse() as HttpWebResponse);
         }
 
         public void SetContentHeaders(string contentType, int contentLength)

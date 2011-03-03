@@ -5,7 +5,7 @@ using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest.UnitTests.TestDoubles
 {
-    public class FakeHttpResponse : IHttpResponse
+    public class FakeHttpWebResponseWrapper : IHttpResponse
     {
         public WebHeaderCollection Headers
         {

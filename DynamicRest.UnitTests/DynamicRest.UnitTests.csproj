@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestDoubles\FakeHttpRequest.cs" />
+    <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
     <Compile Include="RestClients\Uris\RestClienttepmlateUriFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\FakeHttpRequestFactory.cs" />
-    <Compile Include="TestDoubles\FakeHttpResponse.cs" />
+    <Compile Include="TestDoubles\FakeHttpWebResponseWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DynamicRest\DynamicRest.csproj">
