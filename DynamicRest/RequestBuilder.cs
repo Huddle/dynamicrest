@@ -8,14 +8,22 @@ namespace DynamicRest
     {
         private Uri _requestUri;
         private readonly IHttpRequestFactory _requestFactory;
+
+        private readonly IBuildUris _uriBuilder;
+
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
 
         private string _acceptHeader;
 
-        public RequestBuilder(Uri requestUri, IHttpRequestFactory requestFactory)
+        public ParametersStore ParametersStore { get; set; }
+
+        public RequestBuilder(Uri requestUri, IHttpRequestFactory requestFactory, IBuildUris uriBuilder)
         {
             _requestUri = requestUri;
             _requestFactory = requestFactory;
+            _uriBuilder = uriBuilder;
+
+            ParametersStore = new ParametersStore();
         }
 
         public string Body { get; set; }
@@ -27,9 +35,9 @@ namespace DynamicRest
             _headers.Add(headerType, value);
         }
 
-        public IHttpRequest CreateRequest(Uri uri, string operationName, JsonObject parameters)
+        public IHttpRequest CreateRequest(string operationName, JsonObject parameters)
         {
-            _requestUri = uri;
+            _requestUri = BuildUri(operationName, parameters);
             return CreateWebRequest();
         }
 
@@ -51,6 +59,26 @@ namespace DynamicRest
             webRequest.AddRequestBody(ContentType, Body);
  
             return webRequest;
+        }
+
+        private Uri BuildUri(string operationName, JsonObject parameters)
+        {
+            if (_uriBuilder == null)
+            {
+                throw new InvalidOperationException("You ust set a template builder before trying to build the Uri");
+            }
+
+            if (_requestUri == null)
+            {
+                if (_uriBuilder is TemplatedBuildUris)
+                {
+                    ((TemplatedBuildUris)_uriBuilder).ParametersStore = ParametersStore;
+                }
+
+                _requestUri = _uriBuilder.CreateRequestUri(operationName, parameters);
+            }
+
+            return _requestUri;
         }
 
     }

@@ -19,7 +19,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
             {
                 UriTemplate = testUri
             };
-            _client = new RestClient(new RequestBuilder(null, _requestFactory), uriBuilder, new ResponseProcessor(RestService.Xml));
+            _client = new RestClient(new RequestBuilder(null, _requestFactory, uriBuilder), new ResponseProcessor(RestService.Xml));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _client.Post();

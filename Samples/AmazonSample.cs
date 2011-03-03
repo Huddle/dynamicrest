@@ -19,9 +19,11 @@ namespace Application {
             //TODO: Fix this up with a request wrapper
             AmazonUriSigner signer = new AmazonUriSigner(Services.AmazonAccessKey, Services.AmazonSecretKey);
             var templatedUriBuilder = new TemplatedBuildUris();
+            templatedUriBuilder.SetUriTransformer(signer);
             templatedUriBuilder.UriTemplate = Services.AmazonUri;
-            dynamic amazon = new RestClient(new RequestBuilder(null, new RequestFactory()), templatedUriBuilder, new ResponseProcessor(RestService.Xml)).
-                                 WithUriTransformer(signer);
+            dynamic amazon = new RestClient(
+                new RequestBuilder(null, new RequestFactory(), templatedUriBuilder),
+                new ResponseProcessor(RestService.Xml));
 
             dynamic searchOptions = new JsonObject();
             searchOptions.SearchIndex = "Books";

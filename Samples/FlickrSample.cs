@@ -28,7 +28,7 @@ namespace Application {
             //TODO: Fix this up with a request wrapper
             var templatedUriBuilder = new TemplatedBuildUris();
             templatedUriBuilder.UriTemplate = Services.FlickrUri;
-            dynamic flickr = new RestClient(new RequestBuilder(null, new RequestFactory()), templatedUriBuilder, new ResponseProcessor(RestService.Json));
+            dynamic flickr = new RestClient(new RequestBuilder(null, new RequestFactory(), templatedUriBuilder), new ResponseProcessor(RestService.Json));
             flickr.apiKey = Services.FlickrApiKey;
 
             Console.WriteLine("Searching photos tagged with 'seattle'...");

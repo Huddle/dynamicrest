@@ -24,24 +24,18 @@ namespace DynamicRest {
         private readonly string _operationGroup;
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
-        private readonly IBuildUris uriBuilder;
-        private ParametersStore _parametersStore = new ParametersStore();
-
-        private Uri _requestUri;
 
         private IProcessResponses _responseProcessor;
 
-        public RestClient(IBuildRequests requestBuilder, IBuildUris uriBuilder, IProcessResponses responseProcessor)
+        public RestClient(IBuildRequests requestBuilder, IProcessResponses responseProcessor)
         {
             _responseProcessor = responseProcessor;
             _requestBuilder = requestBuilder;
-            this.uriBuilder = uriBuilder;
         }
 
         private RestClient(RestClient restClient, string operationGroup)
-            : this(restClient._requestBuilder, restClient.uriBuilder, restClient._responseProcessor)
+            : this(restClient._requestBuilder, restClient._responseProcessor)
         {
-            _parametersStore = restClient._parametersStore;
             _operationGroup = operationGroup;
         }
 
@@ -53,8 +47,7 @@ namespace DynamicRest {
 
             var operation = new RestOperation();
 
-            var uri = BuildUri(operationName, argsObject);
-            IHttpRequest webRequest = _requestBuilder.CreateRequest(uri, operationName, argsObject);
+            IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
 
             try {
                 var webResponse = webRequest.GetResponse();
@@ -76,8 +69,7 @@ namespace DynamicRest {
 
             var operation = new RestOperation();
 
-            var uri = BuildUri(operationName, argsObject);
-            IHttpRequest webRequest = _requestBuilder.CreateRequest(uri, operationName, argsObject);
+            IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
 
             webRequest.BeginGetResponse(ar => {
                 try
@@ -95,7 +87,7 @@ namespace DynamicRest {
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result) {
-            object value = _parametersStore.GetParameter(binder.Name);
+            object value = _requestBuilder.ParametersStore.GetParameter(binder.Name);
             if (value != null)
             {
                 result = value;
@@ -136,7 +128,7 @@ namespace DynamicRest {
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value) {
-            _parametersStore.SetParameter(binder.Name, value);
+            _requestBuilder.ParametersStore.SetParameter(binder.Name, value);
             return true;
         }
 
@@ -178,14 +170,14 @@ namespace DynamicRest {
              return this;
         }
 
-        public RestClient WithUriTransformer(IRestUriTransformer uriTransformer) {
-            if (uriTransformer == null) {
-                throw new ArgumentNullException("uriTransformer");
-            }
+        //public RestClient WithUriTransformer(IRestUriTransformer uriTransformer) {
+        //    if (uriTransformer == null) {
+        //        throw new ArgumentNullException("uriTransformer");
+        //    }
 
-            uriBuilder.SetUriTransformer(uriTransformer);
-            return this;
-        }
+        //    uriBuilder.SetUriTransformer(uriTransformer);
+        //    return this;
+        //}
 
         public IEnumerable<HttpResponseHeader> ResponseHeaders {
             get {
@@ -199,21 +191,24 @@ namespace DynamicRest {
             get { return _responseHeaders[index]; }
         }
 
-        private Uri BuildUri(string operationName, JsonObject parameters) {
-            if (uriBuilder == null) {
-                throw new InvalidOperationException("You ust set a template builder before trying to build the Uri");
-            }
+        //private Uri BuildUri(string operationName, JsonObject parameters)
+        //{
+        //    if (uriBuilder == null)
+        //    {
+        //        throw new InvalidOperationException("You ust set a template builder before trying to build the Uri");
+        //    }
 
-            if (_requestUri == null) {
-                if (uriBuilder is TemplatedBuildUris)
-                {
-                    ((TemplatedBuildUris)uriBuilder).ParametersStore = _parametersStore;
-                }
+        //    if (_requestUri == null)
+        //    {
+        //        if (uriBuilder is TemplatedBuildUris)
+        //        {
+        //            ((TemplatedBuildUris)uriBuilder).ParametersStore = _requestBuilder.ParametersStore;
+        //        }
 
-                _requestUri = uriBuilder.CreateRequestUri(operationName, parameters);
-            }
+        //        _requestUri = uriBuilder.CreateRequestUri(operationName, parameters);
+        //    }
 
-            return _requestUri;
-        }
+        //    return _requestUri;
+        //}
     }
 }

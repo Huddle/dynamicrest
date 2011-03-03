@@ -20,7 +20,7 @@ namespace Application {
             //TODO: Fix this up with a request wrapper
             var templatedUriBuilder = new TemplatedBuildUris();
             templatedUriBuilder.UriTemplate = Services.GoogleSearchUri;
-            dynamic googleSearch = new RestClient(new RequestBuilder(null, new RequestFactory()), templatedUriBuilder, new ResponseProcessor(RestService.Json));
+            dynamic googleSearch = new RestClient(new RequestBuilder(null, new RequestFactory(), templatedUriBuilder), new ResponseProcessor(RestService.Json));
 
             Console.WriteLine("Searching Google for 'seattle'...");
 
