@@ -17,7 +17,9 @@ namespace Application {
 
         public static void Run() {
             //TODO: Fix this up with a request wrapper
-            dynamic bingSearch = new RestClient(new BuildRequests(new Uri(Services.BingSearchUri), new RequestFactory()),  RestService.Json);
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = Services.BingSearchUri;
+            dynamic bingSearch = new RestClient(new BuildRequests(null, new RequestFactory()), templatedUriBuilder, RestService.Json);
             bingSearch.appID = Services.BingApiKey;
 
             Console.WriteLine("Searching Bing for 'seattle'...");

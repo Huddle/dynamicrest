@@ -1,4 +1,6 @@
 ﻿using System;
+
+using DynamicRest.HTTPInterfaces.WebWrappers;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
@@ -17,7 +19,11 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            _amazon = new RestClient(_requestFactory, AmazonUriTemplate, RestService.Xml);
+            var templatedUriBuilder = new TemplatedUriBuilder
+                {
+                    UriTemplate = AmazonUriTemplate
+                };
+            _amazon = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Xml);
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _amazon.ItemSearch();
@@ -39,7 +45,11 @@ namespace DynamicRest.UnitTests.RestClients.Uris
        Establish context = () =>
        {
             _requestFactory = new FakeHttpRequestFactory();
-            _amazon = new RestClient(_requestFactory, AmazonUriTemplate, RestService.Xml);
+           var templatedUriBuilder = new TemplatedUriBuilder
+               {
+                   UriTemplate = AmazonUriTemplate
+               };
+           _amazon = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Xml);
 
             _searchOptions = new JsonObject();
             _searchOptions.SearchIndex = "Books";
@@ -64,14 +74,15 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            _bing = new RestClient(_requestFactory, BingSearchUri, RestService.Json);
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = BingSearchUri;
+            _bing = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
             _bing.appID = BingApiKey;
         };
 
         Because we_make_a_call_to_an_api_via_rest_client = () => _bing.Invoke();
 
         It should_merge_properties_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
-
     }
 
     public class When_using_a_templated_uri_with_ids_and_missing_ids
@@ -87,16 +98,16 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            _bing = new RestClient(_requestFactory, BingSearchUri, RestService.Json);
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = BingSearchUri;
+            _bing = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
         };
 
         Because we_make_a_call_to_an_api_via_rest_client = () => _exception = Catch.Exception(() => _bing.Invoke());
-
-
+        
         It should_throw_an_exception = () => _exception.ShouldBeOfType(typeof (ArgumentException));
 
         It should_contain_helpful_error_message = () => _exception.Message.ShouldEqual("You are missing one or more expected template parameters in the uri: http://api.bing.net/json.aspx?AppId={appID}&Version=2.2&Market=en-US");
-
     }
 
     [Subject(typeof(RestClient))]
@@ -113,7 +124,9 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            _bing = new RestClient(_requestFactory, BingSearchUri, RestService.Json);
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = BingSearchUri;
+            _bing = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
             _bing.appID = BingApiKey;
 
             _searchOptions = new JsonObject();
@@ -131,7 +144,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     [Subject(typeof(RestClient))]
     public class When_using_a_templated_uri_with_ids_in_uri_and_operation_and_options
     {
-        private static dynamic _flicker;
+        private static dynamic _flickr;
         private static dynamic _searchOptions;
         private static FakeHttpRequestFactory _requestFactory;
 
@@ -142,20 +155,18 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         private Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            _flicker = new RestClient(_requestFactory, FlickerSearchAPI, RestService.Json);
-            _flicker.apiKey = FlickerAPIKey;
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = FlickerSearchAPI;
+            _flickr = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
+            _flickr.apiKey = FlickerAPIKey;
 
             dynamic _searchOptions = new JsonObject();
             _searchOptions.tags = "seattle";
             _searchOptions.per_page = 4;
-
         };
 
-        Because we_make_a_call_to_an_api_via_the_rest_client = () => _flicker.Photos.Search(_searchOptions);
+        Because we_make_a_call_to_an_api_via_the_rest_client = () => _flickr.Photos.Search(_searchOptions);
 
         It should_merge_properties_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
-
- 
-
 }

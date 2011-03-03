@@ -9,6 +9,7 @@
 
 using System;
 using DynamicRest;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace Application {
 
@@ -24,8 +25,10 @@ namespace Application {
         }
 
         public static void Run() {
-             //TODO: Fix this up with a request wrapper
-            dynamic flickr = new RestClient(null, Services.FlickrUri, RestService.Json);
+            //TODO: Fix this up with a request wrapper
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = Services.FlickrUri;
+            dynamic flickr = new RestClient(new BuildRequests(null, new RequestFactory()), templatedUriBuilder, RestService.Json);
             flickr.apiKey = Services.FlickrApiKey;
 
             Console.WriteLine("Searching photos tagged with 'seattle'...");

@@ -10,6 +10,7 @@
 using System;
 using DynamicRest;
 using System.Threading;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace Application {
 
@@ -17,7 +18,9 @@ namespace Application {
 
         public static void Run() {
             //TODO: Fix this up with a request wrapper
-            dynamic googleSearch = new RestClient(null, Services.GoogleSearchUri, RestService.Json);
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = Services.GoogleSearchUri;
+            dynamic googleSearch = new RestClient(new BuildRequests(null, new RequestFactory()), templatedUriBuilder, RestService.Json);
 
             Console.WriteLine("Searching Google for 'seattle'...");
 
@@ -25,9 +28,11 @@ namespace Application {
             searchOptions.q = "seattle";
 
             dynamic search = googleSearch.invokeAsync(searchOptions);
-            search.Callback((RestCallback)delegate() {
+            search.Callback((RestCallback)delegate()
+            {
                 dynamic results = search.Result.responseData.results;
-                foreach (dynamic item in results) {
+                foreach (dynamic item in results)
+                {
                     Console.WriteLine(item.titleNoFormatting);
                     Console.WriteLine(item.url);
                     Console.WriteLine();
@@ -35,7 +40,8 @@ namespace Application {
             });
 
 
-            while (search.IsCompleted == false) {
+            while (search.IsCompleted == false)
+            {
                 Console.WriteLine(".");
                 Thread.Sleep(100);
             }

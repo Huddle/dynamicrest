@@ -9,6 +9,7 @@
 
 using System;
 using DynamicRest;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace Application {
 
@@ -17,7 +18,9 @@ namespace Application {
         public static void Run() {
             //TODO: Fix this up with a request wrapper
             AmazonUriSigner signer = new AmazonUriSigner(Services.AmazonAccessKey, Services.AmazonSecretKey);
-            dynamic amazon = new RestClient(null, Services.AmazonUri, RestService.Xml).
+            var templatedUriBuilder = new TemplatedUriBuilder();
+            templatedUriBuilder.UriTemplate = Services.AmazonUri;
+            dynamic amazon = new RestClient(new BuildRequests(null, new RequestFactory()), templatedUriBuilder, RestService.Xml).
                                  WithUriTransformer(signer);
 
             dynamic searchOptions = new JsonObject();
