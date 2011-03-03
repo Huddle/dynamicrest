@@ -4,13 +4,15 @@ using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest
 {
-    public class BuildRequests : IBuildRequests
+    public class RequestBuilder : IBuildRequests
     {
         private Uri _requestUri;
         private readonly IHttpRequestFactory _requestFactory;
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
 
-        public BuildRequests(Uri requestUri, IHttpRequestFactory requestFactory)
+        private string _acceptHeader;
+
+        public RequestBuilder(Uri requestUri, IHttpRequestFactory requestFactory)
         {
             _requestUri = requestUri;
             _requestFactory = requestFactory;
@@ -31,6 +33,11 @@ namespace DynamicRest
             return CreateWebRequest();
         }
 
+        public void SetAcceptHeader(string value)
+        {
+            this._acceptHeader = value;
+        }
+
         private IHttpRequest CreateWebRequest()
         {
             var webRequest = _requestFactory.Create(_requestUri);
@@ -39,6 +46,7 @@ namespace DynamicRest
             webRequest.AddHeaders(_headers);
 
             webRequest.AddCredentials(Credentials);
+            webRequest.Accept = _acceptHeader;
  
             webRequest.AddRequestBody(ContentType, Body);
  

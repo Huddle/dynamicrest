@@ -20,7 +20,7 @@ namespace Application {
             AmazonUriSigner signer = new AmazonUriSigner(Services.AmazonAccessKey, Services.AmazonSecretKey);
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = Services.AmazonUri;
-            dynamic amazon = new RestClient(new BuildRequests(null, new RequestFactory()), templatedUriBuilder, RestService.Xml).
+            dynamic amazon = new RestClient(new RequestBuilder(null, new RequestFactory()), templatedUriBuilder, new ResponseProcessor(RestService.Xml)).
                                  WithUriTransformer(signer);
 
             dynamic searchOptions = new JsonObject();

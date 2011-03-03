@@ -19,6 +19,12 @@ namespace DynamicRest.UnitTests.TestDoubles
             get { return _uri; }
         }
 
+        public string Accept
+        {
+            get { return ""; }
+            set { }
+        }
+
         public void AddCredentials(ICredentials credentials)
         {
             

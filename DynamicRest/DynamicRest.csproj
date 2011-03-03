@@ -54,6 +54,7 @@
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
     <Compile Include="HTTPInterfaces\IHttpResponse.cs" />
+    <Compile Include="ResponseProcessor.cs" />
     <Compile Include="RestCallback.cs" />
     <Compile Include="RestOperation.cs" />
     <Compile Include="IRestUriTransformer.cs" />
@@ -62,7 +63,7 @@
     <Compile Include="JsonObject.cs" />
     <Compile Include="JsonReader.cs" />
     <Compile Include="JsonWriter.cs" />
-    <Compile Include="BuildRequests.cs" />
+    <Compile Include="RequestBuilder.cs" />
     <Compile Include="TemplatedUriBuilder.cs" />
     <Compile Include="XmlNode.cs" />
     <Compile Include="XmlNodeList.cs" />

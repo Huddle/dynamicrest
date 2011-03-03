@@ -19,6 +19,18 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
             get { return _webrequest.RequestUri; }
         }
 
+        public string Accept
+        {
+            get
+            {
+                return _webrequest.Accept;
+            }
+            set
+            {
+                _webrequest.Accept = value;
+            }
+        }
+
         public void AddCredentials(ICredentials credentials)
         {
             _webrequest.Credentials = credentials;

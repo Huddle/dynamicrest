@@ -7,7 +7,7 @@ namespace DynamicRest.HTTPInterfaces
     public interface IHttpRequest
     {
         Uri RequestURI { get; }
- 
+        string Accept { get; set; }
         void AddCredentials(ICredentials credentials);
         void AddHeaders(WebHeaderCollection headers);
         void AddRequestBody(string contentType, string content);

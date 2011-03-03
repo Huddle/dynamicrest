@@ -23,7 +23,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
                 {
                     UriTemplate = AmazonUriTemplate
                 };
-            _amazon = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Xml);
+            _amazon = new RestClient(new RequestBuilder(null, _requestFactory), templatedUriBuilder, new ResponseProcessor(RestService.Xml));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _amazon.ItemSearch();
@@ -49,7 +49,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
                {
                    UriTemplate = AmazonUriTemplate
                };
-           _amazon = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Xml);
+           _amazon = new RestClient(new RequestBuilder(null, _requestFactory), templatedUriBuilder, new ResponseProcessor(RestService.Xml));
 
             _searchOptions = new JsonObject();
             _searchOptions.SearchIndex = "Books";
@@ -76,7 +76,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
             _requestFactory = new FakeHttpRequestFactory();
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = BingSearchUri;
-            _bing = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
+            _bing = new RestClient(new RequestBuilder(null, _requestFactory), templatedUriBuilder, new ResponseProcessor(RestService.Json));
             _bing.appID = BingApiKey;
         };
 
@@ -100,7 +100,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
             _requestFactory = new FakeHttpRequestFactory();
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = BingSearchUri;
-            _bing = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
+            _bing = new RestClient(new RequestBuilder(null, _requestFactory), templatedUriBuilder, new ResponseProcessor(RestService.Json));
         };
 
         Because we_make_a_call_to_an_api_via_rest_client = () => _exception = Catch.Exception(() => _bing.Invoke());
@@ -126,7 +126,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
             _requestFactory = new FakeHttpRequestFactory();
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = BingSearchUri;
-            _bing = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
+            _bing = new RestClient(new RequestBuilder(null, _requestFactory), templatedUriBuilder, new ResponseProcessor(RestService.Json));
             _bing.appID = BingApiKey;
 
             _searchOptions = new JsonObject();
@@ -157,7 +157,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
             _requestFactory = new FakeHttpRequestFactory();
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = FlickerSearchAPI;
-            _flickr = new RestClient(new BuildRequests(null, _requestFactory), templatedUriBuilder, RestService.Json);
+            _flickr = new RestClient(new RequestBuilder(null, _requestFactory), templatedUriBuilder, new ResponseProcessor(RestService.Json));
             _flickr.apiKey = FlickerAPIKey;
 
             dynamic _searchOptions = new JsonObject();

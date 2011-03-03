@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HuddleApiTests.cs" />
     <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
     <Compile Include="RestClients\Uris\RestClienttepmlateUriFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
