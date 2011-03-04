@@ -1,3 +1,5 @@
+using System;
+
 using DynamicRest.UnitTests.TestDoubles;
 
 using Machine.Specifications;
@@ -15,11 +17,9 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            var uriBuilder = new OpaqueUriBuilder()
-            {
-                UriTemplate = testUri
-            };
-            _client = new RestClient(new RequestBuilder(null, _requestFactory, uriBuilder), new ResponseProcessor(RestService.Xml));
+
+            var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = testUri };
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _client.Post();

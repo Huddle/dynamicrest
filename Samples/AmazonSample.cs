@@ -22,7 +22,7 @@ namespace Application {
             templatedUriBuilder.SetUriTransformer(signer);
             templatedUriBuilder.UriTemplate = Services.AmazonUri;
             dynamic amazon = new RestClient(
-                new RequestBuilder(null, new RequestFactory(), templatedUriBuilder),
+                new TemplatedUriRequestBuilder(new RequestFactory()),
                 new ResponseProcessor(RestService.Xml));
 
             dynamic searchOptions = new JsonObject();

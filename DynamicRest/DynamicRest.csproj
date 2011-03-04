@@ -49,8 +49,8 @@
     <Compile Include="HTTPInterfaces\HttpWebResponseWrapper.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
+    <Compile Include="HttpVerbRequestBuilder.cs" />
     <Compile Include="IBuildRequests.cs" />
-    <Compile Include="IBuildUris.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="JsonObject.cs" />
     <Compile Include="JsonReader.cs" />
     <Compile Include="JsonWriter.cs" />
-    <Compile Include="RequestBuilder.cs" />
+    <Compile Include="TemplatedUriRequestBuilder.cs" />
     <Compile Include="TemplatedUriBuilder.cs" />
     <Compile Include="XmlNode.cs" />
     <Compile Include="XmlNodeList.cs" />

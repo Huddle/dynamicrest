@@ -9,6 +9,7 @@ namespace DynamicRest
         string Body { get; set; }
         ICredentials Credentials { set; }
         string ContentType { get; set; }
+        string Uri { set; }
 
         ParametersStore ParametersStore { get; set; }
 

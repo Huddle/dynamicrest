@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RestClients\Uris\OpaqueUriBuilder.cs" />
     <Compile Include="RestClients\Uris\When_i_build_an_opaque_uri.cs" />
     <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
     <Compile Include="RestClients\Uris\RestClienttepmlateUriFixture.cs" />

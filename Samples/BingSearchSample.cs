@@ -20,7 +20,7 @@ namespace Application {
 
             var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = Services.BingSearchUri;
-            dynamic bingSearch = new RestClient(new RequestBuilder(null, new RequestFactory(), templatedUriBuilder), new ResponseProcessor(RestService.Json));
+            dynamic bingSearch = new RestClient(new TemplatedUriRequestBuilder(new RequestFactory()), new ResponseProcessor(RestService.Json));
             bingSearch.appID = Services.BingApiKey;
 
             Console.WriteLine("Searching Bing for 'seattle'...");

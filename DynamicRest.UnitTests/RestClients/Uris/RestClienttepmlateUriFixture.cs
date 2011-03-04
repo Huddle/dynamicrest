@@ -23,7 +23,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
                 {
                     UriTemplate = AmazonUriTemplate
                 };
-            _amazon = new RestClient(new RequestBuilder(null, _requestFactory, templatedUriBuilder), new ResponseProcessor(RestService.Xml));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = AmazonUriTemplate };
+            _amazon = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Xml));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _amazon.ItemSearch();
@@ -45,11 +46,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
        Establish context = () =>
        {
             _requestFactory = new FakeHttpRequestFactory();
-           var templatedUriBuilder = new TemplatedUriBuilder
-               {
-                   UriTemplate = AmazonUriTemplate
-               };
-           _amazon = new RestClient(new RequestBuilder(null, _requestFactory, templatedUriBuilder), new ResponseProcessor(RestService.Xml));
+           var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = AmazonUriTemplate };
+           _amazon = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Xml));
 
             _searchOptions = new JsonObject();
             _searchOptions.SearchIndex = "Books";
@@ -74,9 +72,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.UriTemplate = BingSearchUri;
-            _bing = new RestClient(new RequestBuilder(null, _requestFactory, templatedUriBuilder), new ResponseProcessor(RestService.Json));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = BingSearchUri };
+            _bing = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
             _bing.appID = BingApiKey;
         };
 
@@ -98,9 +95,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.UriTemplate = BingSearchUri;
-            _bing = new RestClient(new RequestBuilder(null, _requestFactory, templatedUriBuilder), new ResponseProcessor(RestService.Json));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = BingSearchUri };
+            _bing = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
         };
 
         Because we_make_a_call_to_an_api_via_rest_client = () => _exception = Catch.Exception(() => _bing.Invoke());
@@ -124,14 +120,13 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.UriTemplate = BingSearchUri;
-            _bing = new RestClient(new RequestBuilder(null, _requestFactory, templatedUriBuilder), new ResponseProcessor(RestService.Json));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = BingSearchUri };
+            _bing = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
             _bing.appID = BingApiKey;
 
             _searchOptions = new JsonObject();
             _searchOptions.Query = "seattle";
-            _searchOptions.Sources = new[]{"Web","Image"};
+            _searchOptions.Sources = new[] {"Web", "Image"};
             _searchOptions.Web = new JsonObject("Count", 4);
             _searchOptions.Image = new JsonObject("Count", 2);
         };
@@ -155,9 +150,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         private Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.UriTemplate = FlickerSearchAPI;
-            _flickr = new RestClient(new RequestBuilder(null, _requestFactory, templatedUriBuilder), new ResponseProcessor(RestService.Json));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = FlickerSearchAPI };
+            _flickr = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
             _flickr.apiKey = FlickerAPIKey;
 
             dynamic _searchOptions = new JsonObject();
