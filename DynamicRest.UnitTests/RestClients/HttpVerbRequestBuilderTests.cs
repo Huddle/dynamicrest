@@ -1,17 +1,13 @@
-using System;
-
 using DynamicRest.HTTPInterfaces;
 using DynamicRest.UnitTests.TestDoubles;
-
 using Machine.Specifications;
 
 namespace DynamicRest.UnitTests.RestClients.Uris
 {
-    [Subject(typeof(RestClient))]
-    public class When_i_use_a_http_verb_request
+    [Subject(typeof(HttpVerbRequestBuilder))]
+    public class When_i_use_the_client_to_put_a_request
     {
         private const string testUri = "http://api.huddle.local/v2/tasks/123456";
-
         private static dynamic _client;
         private static FakeHttpRequestFactory _requestFactory;
 
@@ -26,11 +22,31 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         Because we_make_get_call_to_an_api_via_rest_client = () => _client.Post();
 
         It should_build_the_expected_uri = () => testUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
-
         It should_set_the_correct_http_verb_on_the_request = () => _requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Post);
     }
 
-    [Subject(typeof(RestClient))]
+    [Subject(typeof(HttpVerbRequestBuilder))]
+    public class When_i_use_the_client_to_get_a_request
+    {
+        private const string testUri = "http://api.huddle.local/v2/tasks/123456";
+        private static dynamic _client;
+        private static FakeHttpRequestFactory _requestFactory;
+
+        Establish context = () =>
+        {
+            _requestFactory = new FakeHttpRequestFactory();
+
+            var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = testUri };
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml));
+        };
+
+        Because we_make_get_call_to_an_api_via_rest_client = () => _client.Get();
+
+        It should_build_the_expected_uri = () => testUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
+        It should_set_the_correct_http_verb_on_the_request = () => _requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Get);
+    }
+
+    [Subject(typeof(HttpVerbRequestBuilder))]
     public class When_i_set_an_xml_body_on_the_request
     {
         private const string _contentType = @"application\xml+";

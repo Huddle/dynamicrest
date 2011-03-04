@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RestClients\When_i_use_a_http_verb_request.cs" />
+    <Compile Include="RestClients\HttpVerbRequestBuilderTests.cs" />
     <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
-    <Compile Include="RestClients\When_i_use_a_templated_uri_request.cs" />
+    <Compile Include="RestClients\TemplatedUriRequestBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\FakeHttpRequestFactory.cs" />
     <Compile Include="TestDoubles\FakeHttpWebResponseWrapper.cs" />
