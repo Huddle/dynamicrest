@@ -70,9 +70,9 @@ namespace DynamicRest
 
             if (_requestUri == null)
             {
-                if (_uriBuilder is TemplatedBuildUris)
+                if (_uriBuilder is TemplatedUriBuilder)
                 {
-                    ((TemplatedBuildUris)_uriBuilder).ParametersStore = ParametersStore;
+                    ((TemplatedUriBuilder)_uriBuilder).ParametersStore = ParametersStore;
                 }
 
                 _requestUri = _uriBuilder.CreateRequestUri(operationName, parameters);

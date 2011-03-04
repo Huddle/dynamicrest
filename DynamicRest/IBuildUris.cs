@@ -6,7 +6,5 @@ namespace DynamicRest
     {
         Uri CreateRequestUri(string operationName, JsonObject parameters);
         string UriTemplate { get; set; }
-        
-        void SetUriTransformer(IRestUriTransformer uriTransformer);
     }
 }

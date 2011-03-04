@@ -7,7 +7,7 @@ using System.Web;
 
 namespace DynamicRest
 {
-    public class TemplatedBuildUris : IBuildUris
+    public class TemplatedUriBuilder : IBuildUris
     {
         private static readonly Regex TokenFormatRewriteRegex =
             new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+",

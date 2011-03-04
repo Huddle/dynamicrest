@@ -26,7 +26,7 @@ namespace Application {
 
         public static void Run() {
             //TODO: Fix this up with a request wrapper
-            var templatedUriBuilder = new TemplatedBuildUris();
+            var templatedUriBuilder = new TemplatedUriBuilder();
             templatedUriBuilder.UriTemplate = Services.FlickrUri;
             dynamic flickr = new RestClient(new RequestBuilder(null, new RequestFactory(), templatedUriBuilder), new ResponseProcessor(RestService.Json));
             flickr.apiKey = Services.FlickrApiKey;
