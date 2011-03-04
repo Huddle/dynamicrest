@@ -7,7 +7,10 @@ namespace DynamicRest.HTTPInterfaces
     public interface IHttpRequest
     {
         Uri RequestURI { get; }
+
+        HttpVerb HttpVerb { get; set; }
         string Accept { get; set; }
+
         void AddCredentials(ICredentials credentials);
         void AddHeaders(WebHeaderCollection headers);
         void AddRequestBody(string contentType, string content);
@@ -15,9 +18,7 @@ namespace DynamicRest.HTTPInterfaces
         IHttpResponse EndGetResponse(object asyncRequest);
         IHttpResponse GetResponse();
         void SetContentHeaders(string contentType, int contentLength);
-        void SetHttpVerb(HttpVerb verb);
     }
-
     public enum HttpVerb
     {
         Get,

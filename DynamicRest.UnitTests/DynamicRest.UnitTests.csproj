@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RestClients\Uris\When_i_build_an_opaque_uri.cs" />
+    <Compile Include="RestClients\When_i_use_a_http_verb_request.cs" />
     <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
-    <Compile Include="RestClients\Uris\RestClienttepmlateUriFixture.cs" />
+    <Compile Include="RestClients\When_i_use_a_templated_uri_request.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\FakeHttpRequestFactory.cs" />
     <Compile Include="TestDoubles\FakeHttpWebResponseWrapper.cs" />

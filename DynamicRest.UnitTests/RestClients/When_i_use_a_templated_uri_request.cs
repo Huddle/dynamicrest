@@ -1,6 +1,4 @@
 ﻿using System;
-
-using DynamicRest.HTTPInterfaces.WebWrappers;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
