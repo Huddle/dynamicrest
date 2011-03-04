@@ -9,18 +9,12 @@ namespace DynamicRest
     public class ResponseProcessor : IProcessResponses
     {
         private RestService _service;
-        private WebHeaderCollection _responseHeaders;
 
         public ResponseProcessor(RestService service) {
             this._service = service;
         }
 
-        public string GetResponseHeader(HttpResponseHeader header) {
-            return _responseHeaders[header];
-        }
-
         public void Process(IHttpResponse webResponse, RestOperation operation) {
-            _responseHeaders = webResponse.Headers;
             if (webResponse.StatusCode == HttpStatusCode.OK)
             {
                 Stream responseStream = webResponse.GetResponseStream();
