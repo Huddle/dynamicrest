@@ -8,18 +8,16 @@
 //
 
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Net;
-using System.Text.RegularExpressions;
 using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest {
 
     public sealed class RestClient : DynamicObject {
-        private static readonly Regex StripXmlnsRegex =
-            new Regex(@"(xmlns:?[^=]*=[""][^""]*[""])",
-                      RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        //private static readonly Regex StripXmlnsRegex =
+        //    new Regex(@"(xmlns:?[^=]*=[""][^""]*[""])",
+        //              RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private readonly string _operationGroup;
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
@@ -170,45 +168,8 @@ namespace DynamicRest {
              return this;
         }
 
-        //public RestClient WithUriTransformer(IRestUriTransformer uriTransformer) {
-        //    if (uriTransformer == null) {
-        //        throw new ArgumentNullException("uriTransformer");
-        //    }
-
-        //    uriBuilder.SetUriTransformer(uriTransformer);
-        //    return this;
-        //}
-
-        public IEnumerable<HttpResponseHeader> ResponseHeaders {
-            get {
-                foreach (HttpResponseHeader header in _responseHeaders)
-                    yield return header;
-                yield break;
-            }
-        }
-
         public string this[HttpResponseHeader index] {
             get { return _responseHeaders[index]; }
         }
-
-        //private Uri BuildUri(string operationName, JsonObject parameters)
-        //{
-        //    if (uriBuilder == null)
-        //    {
-        //        throw new InvalidOperationException("You ust set a template builder before trying to build the Uri");
-        //    }
-
-        //    if (_requestUri == null)
-        //    {
-        //        if (uriBuilder is TemplatedBuildUris)
-        //        {
-        //            ((TemplatedBuildUris)uriBuilder).ParametersStore = _requestBuilder.ParametersStore;
-        //        }
-
-        //        _requestUri = uriBuilder.CreateRequestUri(operationName, parameters);
-        //    }
-
-        //    return _requestUri;
-        //}
     }
 }
