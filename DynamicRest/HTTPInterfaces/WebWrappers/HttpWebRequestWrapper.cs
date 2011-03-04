@@ -71,8 +71,9 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
             return new HttpWebResponseWrapper(_webrequest.GetResponse() as HttpWebResponse);
         }
 
-        public void SetContentHeaders(string contentType, int contentLength){
-            throw new NotImplementedException();
+        public void SetContentHeaders(string contentType, int contentLength) {
+            _webrequest.ContentType = contentType;
+            _webrequest.ContentLength = contentLength;
         }
 
         public HttpVerb HttpVerb {
