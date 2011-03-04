@@ -4,7 +4,7 @@ using Machine.Specifications;
 
 namespace DynamicRest.UnitTests.RestClients.Uris
 {
-    [Subject(typeof(RestClient))]
+    [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_an_operation
     {
         private const string AmazonUriTemplate = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
@@ -30,7 +30,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         It should_merge_operationname_parameters_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
 
-    [Subject(typeof(RestClient))]
+    [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_an_operation_and_options
     {
         private const string AmazonUriTemplate = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
@@ -56,8 +56,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
 
         It should_merge_operation_and_option_parameters_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
- 
-    [Subject(typeof(RestClient))]
+
+    [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_ids_in_uri
     {
         private static FakeHttpRequestFactory _requestFactory;
@@ -80,6 +80,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         It should_merge_properties_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
 
+    [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_ids_and_missing_ids
     {
         private static FakeHttpRequestFactory _requestFactory;
@@ -104,7 +105,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         It should_contain_helpful_error_message = () => _exception.Message.ShouldEqual("You are missing one or more expected template parameters in the uri: http://api.bing.net/json.aspx?AppId={appID}&Version=2.2&Market=en-US");
     }
 
-    [Subject(typeof(RestClient))]
+    [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_ids_in_uri_and_options
     {
         private static FakeHttpRequestFactory _requestFactory;
@@ -134,7 +135,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         It should_merge_properties_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
 
-    [Subject(typeof(RestClient))]
+    [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_ids_in_uri_and_operation_and_options
     {
         private static dynamic _flickr;
