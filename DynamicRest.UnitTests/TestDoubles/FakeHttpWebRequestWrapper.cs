@@ -8,11 +8,8 @@ namespace DynamicRest.UnitTests.TestDoubles
     public class FakeHttpWebRequestWrapper : IHttpRequest
     {
         private readonly Uri _uri;
-
         private HttpVerb _verb;
-
         private string _contentType;
-
         private string _requestBody;
 
         public FakeHttpWebRequestWrapper(Uri uri){
@@ -37,14 +34,10 @@ namespace DynamicRest.UnitTests.TestDoubles
         }
 
         public void AddRequestBody(string contentType, string content) {
-            this.Body = content;
-            this.ContentType = contentType;
+            _requestBody = content;
+            _contentType = contentType;
         }
-
-        public string ContentType { get; set; }
-
-        public string Body { get; set; }
-
+        
         public void BeginGetResponse(Action<object> action, object asyncRequest){
            
         }

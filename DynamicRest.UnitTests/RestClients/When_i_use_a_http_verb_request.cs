@@ -48,9 +48,9 @@ namespace DynamicRest.UnitTests.RestClients.Uris
 
         Because we_set_an_xml_body_on_the_test = () => _client.Post();
 
-        It should_set_the_body_of_the_request = () => ((FakeHttpWebRequestWrapper)_requestFactory.CreatedRequest).Body.ShouldEqual(_requestBody);
+        It should_set_the_body_of_the_request = () => ((FakeHttpWebRequestWrapper)_requestFactory.CreatedRequest).GetRequestBody().ShouldEqual(_requestBody);
 
-        It should_set_the_content_type_of_the_request = () => ((FakeHttpWebRequestWrapper)_requestFactory.CreatedRequest).ContentType.ShouldEqual(_contentType);
+        It should_set_the_content_type_of_the_request = () => ((FakeHttpWebRequestWrapper)_requestFactory.CreatedRequest).GetContentType().ShouldEqual(_contentType);
 
     }
 }
