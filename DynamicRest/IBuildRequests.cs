@@ -10,8 +10,8 @@ namespace DynamicRest
         ICredentials Credentials { set; }
         string ContentType { get; set; }
         string Uri { set; }
-
         ParametersStore ParametersStore { get; set; }
+        string AcceptHeader { get; set; }
 
         void AddHeader(HttpRequestHeader headerType, string value);
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
