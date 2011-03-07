@@ -66,8 +66,4 @@ namespace DynamicRest
             return result;
         }
     }
-
-    public interface IProcessResponses {
-        void Process(IHttpResponse webResponse, RestOperation operation);
-    }
 }
