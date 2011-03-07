@@ -12,6 +12,8 @@ namespace DynamicRest.UnitTests.TestDoubles
         private string _contentType;
         private string _requestBody;
 
+        private WebHeaderCollection _headers;
+
         public FakeHttpWebRequestWrapper(Uri uri){
             _uri = uri;
         }
@@ -25,12 +27,18 @@ namespace DynamicRest.UnitTests.TestDoubles
             set { }
         }
 
+        public WebHeaderCollection Headers {
+            get {
+                return _headers;
+            }
+        }
+
         public void AddCredentials(ICredentials credentials){
             
         }
 
-        public void AddHeaders(WebHeaderCollection headers){
-            
+        public void AddHeaders(WebHeaderCollection headers) {
+            _headers = headers;
         }
 
         public void AddRequestBody(string contentType, string content) {

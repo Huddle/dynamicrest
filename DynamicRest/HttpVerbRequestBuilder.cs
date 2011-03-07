@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 using DynamicRest.Helpers;
@@ -11,6 +12,7 @@ namespace DynamicRest
         private readonly IHttpRequestFactory _requestFactory;
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
         private string _acceptHeader;
+        private string _authToken;
 
         public HttpVerbRequestBuilder(IHttpRequestFactory requestFactory){
             _requestFactory = requestFactory;
@@ -23,7 +25,7 @@ namespace DynamicRest
         public string ContentType { get; set; }
         public ICredentials Credentials { private get; set; }
         public string Uri { private get; set; }
-
+       
         public void AddHeader(HttpRequestHeader headerType, string value){
             _headers.Add(headerType, value);
         }
@@ -36,8 +38,12 @@ namespace DynamicRest
             return CreateWebRequest(operationName);
         }
 
-        public void SetAcceptHeader(string value){
+        public void SetAcceptHeader(string value) {
             this._acceptHeader = value;
+        }
+
+        public void SetAuthorizationHeader(string oAuth2Token) {
+            _headers.Add(HttpRequestHeader.Authorization, string.Format("WRAP access_token=\"{0}\"", oAuth2Token));
         }
 
         private IHttpRequest CreateWebRequest(string operationName){
