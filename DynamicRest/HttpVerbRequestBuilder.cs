@@ -11,7 +11,7 @@ namespace DynamicRest
         private readonly IHttpRequestFactory _requestFactory;
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
 
-        public HttpVerbRequestBuilder(IHttpRequestFactory requestFactory){
+        public HttpVerbRequestBuilder(IHttpRequestFactory requestFactory) {
             _requestFactory = requestFactory;
 
             ParametersStore = new ParametersStore();
@@ -24,8 +24,8 @@ namespace DynamicRest
         public string Uri { private get; set; }
         public string AcceptHeader { get; set; }
 
-        public IHttpRequest CreateRequest(string operationName, JsonObject parameters){
-            if (string.IsNullOrEmpty(Uri)){
+        public IHttpRequest CreateRequest(string operationName, JsonObject parameters) {
+            if (string.IsNullOrEmpty(Uri)) {
                 throw new InvalidOperationException("You must set a Uri for the request.");
             }
             var webRequest = _requestFactory.Create(new Uri(Uri));
@@ -39,13 +39,11 @@ namespace DynamicRest
             return webRequest;
         }
 
-        public void SetOAuth2AuthorizationHeader(string oAuth2Token)
-        {
+        public void SetOAuth2AuthorizationHeader(string oAuth2Token) {
             _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
         }
 
-        public void AddHeader(HttpRequestHeader headerType, string value)
-        {
+        public void AddHeader(HttpRequestHeader headerType, string value) {
             _headers.Add(headerType, value);
         }
     }
