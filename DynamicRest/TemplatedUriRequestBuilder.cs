@@ -9,6 +9,7 @@ namespace DynamicRest
         private readonly IHttpRequestFactory _requestFactory;
         private readonly TemplatedUriBuilder _uriBuilder = new TemplatedUriBuilder();
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
+        private IRestUriTransformer _uriTransformer;
 
         public TemplatedUriRequestBuilder(IHttpRequestFactory requestFactory)
         {
@@ -43,12 +44,17 @@ namespace DynamicRest
             return webRequest;
         }
 
+        public void SetUriTransformer(IRestUriTransformer uriTransformer)
+        {
+            _uriTransformer = uriTransformer;
+        }
+
         private Uri BuildUri(string operationName, JsonObject parameters)
         {
            _uriBuilder.ParametersStore = ParametersStore;
             _uriBuilder.UriTemplate = this.Uri;
+            _uriBuilder.SetUriTransformer(_uriTransformer);
             return _uriBuilder.CreateRequestUri(operationName, parameters);
         }
-
     }
 }
