@@ -52,7 +52,6 @@
     <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
     <Compile Include="HttpVerbRequestBuilder.cs" />
     <Compile Include="IBuildRequests.cs" />
-    <Compile Include="OAuth.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
     <Compile Include="HTTPInterfaces\IHttpResponse.cs" />

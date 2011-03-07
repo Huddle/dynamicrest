@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
-
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
 
@@ -11,8 +9,6 @@ namespace DynamicRest
     {
         private readonly IHttpRequestFactory _requestFactory;
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
-        private string _acceptHeader;
-        private string _authToken;
 
         public HttpVerbRequestBuilder(IHttpRequestFactory requestFactory){
             _requestFactory = requestFactory;
@@ -25,38 +21,31 @@ namespace DynamicRest
         public string ContentType { get; set; }
         public ICredentials Credentials { private get; set; }
         public string Uri { private get; set; }
-       
-        public void AddHeader(HttpRequestHeader headerType, string value){
-            _headers.Add(headerType, value);
-        }
+        public string AcceptHeader { get; set; }
 
         public IHttpRequest CreateRequest(string operationName, JsonObject parameters){
             if (string.IsNullOrEmpty(Uri)){
                 throw new InvalidOperationException("You must set a Uri for the request.");
             }
-
-            return CreateWebRequest(operationName);
-        }
-
-        public void SetAcceptHeader(string value) {
-            this._acceptHeader = value;
-        }
-
-        public void SetOAuth2AuthorizationHeader(string oAuth2Token) {
-            _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
-        }
-
-        private IHttpRequest CreateWebRequest(string operationName) {
             var webRequest = _requestFactory.Create(new Uri(Uri));
+            
             webRequest.HttpVerb = operationName.ToHttpVerb();
             webRequest.AddHeaders(_headers);
-
             webRequest.AddCredentials(Credentials);
-            webRequest.Accept = _acceptHeader;
-
+            webRequest.Accept = AcceptHeader;
             webRequest.AddRequestBody(ContentType, Body);
 
             return webRequest;
+        }
+
+        public void SetOAuth2AuthorizationHeader(string oAuth2Token)
+        {
+            _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
+        }
+
+        public void AddHeader(HttpRequestHeader headerType, string value)
+        {
+            _headers.Add(headerType, value);
         }
     }
 }
