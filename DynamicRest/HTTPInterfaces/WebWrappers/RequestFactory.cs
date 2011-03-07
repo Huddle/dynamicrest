@@ -7,7 +7,7 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
     {
         public IHttpRequest Create(Uri uri)
         {
-            return new HttpWebRequestWrapper((HttpWebRequest) HttpWebRequest.Create(uri));
+            return new HttpWebRequestWrapper((HttpWebRequest) WebRequest.Create(uri));
         }
     }
 }

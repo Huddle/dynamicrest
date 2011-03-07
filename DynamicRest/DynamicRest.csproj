@@ -62,17 +62,19 @@
     <Compile Include="RestOperation.cs" />
     <Compile Include="IRestUriTransformer.cs" />
     <Compile Include="RestService.cs" />
-    <Compile Include="JsonArray.cs" />
-    <Compile Include="JsonObject.cs" />
-    <Compile Include="JsonReader.cs" />
-    <Compile Include="JsonWriter.cs" />
+    <Compile Include="Json\JsonArray.cs" />
+    <Compile Include="Json\JsonObject.cs" />
+    <Compile Include="Json\JsonReader.cs" />
+    <Compile Include="Json\JsonWriter.cs" />
     <Compile Include="TemplatedUriRequestBuilder.cs" />
     <Compile Include="TemplatedUriBuilder.cs" />
-    <Compile Include="XmlNode.cs" />
-    <Compile Include="XmlNodeList.cs" />
+    <Compile Include="Xml\XmlNode.cs" />
+    <Compile Include="Xml\XmlNodeList.cs" />
     <Compile Include="RestClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Fluent\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
