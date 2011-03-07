@@ -15,14 +15,10 @@ using DynamicRest.HTTPInterfaces;
 namespace DynamicRest {
 
     public sealed class RestClient : DynamicObject {
-        //private static readonly Regex StripXmlnsRegex =
-        //    new Regex(@"(xmlns:?[^=]*=[""][^""]*[""])",
-        //              RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant);
-
+        
         private readonly string _operationGroup;
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
-
         private IProcessResponses _responseProcessor;
 
         public RestClient(IBuildRequests requestBuilder, IProcessResponses responseProcessor)
@@ -137,35 +133,6 @@ namespace DynamicRest {
                 return true;
             }
             return base.TryGetIndex(binder, indexes, out result);
-        }
-
-        public RestClient WithCredentials(ICredentials credentials) {
-            if (credentials == null) {
-                throw new ArgumentNullException("credentials");
-            }
-
-            _requestBuilder.Credentials = credentials;
-            return this;
-        }
-
-        public RestClient WithHeader(HttpRequestHeader headerType, string value) {
-            _requestBuilder.AddHeader(headerType, value);
-            return this;
-        }
-
-        public RestClient WithAuthorization(OAuth oAuth) {
-            WithHeader(HttpRequestHeader.Authorization, oAuth.Token);
-            return this;
-        }
-
-        public RestClient WithXmlBody(string xml) {
-            _requestBuilder.Body = xml;
-            return this;
-        }
-
-        public RestClient WithContentType(string contentType) {
-            _requestBuilder.ContentType = contentType;
-             return this;
         }
 
         public string this[HttpResponseHeader index] {
