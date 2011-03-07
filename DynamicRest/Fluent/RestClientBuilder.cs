@@ -13,7 +13,7 @@
             _requestBuilder.Body = _body;
             _requestBuilder.AcceptHeader = _acceptType;
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
-            return new RestClient(_requestBuilder, new ResponseProcessor(RestService.Xml));
+            return new RestClient(_requestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
         }
 
         public IRestClientBuilder WithContentType(string contentType) {
