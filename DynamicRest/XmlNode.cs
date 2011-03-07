@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Dynamic;
@@ -60,13 +61,13 @@ namespace DynamicRest {
                 return true;
             }
             else {
-                XAttribute attribute = _element.Attribute(name);
+                XAttribute attribute = _element.Attributes().SingleOrDefault(a => a.Name.LocalName == name);
                 if (attribute != null) {
                     result = attribute.Value;
                     return true;
                 }
 
-                XElement childNode = _element.Element(name);
+                XElement childNode = _element.Elements().SingleOrDefault(a => a.Name.LocalName == name);
                 if (childNode != null) {
                     if (childNode.HasElements == false) {
                         result = childNode.Value;
@@ -90,7 +91,7 @@ namespace DynamicRest {
                     selectedElements = _element.Descendants();
                 }
                 else if (args.Length == 1) {
-                    selectedElements = _element.Descendants(args[0].ToString());
+                    selectedElements = _element.Descendants().Where(d => d.Name.LocalName == args[0].ToString());
                 }
                 else {
                     result = false;
@@ -106,7 +107,7 @@ namespace DynamicRest {
                     selectedElements = _element.Elements();
                 }
                 else if (args.Length == 1) {
-                    selectedElements = _element.Elements(args[0].ToString());
+                    selectedElements = _element.Elements().Where(d => d.Name.LocalName == args[0].ToString());
                 }
                 else {
                     result = false;

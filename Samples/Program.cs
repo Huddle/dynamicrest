@@ -20,19 +20,19 @@ namespace Application {
             // NOTE: To run the samples, you'll need a few API keys
             //       that you need to specify in Services.cs.
 
-            // JSON Sample
-            Console.WriteLine("JSON Sample");
-            Console.WriteLine(HeaderBar);
-            JsonSample.Run();
-            Console.WriteLine(Separator);
-            Console.WriteLine(Environment.NewLine);
+            //// JSON Sample
+            //Console.WriteLine("JSON Sample");
+            //Console.WriteLine(HeaderBar);
+            //JsonSample.Run();
+            //Console.WriteLine(Separator);
+            //Console.WriteLine(Environment.NewLine);
 
-            // Flickr Sample
-            Console.WriteLine("Flickr Sample");
-            Console.WriteLine(HeaderBar);
-            FlickrSample.Run();
-            Console.WriteLine(Separator);
-            Console.WriteLine(Environment.NewLine);
+            //// Flickr Sample
+            //Console.WriteLine("Flickr Sample");
+            //Console.WriteLine(HeaderBar);
+            //FlickrSample.Run();
+            //Console.WriteLine(Separator);
+            //Console.WriteLine(Environment.NewLine);
 
             // Amazon Sample
             Console.WriteLine("Amazon Sample");
@@ -49,10 +49,10 @@ namespace Application {
             Console.WriteLine(Environment.NewLine);
 
             // Google Search
-            Console.WriteLine("Google Search Sample");
-            Console.WriteLine(HeaderBar);
-            GoogleSearchSample.Run();
-            Console.WriteLine(Separator);
+            //Console.WriteLine("Google Search Sample");
+            //Console.WriteLine(HeaderBar);
+            //GoogleSearchSample.Run();
+            //Console.WriteLine(Separator);
 
             Console.ReadLine();
         }
