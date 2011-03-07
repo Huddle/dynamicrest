@@ -15,5 +15,7 @@ namespace DynamicRest
 
         void AddHeader(HttpRequestHeader headerType, string value);
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
+
+        void SetOAuth2AuthorizationHeader(string oAuth2Token);
     }
 }
