@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 
 using DynamicRest.HTTPInterfaces;
@@ -49,6 +50,28 @@ namespace DynamicRest.UnitTests.RestClients.Uris
 
         It should_build_the_expected_uri = () => testUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
         It should_set_the_correct_http_verb_on_the_request = () => _requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Get);
+    }
+
+    [Subject(typeof(HttpVerbRequestBuilder))]
+    public class When_i_set_an_invalid_operation_on_the_client
+    {
+        private const string testUri = "http://api.huddle.local/v2/tasks/123456";
+        private static dynamic _client;
+        private static dynamic _exception;
+        private static FakeHttpRequestFactory _requestFactory;
+
+        Establish context = () =>
+        {
+            _requestFactory = new FakeHttpRequestFactory();
+
+            var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = testUri };
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml));
+        };
+
+        Because we_make_get_call_to_an_api_via_rest_client = () => _exception = Catch.Exception(() => _client.NotHttp());
+
+        private It should_throw_an_exception =
+            () => ((Exception) _exception).ShouldBeOfType<InvalidOperationException>();
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
