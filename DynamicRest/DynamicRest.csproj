@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fluent\IRestClientBuilder.cs" />
+    <Compile Include="Fluent\RestClientBuilder.cs" />
     <Compile Include="Helpers\HttpVerbHelpers.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\HttpWebResponseWrapper.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
@@ -73,8 +75,6 @@
     <Compile Include="RestClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fluent\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
