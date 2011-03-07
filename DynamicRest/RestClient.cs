@@ -153,10 +153,10 @@ namespace DynamicRest {
             return this;
         }
 
-        public RestClient WithAuthorization(OAuth oAuth) {
-            WithHeader(HttpRequestHeader.Authorization, oAuth.Token);
-            return this;
-        }
+        //public RestClient WithAuthorization(OAuth oAuth) {
+        //    WithHeader(HttpRequestHeader.Authorization, oAuth.Token);
+        //    return this;
+        //}
 
         public RestClient WithXmlBody(string xml) {
             _requestBuilder.Body = xml;

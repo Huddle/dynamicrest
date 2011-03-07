@@ -19,7 +19,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
             _requestFactory = new FakeHttpRequestFactory();
 
             var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = testUri };
-            httpVerbRequestBuilder.SetAuthorizationHeader(oAuth2Token);
+            httpVerbRequestBuilder.SetOAuth2AuthorizationHeader(oAuth2Token);
             _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml));
         };
 

@@ -42,8 +42,8 @@ namespace DynamicRest
             this._acceptHeader = value;
         }
 
-        public void SetAuthorizationHeader(string oAuth2Token) {
-            _headers.Add(HttpRequestHeader.Authorization, string.Format("WRAP access_token=\"{0}\"", oAuth2Token));
+        public void SetOAuth2AuthorizationHeader(string oAuth2Token) {
+            _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
         }
 
         private IHttpRequest CreateWebRequest(string operationName) {
