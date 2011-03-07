@@ -44,14 +44,7 @@ namespace DynamicRest {
 
             IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
 
-            try {
-                var webResponse = webRequest.GetResponse();
-                responseProcessor.Process(webResponse, operation);
-            }
-            catch (WebException webException) {
-                var response = (HttpWebResponse)webException.Response;
-                operation.Complete(webException, response.StatusCode, response.StatusDescription);
-            }
+            InterpretResponse(responseProcessor, operation, () => webRequest.GetResponse());
 
             return operation;
         }
@@ -66,19 +59,22 @@ namespace DynamicRest {
 
             IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
 
-            webRequest.BeginGetResponse(ar => {
-                try
-                {
-                    var webResponse = webRequest.EndGetResponse(ar);
-                    responseProcessor.Process(webResponse, operation);
-                }
-                catch (WebException webException) {
-                    var response = (HttpWebResponse)webException.Response;
-                    operation.Complete(webException, response.StatusCode, response.StatusDescription);
-                }
-            }, null);
+            webRequest.BeginGetResponse(ar => InterpretResponse(responseProcessor, operation, () => webRequest.EndGetResponse(ar)), null);
 
             return operation;
+        }
+
+        private static void InterpretResponse(IProcessResponses responseProcessor, RestOperation operation, Func<IHttpResponse> returnsResponse)
+        {
+            try
+            {
+                var webResponse = returnsResponse();
+                responseProcessor.Process(webResponse, operation);
+            }
+            catch (WebException webException) {
+                var response = (HttpWebResponse)webException.Response;
+                operation.Complete(webException, response.StatusCode, response.StatusDescription);
+            }
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result) {
