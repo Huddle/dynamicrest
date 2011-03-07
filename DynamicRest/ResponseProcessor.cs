@@ -1,19 +1,18 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Xml.Linq;
 using DynamicRest.HTTPInterfaces;
-using DynamicRest.Json;
-using DynamicRest.Xml;
 
 namespace DynamicRest
 {
     public class ResponseProcessor : IProcessResponses
     {
-        private RestService _service;
+        private readonly RestService _service;
+        private readonly IBuildDynamicResults _builder;
 
-        public ResponseProcessor(RestService service) {
-            this._service = service;
+        public ResponseProcessor(RestService service, IBuildDynamicResults resultBuilder) {
+            _service = service;
+            _builder = resultBuilder;
         }
 
         public void Process(IHttpResponse webResponse, RestOperation operation) {
@@ -23,7 +22,7 @@ namespace DynamicRest
 
                 try
                 {
-                    object result = this.ProcessResponse(responseStream);
+                    object result = ProcessResponse(responseStream);
                     operation.Complete(result,
                         webResponse.StatusCode, webResponse.StatusDescription);
                 }
@@ -49,19 +48,8 @@ namespace DynamicRest
             dynamic result = null;
             try
             {
-                string responseText = (new StreamReader(responseStream)).ReadToEnd();
-                if (_service == RestService.Json)
-                {
-                    var jsonReader = new JsonReader(responseText);
-                    result = jsonReader.ReadValue();
-                }
-                else
-                {
-                    //responseText = StripXmlnsRegex.Replace(responseText, String.Empty);
-                    XDocument xmlDocument = XDocument.Parse(responseText);
-
-                    result = new XmlNode(xmlDocument.Root);
-                }
+                var responseText = (new StreamReader(responseStream)).ReadToEnd();
+                result = _builder.CreateResult(responseText, _service);
             }
             catch {}
 

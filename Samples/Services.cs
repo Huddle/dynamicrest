@@ -17,11 +17,12 @@ namespace Application {
         public const string FlickrApiKey = "???";
 
         public const string AmazonUri = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
-        public const string AmazonAccessKey = "???";
-        public const string AmazonSecretKey = "???";
+        public const string AmazonAccessKey = "AKIAJOIVT72IC72S4YYA";
+        public const string AmazonSecretKey = "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";
+
 
         public const string BingSearchUri = "http://api.bing.net/json.aspx?AppId={appID}&Version=2.2&Market=en-US";
-        public const string BingApiKey = "???";
+        public const string BingApiKey = "6F061541697B6DA8BCA57F52793E4AFDAEE0C092";
 
         public const string GoogleSearchUri = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0";
     }

@@ -51,6 +51,7 @@
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
     <Compile Include="HttpVerbRequestBuilder.cs" />
+    <Compile Include="IBuildDynamicResults.cs" />
     <Compile Include="IBuildRequests.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
     <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Json\JsonObject.cs" />
     <Compile Include="Json\JsonReader.cs" />
     <Compile Include="Json\JsonWriter.cs" />
+    <Compile Include="StandardResultBuilder.cs" />
     <Compile Include="TemplatedUriRequestBuilder.cs" />
     <Compile Include="TemplatedUriBuilder.cs" />
     <Compile Include="Xml\XmlNode.cs" />

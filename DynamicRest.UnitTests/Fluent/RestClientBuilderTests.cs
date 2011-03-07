@@ -62,7 +62,7 @@ namespace DynamicRest.UnitTests.Fluent {
             _requestBuilder.ContentType = _contentType;
             _requestBuilder.Body = _body;
             _requestBuilder.AcceptHeader = _acceptType;
-            return new RestClient(_requestBuilder, new ResponseProcessor(RestService.Xml));
+            return new RestClient(_requestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
         }
 
         public IRestClientBuilder WithContentType(string contentType) {

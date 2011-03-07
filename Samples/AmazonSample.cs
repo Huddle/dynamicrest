@@ -26,7 +26,7 @@ namespace Application {
             
             dynamic amazon = new RestClient(
                 templatedUriRequestBuilder,
-                new ResponseProcessor(RestService.Xml));
+                new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
 
             dynamic searchOptions = new JsonObject();
             searchOptions.SearchIndex = "Books";

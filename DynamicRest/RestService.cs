@@ -7,8 +7,6 @@
 // more information.
 //
 
-using System;
-
 namespace DynamicRest {
 
     public enum RestService {
