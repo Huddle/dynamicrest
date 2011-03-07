@@ -16,13 +16,15 @@ namespace Application {
     internal static class AmazonSample {
 
         public static void Run() {
-            //TODO: Fix this up with a request wrapper
+            
             AmazonUriSigner signer = new AmazonUriSigner(Services.AmazonAccessKey, Services.AmazonSecretKey);
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.SetUriTransformer(signer);
-            templatedUriBuilder.UriTemplate = Services.AmazonUri;
+            
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(new RequestFactory());
+            templatedUriRequestBuilder.Uri = Services.AmazonUri;
+            templatedUriRequestBuilder.SetUriTransformer(signer);
+            
             dynamic amazon = new RestClient(
-                new TemplatedUriRequestBuilder(new RequestFactory()),
+                templatedUriRequestBuilder,
                 new ResponseProcessor(RestService.Xml));
 
             dynamic searchOptions = new JsonObject();

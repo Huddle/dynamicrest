@@ -17,10 +17,10 @@ namespace Application {
     internal static class GoogleSearchSample {
 
         public static void Run() {
-            //TODO: Fix this up with a request wrapper
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.UriTemplate = Services.GoogleSearchUri;
-            dynamic googleSearch = new RestClient(new TemplatedUriRequestBuilder(new RequestFactory()), new ResponseProcessor(RestService.Json));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(new RequestFactory());
+            templatedUriRequestBuilder.Uri = Services.GoogleSearchUri;
+
+            dynamic googleSearch = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
 
             Console.WriteLine("Searching Google for 'seattle'...");
 

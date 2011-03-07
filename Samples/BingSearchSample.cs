@@ -16,11 +16,11 @@ namespace Application {
     internal static class BingSearchSample {
 
         public static void Run() {
-            //TODO: Fix this up with a request wrapper
 
-            var templatedUriBuilder = new TemplatedUriBuilder();
-            templatedUriBuilder.UriTemplate = Services.BingSearchUri;
-            dynamic bingSearch = new RestClient(new TemplatedUriRequestBuilder(new RequestFactory()), new ResponseProcessor(RestService.Json));
+            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(new RequestFactory());
+            templatedUriRequestBuilder.Uri = Services.BingSearchUri;
+
+            dynamic bingSearch = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
             bingSearch.appID = Services.BingApiKey;
 
             Console.WriteLine("Searching Bing for 'seattle'...");
