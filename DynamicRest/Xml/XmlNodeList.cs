@@ -10,11 +10,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Xml.Linq;
 using System.Dynamic;
 
-namespace DynamicRest {
+namespace DynamicRest.Xml {
 
     public sealed class XmlNodeList : DynamicObject, IEnumerable {
 

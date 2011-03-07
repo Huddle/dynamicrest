@@ -11,6 +11,7 @@ using System;
 using System.Dynamic;
 using System.Net;
 using DynamicRest.HTTPInterfaces;
+using DynamicRest.Json;
 
 namespace DynamicRest {
 

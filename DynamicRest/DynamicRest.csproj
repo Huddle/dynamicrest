@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\HttpVerbHelpers.cs" />
-    <Compile Include="HTTPInterfaces\HttpWebResponseWrapper.cs" />
+    <Compile Include="HTTPInterfaces\WebWrappers\HttpWebResponseWrapper.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
     <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
     <Compile Include="HttpVerbRequestBuilder.cs" />

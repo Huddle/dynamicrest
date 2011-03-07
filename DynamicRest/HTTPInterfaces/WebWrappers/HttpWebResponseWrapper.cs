@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace DynamicRest.HTTPInterfaces
+namespace DynamicRest.HTTPInterfaces.WebWrappers
 {
     public class HttpWebResponseWrapper : IHttpResponse
     {

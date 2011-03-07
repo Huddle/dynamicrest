@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
+using DynamicRest.Json;
+
 namespace DynamicRest
 {
     internal class TemplatedUriBuilder

@@ -9,6 +9,7 @@
 
 using System;
 using DynamicRest;
+using DynamicRest.Json;
 
 namespace Application {
 

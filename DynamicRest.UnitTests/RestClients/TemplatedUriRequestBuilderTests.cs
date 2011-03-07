@@ -1,4 +1,6 @@
 ﻿using System;
+
+using DynamicRest.Json;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 

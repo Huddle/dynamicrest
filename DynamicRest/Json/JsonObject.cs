@@ -10,10 +10,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Dynamic;
 
-namespace DynamicRest {
+namespace DynamicRest.Json {
 
     public sealed class JsonObject : DynamicObject, IDictionary<string, object>, IDictionary {
 

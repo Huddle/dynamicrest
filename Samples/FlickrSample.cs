@@ -10,6 +10,7 @@
 using System;
 using DynamicRest;
 using DynamicRest.HTTPInterfaces.WebWrappers;
+using DynamicRest.Json;
 
 namespace Application {
 

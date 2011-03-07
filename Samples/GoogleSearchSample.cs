@@ -11,6 +11,7 @@ using System;
 using DynamicRest;
 using System.Threading;
 using DynamicRest.HTTPInterfaces.WebWrappers;
+using DynamicRest.Json;
 
 namespace Application {
 

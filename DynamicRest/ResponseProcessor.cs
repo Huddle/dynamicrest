@@ -3,6 +3,8 @@ using System.IO;
 using System.Net;
 using System.Xml.Linq;
 using DynamicRest.HTTPInterfaces;
+using DynamicRest.Json;
+using DynamicRest.Xml;
 
 namespace DynamicRest
 {
