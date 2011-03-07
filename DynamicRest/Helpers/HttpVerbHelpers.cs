@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest.Helpers
 {
     public static class HttpVerbHelpers
     {
-        public static HttpVerb ToHttpVerb(this string operationName) {
-            return ((HttpVerb)Enum.Parse(typeof(HttpVerb), operationName));
+        public static HttpVerb ToHttpVerb(this string operationName)
+        {
+            HttpVerb result;
+            if (Enum.TryParse(operationName, true, out result))
+            {
+                return result;
+            }
+
+            throw new InvalidOperationException(string.Format("The operation {0} is not a valid Http verb", operationName));
         }
     }
 }

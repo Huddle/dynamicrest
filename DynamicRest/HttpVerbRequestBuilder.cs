@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
