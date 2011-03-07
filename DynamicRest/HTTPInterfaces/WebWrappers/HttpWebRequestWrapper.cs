@@ -64,12 +64,14 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
             }
         }
 
-        public void BeginGetResponse(Action<object> action, object asyncRequest){
-            throw new NotImplementedException();
+        public void BeginGetResponse(Action<object> action, object asyncRequest)
+        {
+            _webrequest.BeginGetResponse(ar => action(ar), asyncRequest);
         }
 
-        public IHttpResponse EndGetResponse(object asyncRequest){
-            throw new NotImplementedException();
+        public IHttpResponse EndGetResponse(object asyncRequest)
+        {
+            return new HttpWebResponseWrapper((HttpWebResponse) _webrequest.EndGetResponse((IAsyncResult) asyncRequest));
         }
 
         public IHttpResponse GetResponse(){
