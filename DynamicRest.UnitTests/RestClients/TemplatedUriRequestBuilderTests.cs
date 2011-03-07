@@ -8,24 +8,19 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     public class When_using_a_templated_uri_with_an_operation
     {
         private const string AmazonUriTemplate = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
-
         private const string ExpectedUri = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation=ItemSearch&AssociateTag=myamzn-20";
 
-        private static dynamic _amazon;
+        private static dynamic _client;
         private static FakeHttpRequestFactory _requestFactory;
 
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
-            var templatedUriBuilder = new TemplatedUriBuilder
-                {
-                    UriTemplate = AmazonUriTemplate
-                };
             var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = AmazonUriTemplate };
-            _amazon = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Xml));
+            _client = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Xml));
         };
 
-        Because we_make_get_call_to_an_api_via_rest_client = () => _amazon.ItemSearch();
+        Because we_make_get_call_to_an_api_via_rest_client = () => _client.ItemSearch();
 
         It should_merge_operationname_parameters_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
@@ -34,10 +29,9 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     public class When_using_a_templated_uri_with_an_operation_and_options
     {
         private const string AmazonUriTemplate = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
-
         private const string ExpectedUri = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation=ItemSearch&AssociateTag=myamzn-20&SearchIndex=Books&Keywords=Dynamic+Programming";
 
-        private static dynamic _amazon;
+        private static dynamic _client;
         private static dynamic _searchOptions;
         private static FakeHttpRequestFactory _requestFactory;
 
@@ -45,14 +39,14 @@ namespace DynamicRest.UnitTests.RestClients.Uris
        {
             _requestFactory = new FakeHttpRequestFactory();
            var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = AmazonUriTemplate };
-           _amazon = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Xml));
+           _client = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Xml));
 
             _searchOptions = new JsonObject();
             _searchOptions.SearchIndex = "Books";
             _searchOptions.Keywords = "Dynamic Programming";                              
         };
 
-        Because we_make_get_call_to_an_api_via_rest_client = () => _amazon.ItemSearch(_searchOptions);
+        Because we_make_get_call_to_an_api_via_rest_client = () => _client.ItemSearch(_searchOptions);
 
         It should_merge_operation_and_option_parameters_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
@@ -60,22 +54,22 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_ids_in_uri
     {
-        private static FakeHttpRequestFactory _requestFactory;
-        private static dynamic _bing;
-
         private const string BingSearchUri = "http://api.bing.net/json.aspx?AppId={appID}&Version=2.2&Market=en-US";
         private const string ExpectedUri = "http://api.bing.net/json.aspx?AppId=12345&Version=2.2&Market=en-US"; 
         private const string BingApiKey = "12345";
+
+        private static FakeHttpRequestFactory _requestFactory;
+        private static dynamic _client;
 
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
             var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(_requestFactory) { Uri = BingSearchUri };
-            _bing = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
-            _bing.appID = BingApiKey;
+            _client = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json));
+            _client.appID = BingApiKey;
         };
 
-        Because we_make_a_call_to_an_api_via_rest_client = () => _bing.Invoke();
+        Because we_make_a_call_to_an_api_via_rest_client = () => _client.Invoke();
 
         It should_merge_properties_into_the_uri_template = () => ExpectedUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
     }
