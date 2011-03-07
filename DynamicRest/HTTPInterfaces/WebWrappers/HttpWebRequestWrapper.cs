@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -45,6 +46,10 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
 
         public void AddHeaders(WebHeaderCollection headers){
             _webrequest.Headers.Add(headers);
+        }
+
+        public WebHeaderCollection Headers { 
+            get { return _webrequest.Headers; } 
         }
  
         public void AddRequestBody(string contentType, string content){

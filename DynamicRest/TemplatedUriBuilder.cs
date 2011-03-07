@@ -20,8 +20,7 @@ namespace DynamicRest
 
         public ParametersStore ParametersStore { private get; set; }
 
-        public Uri CreateRequestUri(string operationName, JsonObject parameters)
-        {
+        public Uri CreateRequestUri(string operationName, JsonObject parameters) {
             var uriBuilder = new StringBuilder();
 
             BuildBaseUri(operationName, uriBuilder);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
@@ -23,10 +24,6 @@ namespace DynamicRest
         public string Uri { private get; set; }
         public string AcceptHeader { get; set; }
 
-        public void AddHeader(HttpRequestHeader headerType, string value){
-            _headers.Add(headerType, value);
-        }
-
         public IHttpRequest CreateRequest(string operationName, JsonObject parameters){
             if (string.IsNullOrEmpty(Uri)){
                 throw new InvalidOperationException("You must set a Uri for the request.");
@@ -41,6 +38,15 @@ namespace DynamicRest
             webRequest.AddRequestBody(ContentType, Body);
 
             return webRequest;
+        }
+
+        public void SetAuthorizationHeader(string oAuth2Token) {
+            _headers.Add(HttpRequestHeader.Authorization, string.Format("WRAP access_token=\"{0}\"", oAuth2Token));
+        }
+
+        public void AddHeader(HttpRequestHeader headerType, string value)
+        {
+            _headers.Add(headerType, value);
         }
     }
 }

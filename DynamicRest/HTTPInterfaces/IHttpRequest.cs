@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 
 namespace DynamicRest.HTTPInterfaces
@@ -7,10 +6,9 @@ namespace DynamicRest.HTTPInterfaces
     public interface IHttpRequest
     {
         Uri RequestURI { get; }
-
         HttpVerb HttpVerb { get; set; }
         string Accept { get; set; }
-
+        WebHeaderCollection Headers { get; }
         void AddCredentials(ICredentials credentials);
         void AddHeaders(WebHeaderCollection headers);
         void AddRequestBody(string contentType, string content);

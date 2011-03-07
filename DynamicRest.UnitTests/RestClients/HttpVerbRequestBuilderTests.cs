@@ -1,3 +1,5 @@
+using System.Net;
+
 using DynamicRest.HTTPInterfaces;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
@@ -10,12 +12,14 @@ namespace DynamicRest.UnitTests.RestClients.Uris
         private const string testUri = "http://api.huddle.local/v2/tasks/123456";
         private static dynamic _client;
         private static FakeHttpRequestFactory _requestFactory;
+        private static string oAuth2Token = "my_token";
 
         Establish context = () =>
         {
             _requestFactory = new FakeHttpRequestFactory();
 
             var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = testUri };
+            httpVerbRequestBuilder.SetAuthorizationHeader(oAuth2Token);
             _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml));
         };
 
@@ -23,6 +27,7 @@ namespace DynamicRest.UnitTests.RestClients.Uris
 
         It should_build_the_expected_uri = () => testUri.ShouldEqual(_requestFactory.CreatedRequest.RequestURI.ToString());
         It should_set_the_correct_http_verb_on_the_request = () => _requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Post);
+        It should_set_the_correct_authorization_header_on_the_request = () => _requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual("WRAP access_token=\"" + oAuth2Token + "\"");
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
