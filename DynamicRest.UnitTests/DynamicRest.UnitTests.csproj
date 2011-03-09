@@ -44,12 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fluent\RestClientBuilderTests.cs" />
+    <Compile Include="Json\JsonResponsesTest.cs" />
     <Compile Include="RestClients\HttpVerbRequestBuilderTests.cs" />
     <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
     <Compile Include="RestClients\TemplatedUriRequestBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\FakeHttpRequestFactory.cs" />
     <Compile Include="TestDoubles\FakeHttpWebResponseWrapper.cs" />
+    <Compile Include="Xml\XmlResponsesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DynamicRest\DynamicRest.csproj">

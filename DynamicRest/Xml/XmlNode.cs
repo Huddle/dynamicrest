@@ -28,6 +28,16 @@ namespace DynamicRest.Xml {
             _element = element;
         }
 
+        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result) {
+            if (_element.HasElements) {
+                new XmlNodeList(new[] { _element }).TryGetIndex(binder, indexes, out result);
+            }
+            else {
+                result = _element.Value;
+            }
+            return true;
+        }
+
         public override bool TryGetMember(GetMemberBinder binder, out object result) {
             string name = binder.Name;
 
@@ -48,6 +58,10 @@ namespace DynamicRest.Xml {
                 result = _element.Value;
                 return true;
             }
+            else if (String.CompareOrdinal(name, "Count") == 0) {
+                result = _element.Elements().Count();
+                return true;
+            }
             else if (String.CompareOrdinal(name, "Nodes") == 0) {
                 result = new XmlNodeList(_element.Elements());
                 return true;
@@ -65,16 +79,26 @@ namespace DynamicRest.Xml {
                     result = attribute.Value;
                     return true;
                 }
-
-                XElement childNode = _element.Elements().SingleOrDefault(a => a.Name.LocalName == name);
-                if (childNode != null) {
-                    if (childNode.HasElements == false) {
-                        result = childNode.Value;
+                try {
+                    XElement childNode = _element.Elements().SingleOrDefault(a => a.Name.LocalName == name);
+                    if (childNode != null)
+                    {
+                        if (childNode.HasElements == false)
+                        {
+                            result = new XmlString(childNode.Value);
+                            return true;
+                        }
+                        result = new XmlNode(childNode);
                         return true;
                     }
-                    result = new XmlNode(childNode);
+                }
+                catch (InvalidOperationException)
+                {
+
+                    result = new XmlNodeList(_element.Elements().Where(a => a.Name.LocalName == name));
                     return true;
                 }
+                
             }
 
             return base.TryGetMember(binder, out result);
