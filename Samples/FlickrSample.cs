@@ -30,7 +30,7 @@ namespace Application {
             var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(new RequestFactory());
             templatedUriRequestBuilder.Uri = Services.FlickrUri;
 
-            dynamic flickr = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json, new StandardResultBuilder()));
+            dynamic flickr = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Json)));
             flickr.apiKey = Services.FlickrApiKey;
 
             Console.WriteLine("Searching photos tagged with 'seattle'...");

@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.IO;
+using System.Xml.Linq;
 using DynamicRest.Json;
 using DynamicRest.Xml;
 
@@ -6,9 +7,14 @@ namespace DynamicRest
 {
     public class StandardResultBuilder : IBuildDynamicResults
     {
-        public object CreateResult(string responseText, RestService serviceType)
-        {
-            return serviceType == RestService.Json 
+        RestService _serviceType;
+
+        public StandardResultBuilder(RestService serviceType) {
+            _serviceType = serviceType;
+        }
+
+        public object CreateResult(string responseText) {
+            return _serviceType == RestService.Json 
                        ? GetResultFromJson(responseText) 
                        : GetResultFromXml(responseText);
         }
@@ -24,6 +30,23 @@ namespace DynamicRest
         {
             var jsonReader = new JsonReader(responseText);
             dynamic result = jsonReader.ReadValue();
+            return result;
+        }
+
+        public object ProcessResponse(Stream responseStream) {
+            if (_serviceType == RestService.Binary)
+            {
+                return responseStream;
+            }
+
+            dynamic result = null;
+            try
+            {
+                var responseText = (new StreamReader(responseStream)).ReadToEnd();
+                result = CreateResult(responseText);
+            }
+            catch {}
+
             return result;
         }
     }

@@ -21,7 +21,7 @@ namespace Application {
             var templatedUriRequestBuilder = new TemplatedUriRequestBuilder(new RequestFactory());
             templatedUriRequestBuilder.Uri = Services.GoogleSearchUri;
 
-            dynamic googleSearch = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(RestService.Json, new StandardResultBuilder()));
+            dynamic googleSearch = new RestClient(templatedUriRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Json)));
 
             Console.WriteLine("Searching Google for 'seattle'...");
 

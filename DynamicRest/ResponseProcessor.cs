@@ -7,11 +7,9 @@ namespace DynamicRest
 {
     public class ResponseProcessor : IProcessResponses
     {
-        private readonly RestService _service;
         private readonly IBuildDynamicResults _builder;
 
-        public ResponseProcessor(RestService service, IBuildDynamicResults resultBuilder) {
-            _service = service;
+        public ResponseProcessor(IBuildDynamicResults resultBuilder) {
             _builder = resultBuilder;
         }
 
@@ -22,7 +20,7 @@ namespace DynamicRest
 
                 try
                 {
-                    object result = ProcessResponse(responseStream);
+                    object result = _builder.ProcessResponse(responseStream);
                     operation.Complete(result,
                         webResponse.StatusCode, webResponse.StatusDescription);
                 }
@@ -37,23 +35,6 @@ namespace DynamicRest
                 operation.Complete(new WebException(webResponse.StatusDescription),
                     webResponse.StatusCode, webResponse.StatusDescription);
             }
-        }
-
-        private object ProcessResponse(Stream responseStream) {
-            if (_service == RestService.Binary)
-            {
-                return responseStream;
-            }
-
-            dynamic result = null;
-            try
-            {
-                var responseText = (new StreamReader(responseStream)).ReadToEnd();
-                result = _builder.CreateResult(responseText, _service);
-            }
-            catch {}
-
-            return result;
         }
     }
 }

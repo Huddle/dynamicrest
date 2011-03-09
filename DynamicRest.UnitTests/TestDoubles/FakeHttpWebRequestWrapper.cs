@@ -8,11 +8,10 @@ namespace DynamicRest.UnitTests.TestDoubles
     public class FakeHttpWebRequestWrapper : IHttpRequest
     {
         private readonly Uri _uri;
-        private HttpVerb _verb;
+
         private string _contentType;
         private string _requestBody;
         private WebHeaderCollection _headers;
-        string _accept;
 
         public FakeHttpWebRequestWrapper(Uri uri){
             _uri = uri;
@@ -22,10 +21,7 @@ namespace DynamicRest.UnitTests.TestDoubles
             get { return _uri; }
         }
 
-        public string Accept{
-            get { return _accept; }
-            set { _accept = value; }
-        }
+        public string Accept { get; set; }
 
         public WebHeaderCollection Headers {
             get {
@@ -66,15 +62,7 @@ namespace DynamicRest.UnitTests.TestDoubles
             
         }
 
-        public HttpVerb HttpVerb
-        {
-            get {
-                return _verb;
-            }
-            set {
-                _verb = value;
-            }
-        }
+        public HttpVerb HttpVerb { get; set; }
 
         public string GetContentType() {
             return _contentType;

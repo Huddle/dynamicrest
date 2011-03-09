@@ -8,6 +8,6 @@
         IRestClientBuilder WithBody(string body);
         IRestClientBuilder WithAcceptHeader(string acceptType);
         IRestClientBuilder WithOAuth2Token(string token);
-        IRestClientBuilder WithServiceType(RestService serviceType);
+        IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor);
     }
 }

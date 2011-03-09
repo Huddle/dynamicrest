@@ -20,7 +20,7 @@ namespace DynamicRest.UnitTests.RestClients
 
             var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = TestUri };
             httpVerbRequestBuilder.SetOAuth2AuthorizationHeader(oAuth2Token);
-            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _client.Post();
@@ -42,7 +42,7 @@ namespace DynamicRest.UnitTests.RestClients
             _requestFactory = new FakeHttpRequestFactory();
 
             var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = TestUri };
-            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _client.Get();
@@ -64,7 +64,7 @@ namespace DynamicRest.UnitTests.RestClients
             _requestFactory = new FakeHttpRequestFactory();
 
             var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Uri = testUri };
-            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
         };
 
         Because we_make_get_call_to_an_api_via_rest_client = () => _exception = Catch.Exception(() => _client.NotHttp());
@@ -85,7 +85,7 @@ namespace DynamicRest.UnitTests.RestClients
             _requestFactory = new FakeHttpRequestFactory();
 
             var httpVerbRequestBuilder = new HttpVerbRequestBuilder(_requestFactory) { Body = _requestBody, ContentType = ContentType, Uri = "http://api.huddle.com" };
-            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
+            _client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
         };
 
         Because we_set_an_xml_body_on_the_test = () => _client.Post();

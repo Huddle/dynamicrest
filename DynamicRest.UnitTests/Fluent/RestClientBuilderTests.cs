@@ -5,6 +5,38 @@ using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
 namespace DynamicRest.UnitTests.Fluent {
+    public class When_a_rest_client_is_created_with_a_fluent_factory_using_default_values {
+        static IRestClientBuilder _restClientBuilder;
+        static dynamic _builtClient;
+
+        static FakeHttpRequestFactory fakeHttpRequestFactory;
+
+        Establish context = () =>
+        {
+            _restClientBuilder = new RestClientBuilder();
+        };
+
+        Because the_rest_client_is_built_and_executed = () =>
+        {
+            fakeHttpRequestFactory = new FakeHttpRequestFactory();
+            _builtClient = _restClientBuilder
+                .WithRequestBuilder(new HttpVerbRequestBuilder(fakeHttpRequestFactory))
+                .WithOAuth2Token("token")
+                .WithUri("http://www.google.com")
+                .WithBody("My body")
+                //.WithResponseProcessor(new ResponseProcessor(new StandardResultBuilder(RestService.Xml)))
+                .Build();
+
+            _builtClient.Post();
+        };
+
+        It should_have_xml_as_content_type = () => 
+            (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).GetContentType().ShouldEqual("application/xml");
+        It should_have_xml_as_accept = () => 
+            fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
+
+    }
+
     public class When_a_rest_client_is_created_with_a_fluent_factory {
 
         static IRestClientBuilder _restClientBuilder;
@@ -25,7 +57,7 @@ namespace DynamicRest.UnitTests.Fluent {
                 .WithUri("http://www.google.com")
                 .WithBody("My body")
                 .WithAcceptHeader("application/xml") 
-                .WithServiceType(RestService.Xml)
+                .WithResponseProcessor(new ResponseProcessor(new StandardResultBuilder(RestService.Xml)))
                 .Build();
 
             _builtClient.Post();

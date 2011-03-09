@@ -9,10 +9,10 @@ namespace DynamicRest.UnitTests.Json
 
         Establish context = () =>
         {
-            _resultBuilder = new StandardResultBuilder();
+            _resultBuilder = new StandardResultBuilder(RestService.Json);
         };
 
-        Because the_response_is_created = () => { _response = _resultBuilder.CreateResult(_xml, RestService.Json); };
+        Because the_response_is_created = () => { _response = _resultBuilder.CreateResult(_xml); };
 
         It should_contain_the_media_0_url = () => (_response.item.media[0].url as string).ShouldEqual("http://media0url");
         It should_contain_the_media_1_url = () => (_response.item.media[1].url as string).ShouldEqual("http://media1url");

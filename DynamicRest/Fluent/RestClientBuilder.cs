@@ -1,5 +1,7 @@
 ﻿using System;
 
+using DynamicRest.HTTPInterfaces.WebWrappers;
+
 namespace DynamicRest.Fluent {
     public class RestClientBuilder : IRestClientBuilder {
         IBuildRequests _requestBuilder;
@@ -8,15 +10,23 @@ namespace DynamicRest.Fluent {
         string _body;
         string _acceptType;
         string _token;
-        RestService _serviceType;
+
+        IProcessResponses _responseProcessor;
 
         public dynamic Build() {
+
+            if(_requestBuilder == null) 
+                _requestBuilder = new HttpVerbRequestBuilder(new RequestFactory());
+
+            if (_responseProcessor == null) 
+                _responseProcessor = new ResponseProcessor(new StandardResultBuilder(RestService.Xml));            
+
             _requestBuilder.Uri = _uri;
-            _requestBuilder.ContentType = _contentType;
+            _requestBuilder.ContentType = _contentType ?? "application/xml";
             _requestBuilder.Body = _body;
-            _requestBuilder.AcceptHeader = _acceptType;
+            _requestBuilder.AcceptHeader = _acceptType ?? "application/xml";
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
-            return new RestClient(_requestBuilder, new ResponseProcessor(_serviceType, new StandardResultBuilder()));
+            return new RestClient(_requestBuilder, _responseProcessor);
         }
 
         public IRestClientBuilder WithContentType(string contentType) {
@@ -50,8 +60,8 @@ namespace DynamicRest.Fluent {
             return this;
         }
 
-        public IRestClientBuilder WithServiceType(RestService serviceType) {
-            _serviceType = serviceType;
+        public IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor) {
+            _responseProcessor = responseProcessor;
             return this;
         }
     }
