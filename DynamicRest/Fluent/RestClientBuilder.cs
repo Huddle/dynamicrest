@@ -1,4 +1,6 @@
-﻿namespace DynamicRest.Fluent {
+﻿using System;
+
+namespace DynamicRest.Fluent {
     public class RestClientBuilder : IRestClientBuilder {
         IBuildRequests _requestBuilder;
         string _uri;
@@ -6,6 +8,7 @@
         string _body;
         string _acceptType;
         string _token;
+        RestService _serviceType;
 
         public dynamic Build() {
             _requestBuilder.Uri = _uri;
@@ -13,7 +16,7 @@
             _requestBuilder.Body = _body;
             _requestBuilder.AcceptHeader = _acceptType;
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
-            return new RestClient(_requestBuilder, new ResponseProcessor(RestService.Xml, new StandardResultBuilder()));
+            return new RestClient(_requestBuilder, new ResponseProcessor(_serviceType, new StandardResultBuilder()));
         }
 
         public IRestClientBuilder WithContentType(string contentType) {
@@ -44,6 +47,11 @@
 
         public IRestClientBuilder WithOAuth2Token(string token) {
             _token = token;
+            return this;
+        }
+
+        public IRestClientBuilder WithServiceType(RestService serviceType) {
+            _serviceType = serviceType;
             return this;
         }
     }

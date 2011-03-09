@@ -1,6 +1,5 @@
 using System;
 using System.Net;
-
 using DynamicRest.Fluent;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
@@ -26,6 +25,7 @@ namespace DynamicRest.UnitTests.Fluent {
                 .WithUri("http://www.google.com")
                 .WithBody("My body")
                 .WithAcceptHeader("application/xml") 
+                .WithServiceType(RestService.Xml)
                 .Build();
 
             _builtClient.Post();
