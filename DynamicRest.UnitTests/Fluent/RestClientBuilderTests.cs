@@ -30,7 +30,7 @@ namespace DynamicRest.UnitTests.Fluent {
         };
 
         It should_have_xml_as_content_type = () => 
-            (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).GetContentType().ShouldEqual("application/xml");
+            fakeHttpRequestFactory.CreatedRequest.ContentType.ShouldEqual("application/xml");
         It should_have_xml_as_accept = () => 
             fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
     }
@@ -62,13 +62,13 @@ namespace DynamicRest.UnitTests.Fluent {
         };
 
         It should_have_the_correct_content_type_header = () =>
-            (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).GetContentType().ShouldEqual("application/vnd.data+xml");
+            fakeHttpRequestFactory.CreatedRequest.ContentType.ShouldEqual("application/vnd.data+xml");
 
         It should_have_the_correct_uri = () => 
             fakeHttpRequestFactory.CreatedRequest.RequestURI.ShouldEqual(new Uri("http://www.google.com"));
 
         It should_have_the_correct_body = () =>
-            (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).GetRequestBody().ShouldEqual("My body");
+            (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).RequestBody.ShouldEqual("My body");
 
         It should_have_the_correct_accept_header =
             () => fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");

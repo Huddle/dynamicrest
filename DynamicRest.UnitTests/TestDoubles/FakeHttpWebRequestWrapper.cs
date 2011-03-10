@@ -8,9 +8,6 @@ namespace DynamicRest.UnitTests.TestDoubles
     public class FakeHttpWebRequestWrapper : IHttpRequest
     {
         private readonly Uri _uri;
-
-        private string _contentType;
-        private string _requestBody;
         private WebHeaderCollection _headers;
 
         public FakeHttpWebRequestWrapper(Uri uri){
@@ -22,6 +19,8 @@ namespace DynamicRest.UnitTests.TestDoubles
         }
 
         public string Accept { get; set; }
+        public string ContentType { get; private set; }
+        public HttpVerb HttpVerb { get; set; }
 
         public WebHeaderCollection Headers {
             get {
@@ -29,8 +28,10 @@ namespace DynamicRest.UnitTests.TestDoubles
             }
         }
 
-        public void AddCredentials(ICredentials credentials){
-            
+        public string RequestBody { get; private set; }
+
+        public void AddCredentials(ICredentials credentials) {
+
         }
 
         public void AddHeaders(WebHeaderCollection headers) {
@@ -38,12 +39,12 @@ namespace DynamicRest.UnitTests.TestDoubles
         }
 
         public void AddRequestBody(string contentType, string content) {
-            _requestBody = content;
-            _contentType = contentType;
+            RequestBody = content;
+            ContentType = contentType;
         }
         
-        public void BeginGetResponse(Action<object> action, object asyncRequest){
-           
+        public void BeginGetResponse(Action<object> action, object asyncRequest) {
+
         }
 
         public IHttpResponse EndGetResponse(object asyncRequest){
@@ -56,20 +57,6 @@ namespace DynamicRest.UnitTests.TestDoubles
 
         public Stream GetRequestStream(){
             return new MemoryStream();
-        }
-
-        public void SetContentHeaders(string contentType, int contentLength){
-            
-        }
-
-        public HttpVerb HttpVerb { get; set; }
-
-        public string GetContentType() {
-            return _contentType;
-        }
-
-        public string GetRequestBody() {
-            return _requestBody;
         }
     }
 }

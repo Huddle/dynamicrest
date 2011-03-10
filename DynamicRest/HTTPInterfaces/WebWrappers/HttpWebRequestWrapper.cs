@@ -19,6 +19,23 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
             get { return _webrequest.RequestUri; }
         }
 
+        public HttpVerb HttpVerb
+        {
+            get
+            {
+                return _webrequest.Method.ToHttpVerb();
+            }
+            set
+            {
+                _webrequest.Method = value.ToString();
+            }
+        }
+
+        public WebHeaderCollection Headers
+        {
+            get { return _webrequest.Headers; }
+        }
+ 
         public string Accept{
             get
             {
@@ -29,13 +46,12 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
                 _webrequest.Accept = value;
             }
         }
-
-        public string ContentType {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
+        
+        public string ContentType
+        {
+            get
+            {
+                return _webrequest.ContentType;
             }
         }
 
@@ -47,15 +63,12 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
             _webrequest.Headers.Add(headers);
         }
 
-        public WebHeaderCollection Headers { 
-            get { return _webrequest.Headers; } 
-        }
- 
         public void AddRequestBody(string contentType, string content){
             if (content != null)
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(content);
-                SetContentHeaders(contentType, bytes.Length);
+                _webrequest.ContentType = contentType;
+                _webrequest.ContentLength = bytes.Length;
                 using (Stream requestStream = _webrequest.GetRequestStream())
                 {
                     requestStream.Write(bytes, 0, bytes.Length);
@@ -77,19 +90,6 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
             return new HttpWebResponseWrapper(_webrequest.GetResponse() as HttpWebResponse);
         }
 
-        public void SetContentHeaders(string contentType, int contentLength) {
-            _webrequest.ContentType = contentType;
-            _webrequest.ContentLength = contentLength;
-        }
-
-        public HttpVerb HttpVerb {
-            get {
-                return _webrequest.Method.ToHttpVerb();
-            }
-            set {
-                _webrequest.Method = value.ToString();
-            }
-        }
   
     }
 }

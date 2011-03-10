@@ -5,7 +5,8 @@ namespace DynamicRest.UnitTests.TestDoubles
 {
     internal class FakeHttpRequestFactory : IHttpRequestFactory
     {
-        internal IHttpRequest CreatedRequest {get; set; }
+        internal FakeHttpWebRequestWrapper CreatedRequest {get; set; }
+
         public IHttpRequest Create(Uri uri)
         {
             CreatedRequest = new FakeHttpWebRequestWrapper(uri);
