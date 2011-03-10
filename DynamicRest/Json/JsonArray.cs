@@ -136,7 +136,12 @@ namespace DynamicRest.Json {
                 return true;
             }
 
-            return base.TryGetMember(binder, out result);
+            var memberExists = base.TryGetMember(binder, out result);
+            if (result == null)
+            {
+                throw new DynamicParsingException(string.Format("No member named '{0}' found in the response.", binder.Name));
+            }
+            return memberExists;
         }
 
         public override bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value) {

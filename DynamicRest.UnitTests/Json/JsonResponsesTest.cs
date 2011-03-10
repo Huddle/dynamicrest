@@ -52,7 +52,7 @@ namespace DynamicRest.UnitTests.Json
     }
 
     [Subject(typeof(JsonObject))]
-    public class When_accessing_a_non_existing_property
+    public class When_accessing_a_non_existing_property_on_a_json_property
     {
         static StandardResultBuilder _resultBuilder;
         static dynamic _response;
@@ -65,7 +65,7 @@ namespace DynamicRest.UnitTests.Json
 
         Because the_response_is_created = () => { _thrownException = Catch.Exception(() => { var junk = _response.item.desc; }); };
 
-        It should_give_an_exception_with_a_sensible_error_message = () =>
+        It should_give_an_exception_with_a_sensible_error_message_from_json_object = () =>
             _thrownException.Message.ShouldEqual("No member named 'desc' found in the response.");
 
         static string _json = @"
@@ -92,6 +92,37 @@ namespace DynamicRest.UnitTests.Json
                             }
                         ]
                     }
+                }
+           }";
+
+        private static Exception _thrownException;
+    }
+
+
+    [Subject(typeof(JsonObject))]
+    public class When_accessing_a_non_existing_property_on_a_json_array
+    {
+        static StandardResultBuilder _resultBuilder;
+        static dynamic _response;
+
+        Establish context = () =>
+        {
+            _resultBuilder = new StandardResultBuilder(RestService.Json);
+            _response = _resultBuilder.CreateResult(_json);
+        };
+
+        Because the_response_is_created = () => { _thrownException = Catch.Exception(() => { var junk = _response.item.images.doesntexist; }); };
+
+        It should_give_an_exception_with_a_sensible_error_message_from_json_object = () =>
+            _thrownException.Message.ShouldEqual("No member named 'doesntexist' found in the response.");
+
+        static string _json = @"
+           {
+                item:{
+                    images:[
+                        { src:'http://image0url' },
+                        { src:'http://image1url' }
+                    ]
                 }
            }";
 
