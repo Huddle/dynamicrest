@@ -24,7 +24,6 @@ namespace DynamicRest.UnitTests.Fluent {
                 .WithOAuth2Token("token")
                 .WithUri("http://www.google.com")
                 .WithBody("My body")
-                //.WithResponseProcessor(new ResponseProcessor(new StandardResultBuilder(RestService.Xml)))
                 .Build();
 
             _builtClient.Post();

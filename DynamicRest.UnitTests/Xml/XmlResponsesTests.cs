@@ -1,7 +1,12 @@
+using System;
+
+using DynamicRest.Xml;
+
 using Machine.Specifications;
 
 namespace DynamicRest.UnitTests.Xml
 {
+    [Subject(typeof(StandardResultBuilder))]
     public class When_a_response_contains_a_collection
     {
         static StandardResultBuilder _resultBuilder;
@@ -50,5 +55,48 @@ namespace DynamicRest.UnitTests.Xml
                 </attachments>
               </item>
             </news>";
+    }
+    
+    [Subject(typeof(XmlNode))]
+    public class When_accessing_a_non_existing_element
+    {
+        static StandardResultBuilder _resultBuilder;
+        static dynamic _response;
+
+        Establish context = () =>
+        {
+            _resultBuilder = new StandardResultBuilder(RestService.Xml);
+            _response = _resultBuilder.CreateResult(_xml);
+        };
+
+        private Because the_response_is_created = () => _thrownException = Catch.Exception(() => { var junk = _response.item.desc; });
+        
+        It should_work_when_a_refence_is_used_as_an_array = () => 
+            _thrownException.Message.ShouldEqual("No element or attribute named 'desc' found in the response.");
+
+        static string _xml = @"
+            <news>
+              <item> 
+                <title>Gaddafi renews attack on rebels</title>  
+                <description>Forces loyal to Libyan leader Col Muammar Gaddafi launch fresh air strikes on the rebel-held Ras Lanuf, as they try to retake the oil-rich town.</description>
+                <link>http://www.bbc.co.uk/go/rss/int/news/-/news/world-africa-12673956</link>  
+                <link>http://www.bbc.co.uk/go/rss/int/news/-/news/world-africa-12673956</link>  
+                <guid>http://www.bbc.co.uk/news/world-africa-12673956</guid>  
+                <pubDate>Tue, 08 Mar 2011 11:21:16 GMT</pubDate>  
+                <media url=""http://media0url""/>  
+                <media url=""http://media1url""/> 
+                <images>
+                  <image src=""http://image0url"" />
+                  <image src=""http://image1url"" />
+                </images>
+                <attachments>
+                    <attachment>
+                        <title>this is the title</title>
+                    </attachment>
+                </attachments>
+              </item>
+            </news>";
+
+        private static Exception _thrownException;
     }
 }

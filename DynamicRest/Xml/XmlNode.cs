@@ -8,9 +8,11 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using System.Dynamic;
 
@@ -66,6 +68,11 @@ namespace DynamicRest.Xml {
                 result = new XmlNodeList(_element.Elements());
                 return true;
             }
+            else if (String.CompareOrdinal(name, "XElement") == 0)
+            {
+                result = _element;
+                return true;
+            }
             else if (String.CompareOrdinal(name, "Xml") == 0) {
                 StringWriter sw = new StringWriter();
                 _element.Save(sw, SaveOptions.None);
@@ -94,14 +101,17 @@ namespace DynamicRest.Xml {
                 }
                 catch (InvalidOperationException)
                 {
-
+                    
                     result = new XmlNodeList(_element.Elements().Where(a => a.Name.LocalName == name));
                     return true;
                 }
-                
             }
 
-            return base.TryGetMember(binder, out result);
+            var memberExists = base.TryGetMember(binder, out result);
+            if (result == null) {
+                throw new XmlException(string.Format("No element or attribute named '{0}' found in the response.", name));
+            }
+            return memberExists;
         }
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result) {
@@ -139,7 +149,7 @@ namespace DynamicRest.Xml {
                 result = new XmlNodeList(selectedElements);
                 return true;
             }
-
+         
             return base.TryInvokeMember(binder, args, out result);
         }
 
