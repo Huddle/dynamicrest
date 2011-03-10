@@ -5,26 +5,30 @@ using DynamicRest.HTTPInterfaces.WebWrappers;
 namespace DynamicRest.Fluent {
     public class RestClientBuilder : IRestClientBuilder {
         IBuildRequests _requestBuilder;
+        IProcessResponses _responseProcessor;
         string _uri;
         string _contentType;
         string _body;
         string _acceptType;
         string _token;
 
-        IProcessResponses _responseProcessor;
-
         public dynamic Build() {
+            _contentType = _contentType ?? "application/xml";
+            _acceptType = _acceptType ?? "application/xml";
 
             if(_requestBuilder == null) 
                 _requestBuilder = new HttpVerbRequestBuilder(new RequestFactory());
 
-            if (_responseProcessor == null) 
-                _responseProcessor = new ResponseProcessor(new StandardResultBuilder(RestService.Xml));            
+            if (_responseProcessor == null)
+            {
+                var serviceType = _acceptType.Contains("xml") ? RestService.Xml : (_acceptType.Contains("json") ? RestService.Json : RestService.Binary);
+                this._responseProcessor = new ResponseProcessor(new StandardResultBuilder(serviceType));
+            }
 
             _requestBuilder.Uri = _uri;
-            _requestBuilder.ContentType = _contentType ?? "application/xml";
+            _requestBuilder.ContentType = _contentType;
+            _requestBuilder.AcceptHeader = _acceptType;
             _requestBuilder.Body = _body;
-            _requestBuilder.AcceptHeader = _acceptType ?? "application/xml";
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
             return new RestClient(_requestBuilder, _responseProcessor);
         }

@@ -33,7 +33,6 @@ namespace DynamicRest.UnitTests.Fluent {
             (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).GetContentType().ShouldEqual("application/xml");
         It should_have_xml_as_accept = () => 
             fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
-
     }
 
     public class When_a_rest_client_is_created_with_a_fluent_factory {
