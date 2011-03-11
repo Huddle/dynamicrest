@@ -14,7 +14,7 @@ namespace DynamicRest {
         }
 
         public void Process(IHttpResponse webResponse, RestOperation operation) {
-            if (webResponse.StatusCode == HttpStatusCode.OK) {
+            if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created) {
                 Stream responseStream = webResponse.GetResponseStream();
 
                 try {
