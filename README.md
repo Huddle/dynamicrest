@@ -15,7 +15,7 @@ http://www.nikhilk.net/CSharp-Dynamic-Programming-REST-Services.aspx
 
 * To get an instance of RestClient use the RestClientBuilder fluent interface:
 
-        var client = clientBuilder
+        var client = new RestClientBuilder()
                 .WithAcceptHeader("application/json")
                 .WithUri("http://some.uri")
                 .WithOAuth2Token("token")
