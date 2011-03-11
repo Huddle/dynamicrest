@@ -43,7 +43,7 @@ namespace DynamicRest {
             IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
 
             InterpretResponse(responseProcessor, operation, () => webRequest.GetResponse());
-
+            
             return operation;
         }
 
@@ -62,11 +62,12 @@ namespace DynamicRest {
             return operation;
         }
 
-        private static void InterpretResponse(IProcessResponses responseProcessor, RestOperation operation, Func<IHttpResponse> returnsResponse)
+        private void InterpretResponse(IProcessResponses responseProcessor, RestOperation operation, Func<IHttpResponse> returnsResponse)
         {
             try {
                 var webResponse = returnsResponse();
                 responseProcessor.Process(webResponse, operation);
+                _responseHeaders.Add(webResponse.Headers);
             }
             catch (WebException webException) {
                 var response = (HttpWebResponse)webException.Response;
