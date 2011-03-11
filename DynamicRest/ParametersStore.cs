@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace DynamicRest
-{
-    public class ParametersStore
-    {
+namespace DynamicRest {
+
+    public class ParametersStore {
+
         private Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
         public object GetParameter(string parameterName) {

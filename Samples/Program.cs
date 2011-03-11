@@ -27,12 +27,12 @@ namespace Application {
             Console.WriteLine(Separator);
             Console.WriteLine(Environment.NewLine);
 
-            //// Flickr Sample
-            //Console.WriteLine("Flickr Sample");
-            //Console.WriteLine(HeaderBar);
-            //FlickrSample.Run();
-            //Console.WriteLine(Separator);
-            //Console.WriteLine(Environment.NewLine);
+            // Flickr Sample
+            Console.WriteLine("Flickr Sample");
+            Console.WriteLine(HeaderBar);
+            FlickrSample.Run();
+            Console.WriteLine(Separator);
+            Console.WriteLine(Environment.NewLine);
 
             // Amazon Sample
             Console.WriteLine("Amazon Sample");

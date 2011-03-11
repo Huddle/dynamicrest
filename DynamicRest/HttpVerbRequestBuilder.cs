@@ -4,8 +4,8 @@ using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
 using DynamicRest.Json;
 
-namespace DynamicRest
-{
+namespace DynamicRest {
+
     public class HttpVerbRequestBuilder : IBuildRequests {
 
         private readonly IHttpRequestFactory _requestFactory;

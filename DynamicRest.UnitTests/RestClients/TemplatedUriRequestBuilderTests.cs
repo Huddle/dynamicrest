@@ -3,8 +3,8 @@ using DynamicRest.Json;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
-namespace DynamicRest.UnitTests.RestClients
-{
+namespace DynamicRest.UnitTests.RestClients {
+
     [Subject(typeof(TemplatedUriRequestBuilder))]
     public class When_using_a_templated_uri_with_an_operation {
 

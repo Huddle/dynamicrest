@@ -7,8 +7,6 @@
 // more information.
 //
 
-using System;
-
 namespace Application {
 
     internal static class Services {

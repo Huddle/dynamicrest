@@ -7,10 +7,10 @@ using System.Web;
 
 using DynamicRest.Json;
 
-namespace DynamicRest
-{
-    internal class TemplatedUriBuilder
-    {
+namespace DynamicRest {
+
+    internal class TemplatedUriBuilder {
+
         private static readonly Regex TokenFormatRewriteRegex =
             new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+",
                       RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);

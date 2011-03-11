@@ -2,8 +2,8 @@ using System;
 using DynamicRest.Json;
 using Machine.Specifications;
 
-namespace DynamicRest.UnitTests.Json
-{
+namespace DynamicRest.UnitTests.Json {
+
     [Subject(typeof(StandardResultBuilder))]
     public class When_a_response_contains_a_collection {
 

@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace DynamicRest.HTTPInterfaces.WebWrappers
-{
-    public class HttpWebResponseWrapper : IHttpResponse
-    {
+namespace DynamicRest.HTTPInterfaces.WebWrappers {
+
+    public class HttpWebResponseWrapper : IHttpResponse {
+
         private readonly HttpWebResponse webResponse;
 
         public HttpWebResponseWrapper(HttpWebResponse webResponse) {

@@ -1,8 +1,8 @@
 ﻿using System;
 using DynamicRest.HTTPInterfaces;
 
-namespace DynamicRest.UnitTests.TestDoubles
-{
+namespace DynamicRest.UnitTests.TestDoubles {
+
     internal class FakeHttpRequestFactory : IHttpRequestFactory {
 
         internal FakeHttpWebRequestWrapper CreatedRequest {get; set; }

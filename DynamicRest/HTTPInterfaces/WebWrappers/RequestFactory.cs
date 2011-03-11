@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
 
-namespace DynamicRest.HTTPInterfaces.WebWrappers
-{
+namespace DynamicRest.HTTPInterfaces.WebWrappers {
+
     public class RequestFactory : IHttpRequestFactory
     {
         public IHttpRequest Create(Uri uri) {

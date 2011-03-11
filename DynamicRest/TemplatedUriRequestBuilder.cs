@@ -3,10 +3,10 @@ using System.Net;
 using DynamicRest.HTTPInterfaces;
 using DynamicRest.Json;
 
-namespace DynamicRest
-{
-    public class TemplatedUriRequestBuilder : IBuildRequests
-    {
+namespace DynamicRest {
+
+    public class TemplatedUriRequestBuilder : IBuildRequests {
+
         private readonly IHttpRequestFactory _requestFactory;
         private readonly TemplatedUriBuilder _uriBuilder = new TemplatedUriBuilder();
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();

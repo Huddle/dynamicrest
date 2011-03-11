@@ -3,10 +3,10 @@ using System.Xml.Linq;
 using DynamicRest.Json;
 using DynamicRest.Xml;
 
-namespace DynamicRest
-{
-    public class StandardResultBuilder : IBuildDynamicResults
-    {
+namespace DynamicRest {
+
+    public class StandardResultBuilder : IBuildDynamicResults {
+
         RestService _serviceType;
 
         public StandardResultBuilder(RestService serviceType) {

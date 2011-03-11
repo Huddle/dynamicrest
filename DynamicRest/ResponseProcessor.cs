@@ -3,10 +3,10 @@ using System.IO;
 using System.Net;
 using DynamicRest.HTTPInterfaces;
 
-namespace DynamicRest
-{
-    public class ResponseProcessor : IProcessResponses
-    {
+namespace DynamicRest {
+
+    public class ResponseProcessor : IProcessResponses {
+
         private readonly IBuildDynamicResults _builder;
 
         public ResponseProcessor(IBuildDynamicResults resultBuilder) {

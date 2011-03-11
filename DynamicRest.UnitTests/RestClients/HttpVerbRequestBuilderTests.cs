@@ -4,8 +4,8 @@ using DynamicRest.HTTPInterfaces;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
-namespace DynamicRest.UnitTests.RestClients
-{
+namespace DynamicRest.UnitTests.RestClients {
+
     [Subject(typeof(HttpVerbRequestBuilder))]
     public class When_i_use_the_client_to_put_a_request {
 
