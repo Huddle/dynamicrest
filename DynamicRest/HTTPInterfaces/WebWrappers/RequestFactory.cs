@@ -5,8 +5,7 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
 {
     public class RequestFactory : IHttpRequestFactory
     {
-        public IHttpRequest Create(Uri uri)
-        {
+        public IHttpRequest Create(Uri uri) {
             return new HttpWebRequestWrapper((HttpWebRequest) WebRequest.Create(uri));
         }
     }

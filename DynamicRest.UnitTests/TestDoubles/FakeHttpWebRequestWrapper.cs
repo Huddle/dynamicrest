@@ -5,16 +5,16 @@ using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest.UnitTests.TestDoubles
 {
-    public class FakeHttpWebRequestWrapper : IHttpRequest
-    {
+    public class FakeHttpWebRequestWrapper : IHttpRequest {
+
         private readonly Uri _uri;
         private WebHeaderCollection _headers;
 
-        public FakeHttpWebRequestWrapper(Uri uri){
+        public FakeHttpWebRequestWrapper(Uri uri) {
             _uri = uri;
         }
 
-        public Uri RequestURI{
+        public Uri RequestURI {
             get { return _uri; }
         }
 
@@ -47,15 +47,15 @@ namespace DynamicRest.UnitTests.TestDoubles
 
         }
 
-        public IHttpResponse EndGetResponse(object asyncRequest){
+        public IHttpResponse EndGetResponse(object asyncRequest) {
             return new FakeHttpWebResponseWrapper();
         }
 
-        public IHttpResponse GetResponse(){
+        public IHttpResponse GetResponse() {
             return new FakeHttpWebResponseWrapper();
         }
 
-        public Stream GetRequestStream(){
+        public Stream GetRequestStream() {
             return new MemoryStream();
         }
     }

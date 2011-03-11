@@ -6,8 +6,8 @@ using DynamicRest.Json;
 
 namespace DynamicRest
 {
-    public class HttpVerbRequestBuilder : IBuildRequests
-    {
+    public class HttpVerbRequestBuilder : IBuildRequests {
+
         private readonly IHttpRequestFactory _requestFactory;
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
 

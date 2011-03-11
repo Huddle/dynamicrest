@@ -18,11 +18,9 @@ namespace DynamicRest {
 
         private object _result;
         private Exception _error;
-
         private HttpStatusCode _statusCode;
         private string _statusMessage;
         private bool _completed;
-
         private SynchronizationContext _syncContext;
         private List<RestCallback> _callbacks;
 

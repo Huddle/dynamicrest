@@ -22,15 +22,13 @@ namespace DynamicRest {
         private readonly IBuildRequests _requestBuilder;
         private IProcessResponses _responseProcessor;
 
-        public RestClient(IBuildRequests requestBuilder, IProcessResponses responseProcessor)
-        {
+        public RestClient(IBuildRequests requestBuilder, IProcessResponses responseProcessor) {
             _responseProcessor = responseProcessor;
             _requestBuilder = requestBuilder;
         }
 
         private RestClient(RestClient restClient, string operationGroup)
-            : this(restClient._requestBuilder, restClient._responseProcessor)
-        {
+            : this(restClient._requestBuilder, restClient._responseProcessor) {
             _operationGroup = operationGroup;
         }
 
@@ -66,8 +64,7 @@ namespace DynamicRest {
 
         private static void InterpretResponse(IProcessResponses responseProcessor, RestOperation operation, Func<IHttpResponse> returnsResponse)
         {
-            try
-            {
+            try {
                 var webResponse = returnsResponse();
                 responseProcessor.Process(webResponse, operation);
             }
@@ -79,8 +76,7 @@ namespace DynamicRest {
 
         public override bool TryGetMember(GetMemberBinder binder, out object result) {
             object value = _requestBuilder.ParametersStore.GetParameter(binder.Name);
-            if (value != null)
-            {
+            if (value != null) {
                 result = value;
                 return true;
             }
@@ -124,8 +120,7 @@ namespace DynamicRest {
         }
 
         public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result) {
-            if(indexes.Length == 1 && indexes[0].GetType() == typeof(HttpResponseHeader))
-            {
+            if(indexes.Length == 1 && indexes[0].GetType() == typeof(HttpResponseHeader)) {
                 result = _responseHeaders[(HttpResponseHeader)indexes[0]];
                 return true;
             }

@@ -1,14 +1,12 @@
 using System;
-
 using DynamicRest.Xml;
-
 using Machine.Specifications;
 
 namespace DynamicRest.UnitTests.Xml
 {
     [Subject(typeof(StandardResultBuilder))]
-    public class When_a_response_contains_a_collection
-    {
+    public class When_a_response_contains_a_collection {
+
         static StandardResultBuilder _resultBuilder;
         static dynamic _response;
 
@@ -49,17 +47,17 @@ namespace DynamicRest.UnitTests.Xml
                   <image src=""http://image1url"" />
                 </images>
                 <attachments>
-                    <attachment>
-                        <title>this is the title</title>
-                    </attachment>
+                  <attachment>
+                    <title>this is the title</title>
+                  </attachment>
                 </attachments>
               </item>
             </news>";
     }
     
     [Subject(typeof(XmlNode))]
-    public class When_accessing_a_non_existing_element
-    {
+    public class When_accessing_a_non_existing_element {
+
         static StandardResultBuilder _resultBuilder;
         static dynamic _response;
 
@@ -90,9 +88,9 @@ namespace DynamicRest.UnitTests.Xml
                   <image src=""http://image1url"" />
                 </images>
                 <attachments>
-                    <attachment>
-                        <title>this is the title</title>
-                    </attachment>
+                  <attachment>
+                    <title>this is the title</title>
+                  </attachment>
                 </attachments>
               </item>
             </news>";

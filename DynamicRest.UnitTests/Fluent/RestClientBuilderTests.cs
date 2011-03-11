@@ -5,7 +5,9 @@ using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
 namespace DynamicRest.UnitTests.Fluent {
-    public class When_a_rest_client_is_created_with_a_fluent_factory_using_default_values {
+
+    [Subject(typeof(RestClientBuilder))]
+    public class When_a_rest_client_is_created_with_a_rest_client_builder_using_default_values {
         static IRestClientBuilder _restClientBuilder;
         static dynamic _builtClient;
 
@@ -35,7 +37,8 @@ namespace DynamicRest.UnitTests.Fluent {
             fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
     }
 
-    public class When_a_rest_client_is_created_with_a_fluent_factory {
+    [Subject(typeof(RestClientBuilder))]
+    public class When_a_rest_client_is_created_with_a_rest_client_builder {
 
         static IRestClientBuilder _restClientBuilder;
         static dynamic _builtClient;
@@ -68,7 +71,7 @@ namespace DynamicRest.UnitTests.Fluent {
             fakeHttpRequestFactory.CreatedRequest.RequestURI.ShouldEqual(new Uri("http://www.google.com"));
 
         It should_have_the_correct_body = () =>
-            (fakeHttpRequestFactory.CreatedRequest as FakeHttpWebRequestWrapper).RequestBody.ShouldEqual("My body");
+            fakeHttpRequestFactory.CreatedRequest.RequestBody.ShouldEqual("My body");
 
         It should_have_the_correct_accept_header =
             () => fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");

@@ -10,11 +10,8 @@
 namespace DynamicRest {
 
     public enum RestService {
-
         Json,
-
         Xml,
-
         Binary
     }
 }

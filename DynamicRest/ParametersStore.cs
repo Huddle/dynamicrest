@@ -19,8 +19,7 @@ namespace DynamicRest
             _parameters.Add(key, value);
         }
 
-        public bool Contains(string key)
-        {
+        public bool Contains(string key) {
             return _parameters.ContainsKey(key);
         }
     }

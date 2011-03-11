@@ -1,14 +1,13 @@
 ﻿using System;
-
 using DynamicRest.Json;
 using DynamicRest.UnitTests.TestDoubles;
 using Machine.Specifications;
 
-namespace DynamicRest.UnitTests.RestClients.Uris
+namespace DynamicRest.UnitTests.RestClients
 {
     [Subject(typeof(TemplatedUriRequestBuilder))]
-    public class When_using_a_templated_uri_with_an_operation
-    {
+    public class When_using_a_templated_uri_with_an_operation {
+
         private const string AmazonUriTemplate = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
         private const string ExpectedUri = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation=ItemSearch&AssociateTag=myamzn-20";
 
@@ -28,8 +27,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     }
 
     [Subject(typeof(TemplatedUriRequestBuilder))]
-    public class When_using_a_templated_uri_with_an_operation_and_options
-    {
+    public class When_using_a_templated_uri_with_an_operation_and_options {
+
         private const string AmazonUriTemplate = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation={operation}&AssociateTag=myamzn-20";
         private const string ExpectedUri = "http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Version=2009-03-31&Operation=ItemSearch&AssociateTag=myamzn-20&SearchIndex=Books&Keywords=Dynamic+Programming";
 
@@ -54,8 +53,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     }
 
     [Subject(typeof(TemplatedUriRequestBuilder))]
-    public class When_using_a_templated_uri_with_ids_in_uri
-    {
+    public class When_using_a_templated_uri_with_ids_in_uri {
+
         private const string BingSearchUri = "http://api.bing.net/json.aspx?AppId={appID}&Version=2.2&Market=en-US";
         private const string ExpectedUri = "http://api.bing.net/json.aspx?AppId=12345&Version=2.2&Market=en-US"; 
         private const string BingApiKey = "12345";
@@ -77,8 +76,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     }
 
     [Subject(typeof(TemplatedUriRequestBuilder))]
-    public class When_using_a_templated_uri_with_ids_and_missing_ids
-    {
+    public class When_using_a_templated_uri_with_ids_and_missing_ids {
+
         private static FakeHttpRequestFactory _requestFactory;
         private static dynamic _bing;
 
@@ -102,8 +101,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     }
 
     [Subject(typeof(TemplatedUriRequestBuilder))]
-    public class When_using_a_templated_uri_with_ids_in_uri_and_options
-    {
+    public class When_using_a_templated_uri_with_ids_in_uri_and_options {
+
         private static FakeHttpRequestFactory _requestFactory;
         private static dynamic _bing;
         private static dynamic _searchOptions;
@@ -132,8 +131,8 @@ namespace DynamicRest.UnitTests.RestClients.Uris
     }
 
     [Subject(typeof(TemplatedUriRequestBuilder))]
-    public class When_using_a_templated_uri_with_ids_in_uri_and_operation_and_options
-    {
+    public class When_using_a_templated_uri_with_ids_in_uri_and_operation_and_options {
+
         private static dynamic _flickr;
         private static dynamic _searchOptions;
         private static FakeHttpRequestFactory _requestFactory;

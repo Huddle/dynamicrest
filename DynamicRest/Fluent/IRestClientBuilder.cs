@@ -1,5 +1,7 @@
 ﻿namespace DynamicRest.Fluent {
+
     public interface IRestClientBuilder {
+
         dynamic Build();
 
         IRestClientBuilder WithContentType(string contentType);

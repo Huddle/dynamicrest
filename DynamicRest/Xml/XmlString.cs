@@ -1,7 +1,9 @@
 using System.Dynamic;
 
 namespace DynamicRest.Xml {
+
     public class XmlString : DynamicObject {
+
         readonly string value;
 
         public XmlString(string value) {

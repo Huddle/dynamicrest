@@ -2,8 +2,7 @@
 
 namespace DynamicRest.HTTPInterfaces
 {
-    public interface IHttpRequestFactory
-    {
+    public interface IHttpRequestFactory {
         IHttpRequest Create(Uri uri);
     }
 }

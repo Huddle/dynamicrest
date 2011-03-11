@@ -7,8 +7,8 @@ using Machine.Specifications;
 namespace DynamicRest.UnitTests.RestClients
 {
     [Subject(typeof(HttpVerbRequestBuilder))]
-    public class When_i_use_the_client_to_put_a_request
-    {
+    public class When_i_use_the_client_to_put_a_request {
+
         private const string TestUri = "http://api.huddle.local/v2/tasks/123456";
         private static dynamic _client;
         private static FakeHttpRequestFactory _requestFactory;
@@ -31,8 +31,8 @@ namespace DynamicRest.UnitTests.RestClients
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
-    public class When_i_use_the_client_to_get_a_request
-    {
+    public class When_i_use_the_client_to_get_a_request {
+
         private const string TestUri = "http://api.huddle.local/v2/tasks/123456";
         private static dynamic _client;
         private static FakeHttpRequestFactory _requestFactory;
@@ -52,8 +52,8 @@ namespace DynamicRest.UnitTests.RestClients
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
-    public class When_i_set_an_invalid_operation_on_the_client
-    {
+    public class When_i_set_an_invalid_operation_on_the_client {
+
         private const string testUri = "http://api.huddle.local/v2/tasks/123456";
         private static dynamic _client;
         private static dynamic _exception;
@@ -73,8 +73,8 @@ namespace DynamicRest.UnitTests.RestClients
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
-    public class When_i_set_an_xml_body_on_the_request
-    {
+    public class When_i_set_an_xml_body_on_the_request {
+
         private const string ContentType = @"application\xml+";
         private static FakeHttpRequestFactory _requestFactory;
         private static dynamic _client;

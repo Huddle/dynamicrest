@@ -19,29 +19,25 @@ namespace DynamicRest
                        : GetResultFromXml(responseText);
         }
 
-        public static object GetResultFromXml(string responseText)
-        {
+        public static object GetResultFromXml(string responseText) {
             var xmlDocument = XDocument.Parse(responseText);
             dynamic result = new XmlNode(xmlDocument.Root);
             return result;
         }
 
-        public static object GetResultFromJson(string responseText)
-        {
+        public static object GetResultFromJson(string responseText) {
             var jsonReader = new JsonReader(responseText);
             dynamic result = jsonReader.ReadValue();
             return result;
         }
 
         public object ProcessResponse(Stream responseStream) {
-            if (_serviceType == RestService.Binary)
-            {
+            if (_serviceType == RestService.Binary) {
                 return responseStream;
             }
 
             dynamic result = null;
-            try
-            {
+            try {
                 var responseText = (new StreamReader(responseStream)).ReadToEnd();
                 result = CreateResult(responseText);
             }

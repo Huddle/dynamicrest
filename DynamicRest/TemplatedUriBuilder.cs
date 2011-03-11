@@ -34,33 +34,27 @@ namespace DynamicRest
             return uri;
         }
 
-        public void SetUriTransformer(IRestUriTransformer uriTransformer)
-        {
+        public void SetUriTransformer(IRestUriTransformer uriTransformer) {
             _uriTransformer = uriTransformer;
         }
         
-        private void BuildBaseUri(string operationName, StringBuilder uriBuilder)
-        {
+        private void BuildBaseUri(string operationName, StringBuilder uriBuilder) {
             var values = new List<object>();
             _addedParameters = null;
 
-            string rewrittenUriFormat = TokenFormatRewriteRegex.Replace(UriTemplate, delegate(Match m)
-            {
+            string rewrittenUriFormat = TokenFormatRewriteRegex.Replace(UriTemplate, delegate(Match m) {
                 Group startGroup = m.Groups["start"];
                 Group propertyGroup = m.Groups["property"];
                 Group formatGroup = m.Groups["format"];
                 Group endGroup = m.Groups["end"];
 
-                if ((operationName.Length != 0) && String.CompareOrdinal(propertyGroup.Value, "operation") == 0)
-                {
+                if ((operationName.Length != 0) && String.CompareOrdinal(propertyGroup.Value, "operation") == 0) {
                     values.Add(operationName);
                 }
-                else if (this.ParametersStore != null && this.ParametersStore.Contains(propertyGroup.Value))
-                {
+                else if (this.ParametersStore != null && this.ParametersStore.Contains(propertyGroup.Value)) {
                     values.Add(this.ParametersStore.GetParameter(propertyGroup.Value));
 
-                    if (_addedParameters == null)
-                    {
+                    if (_addedParameters == null) {
                         _addedParameters = new HashSet<string>(StringComparer.Ordinal);
                     }
 
@@ -70,17 +64,13 @@ namespace DynamicRest
                 return new string('{', startGroup.Captures.Count) + (values.Count - 1) + formatGroup.Value + new string('}', endGroup.Captures.Count);
             });
 
-            if (values.Count != 0)
-            {
+            if (values.Count != 0) {
                 uriBuilder.AppendFormat(CultureInfo.InvariantCulture, rewrittenUriFormat, values.ToArray());
             }
-
-            else if (UriTemplate != rewrittenUriFormat)
-            {
+            else if (UriTemplate != rewrittenUriFormat) {
                 throw new ArgumentException(string.Format("You are missing one or more expected template parameters in the uri: {0}", UriTemplate));
             }
-            else
-            {
+            else {
                 uriBuilder.Append(rewrittenUriFormat);
             }
         }
@@ -88,25 +78,24 @@ namespace DynamicRest
         private void AddQueryString(StringBuilder uriBuilder, JsonObject parameters){
             if (parameters != null){
 
-                if (UriTemplate.IndexOf('?') < 0)
-                {
+                if (UriTemplate.IndexOf('?') < 0) {
                     uriBuilder.Append("?");
                 }
 
-                foreach (var param in parameters){
+                foreach (var param in parameters) {
                     string name = param.Key;
                     object value = param.Value;
 
-                    if (ConsumedInBaseUri(name)){
+                    if (ConsumedInBaseUri(name)) {
                         continue;
                     }
 
-                    if (value is Delegate){
+                    if (value is Delegate) {
                         // Ignore callbacks in the async scenario.
                         continue;
                     }
 
-                    if (value is JsonObject){
+                    if (value is JsonObject) {
                         // Nested object... use name.subName=value format.
                         foreach (KeyValuePair<string, object> nestedParam in (IDictionary<string, object>)value){
                             uriBuilder.AppendFormat("&{0}.{1}={2}",
@@ -122,12 +111,11 @@ namespace DynamicRest
             }
         }
 
-        private bool ConsumedInBaseUri(string name)
-        {
+        private bool ConsumedInBaseUri(string name) {
             return (_addedParameters != null) && _addedParameters.Contains(name);
         }
 
-        private Uri Transform(StringBuilder uriBuilder){
+        private Uri Transform(StringBuilder uriBuilder) {
             var uri = new Uri(uriBuilder.ToString(), UriKind.Absolute);
             if (_uriTransformer != null){
                 uri = _uriTransformer.TransformUri(uri);
@@ -135,7 +123,7 @@ namespace DynamicRest
             return uri;
         }
 
-        internal string FormatUriParameter(object value){
+        internal string FormatUriParameter(object value) {
             if (value is IEnumerable<string>) {
                 return String.Join("+", (IEnumerable<string>)value);
             }

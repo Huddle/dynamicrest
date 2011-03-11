@@ -1,9 +1,9 @@
-﻿using System;
-
-using DynamicRest.HTTPInterfaces.WebWrappers;
+﻿using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace DynamicRest.Fluent {
+
     public class RestClientBuilder : IRestClientBuilder {
+
         IBuildRequests _requestBuilder;
         IProcessResponses _responseProcessor;
         string _uri;
@@ -19,8 +19,7 @@ namespace DynamicRest.Fluent {
             if(_requestBuilder == null) 
                 _requestBuilder = new HttpVerbRequestBuilder(new RequestFactory());
 
-            if (_responseProcessor == null)
-            {
+            if (_responseProcessor == null) {
                 var serviceType = _acceptType.Contains("xml") ? RestService.Xml : (_acceptType.Contains("json") ? RestService.Json : RestService.Binary);
                 this._responseProcessor = new ResponseProcessor(new StandardResultBuilder(serviceType));
             }

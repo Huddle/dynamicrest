@@ -7,37 +7,29 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers
     {
         private readonly HttpWebResponse webResponse;
 
-        public HttpWebResponseWrapper(HttpWebResponse webResponse)
-        {
+        public HttpWebResponseWrapper(HttpWebResponse webResponse) {
             this.webResponse = webResponse;
         }
 
-        public WebHeaderCollection Headers
-        {
-            get
-            {
+        public WebHeaderCollection Headers {
+            get {
                 return webResponse.Headers;
             }
         }
 
-        public HttpStatusCode StatusCode
-        {
-            get
-            {
+        public HttpStatusCode StatusCode {
+            get {
                 return webResponse.StatusCode;
             }
         }
 
-        public string StatusDescription
-        {
-            get
-            {
+        public string StatusDescription {
+            get {
                 return webResponse.StatusDescription;
             }
         }
 
-        public Stream GetResponseStream()
-        {
+        public Stream GetResponseStream() {
             return webResponse.GetResponseStream();
         }
     }

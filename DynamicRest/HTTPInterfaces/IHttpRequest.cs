@@ -17,15 +17,4 @@ namespace DynamicRest.HTTPInterfaces
         IHttpResponse EndGetResponse(object asyncRequest);
         IHttpResponse GetResponse();
     }
-
-    public enum HttpVerb
-    {
-        Get,
-        Post,
-        Put,
-        Delete,
-        Options,
-        Head,
-        Patch
-    }
 }

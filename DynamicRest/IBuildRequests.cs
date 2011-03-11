@@ -4,18 +4,15 @@ using DynamicRest.Json;
 
 namespace DynamicRest
 {
-    public interface IBuildRequests
-    {
-        string Body { get; set; }
-        ICredentials Credentials { set; }
-        string ContentType { get; set; }
+    public interface IBuildRequests {
         string Uri { set; }
-        ParametersStore ParametersStore { get; set; }
+        string ContentType { get; set; }
         string AcceptHeader { get; set; }
-
-        void AddHeader(HttpRequestHeader headerType, string value);
+        string Body { get; set; }
+        ParametersStore ParametersStore { get; set; }
+        ICredentials Credentials { set; }
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
-
+        void AddHeader(HttpRequestHeader headerType, string value);
         void SetOAuth2AuthorizationHeader(string oAuth2Token);
     }
 }

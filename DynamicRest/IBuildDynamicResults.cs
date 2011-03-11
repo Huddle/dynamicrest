@@ -2,10 +2,8 @@
 
 namespace DynamicRest
 {
-    public interface IBuildDynamicResults
-    {
+    public interface IBuildDynamicResults {
         object CreateResult(string responseText);
-
         object ProcessResponse(Stream responseStream);
     }
 }
