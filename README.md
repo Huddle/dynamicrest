@@ -24,3 +24,21 @@ http://www.nikhilk.net/CSharp-Dynamic-Programming-REST-Services.aspx
 * Issue a GET
 
         var response = client.Get();
+        
+* Navigate the response
+  
+  Given this response:
+  
+        {
+          article:{
+            images:[
+              { src:'http://some.uri/image1.png' },
+              { src:'http://some.uri/image2.png' }
+            ]
+          }
+        }
+        
+  You can navigate using the following dynamic syntax:
+  
+        var image2src = response.Result.article.images[1].src;
+        
