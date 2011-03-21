@@ -14,22 +14,51 @@ namespace DynamicRest {
         }
 
         public void Process(IHttpResponse webResponse, RestOperation operation) {
-            if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created) {
+            try
+            {
                 Stream responseStream = webResponse.GetResponseStream();
 
-                try {
+                if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created)
+                {
+                        object result = _builder.ProcessResponse(responseStream);
+                        operation.Complete(result, null,
+                            webResponse.StatusCode, webResponse.StatusDescription);
+                }
+                else
+                {
+                        object result = _builder.ProcessResponse(responseStream);
+                        operation.Complete(result, new WebException(webResponse.StatusDescription),
+                            webResponse.StatusCode, webResponse.StatusDescription);
+                }
+            }
+            catch(Exception e){
+                operation.Complete(null, new WebException(e.Message, e),
+                            webResponse.StatusCode, webResponse.StatusDescription);
+            }
+        }
+
+        public void Process(HttpWebResponse webResponse, RestOperation operation) {
+            try
+            {
+                Stream responseStream = webResponse.GetResponseStream();
+
+                if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created)
+                {
                     object result = _builder.ProcessResponse(responseStream);
-                    operation.Complete(result,
+                    operation.Complete(result, null,
                         webResponse.StatusCode, webResponse.StatusDescription);
                 }
-                catch (Exception e) {
-                    operation.Complete(new WebException(e.Message, e),
+                else
+                {
+                    object result = _builder.ProcessResponse(responseStream);
+                    operation.Complete(result, new WebException(webResponse.StatusDescription),
                         webResponse.StatusCode, webResponse.StatusDescription);
                 }
             }
-            else {
-                operation.Complete(new WebException(webResponse.StatusDescription),
-                    webResponse.StatusCode, webResponse.StatusDescription);
+            catch (Exception e)
+            {
+                operation.Complete(null, new WebException(e.Message, e),
+                            webResponse.StatusCode, webResponse.StatusDescription);
             }
         }
     }

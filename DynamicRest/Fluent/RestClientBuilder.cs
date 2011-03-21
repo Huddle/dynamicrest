@@ -11,16 +11,24 @@ namespace DynamicRest.Fluent {
         string _body;
         string _acceptType;
         string _token;
+        bool _noAcceptHeader;
 
         public dynamic Build() {
             _contentType = _contentType ?? "application/xml";
             _acceptType = _acceptType ?? "application/xml";
+            if (_noAcceptHeader){
+                _acceptType = string.Empty;
+            }
 
             if(_requestBuilder == null) 
                 _requestBuilder = new HttpVerbRequestBuilder(new RequestFactory());
 
             if (_responseProcessor == null) {
                 var serviceType = _acceptType.Contains("xml") ? RestService.Xml : (_acceptType.Contains("json") ? RestService.Json : RestService.Binary);
+                if (_noAcceptHeader){
+                    serviceType = RestService.Xml;
+                }
+
                 this._responseProcessor = new ResponseProcessor(new StandardResultBuilder(serviceType));
             }
 
@@ -65,6 +73,11 @@ namespace DynamicRest.Fluent {
 
         public IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor) {
             _responseProcessor = responseProcessor;
+            return this;
+        }
+
+        public IRestClientBuilder WithNoAcceptHeader() {
+            _noAcceptHeader = true;
             return this;
         }
     }

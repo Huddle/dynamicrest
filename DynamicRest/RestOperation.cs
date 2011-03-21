@@ -73,15 +73,7 @@ namespace DynamicRest {
             _callbacks.Add(callback);
         }
 
-        internal void Complete(object result, HttpStatusCode statusCode, string statusMessage) {
-            Complete(result, null, statusCode, statusMessage);
-        }
-
-        internal void Complete(Exception error, HttpStatusCode statusCode, string statusMessage) {
-            Complete(null, error, statusCode, statusMessage);
-        }
-
-        private void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage) {
+        internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage) {
             _result = result;
             _error = error;
             _statusCode = statusCode;
