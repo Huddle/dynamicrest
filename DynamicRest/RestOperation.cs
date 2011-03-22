@@ -23,6 +23,7 @@ namespace DynamicRest {
         private bool _completed;
         private SynchronizationContext _syncContext;
         private List<RestCallback> _callbacks;
+        private WebHeaderCollection _responseHeaders;
 
         internal RestOperation() {
             _syncContext = SynchronizationContext.Current;
@@ -73,12 +74,13 @@ namespace DynamicRest {
             _callbacks.Add(callback);
         }
 
-        internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage) {
+        internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
             _result = result;
             _error = error;
             _statusCode = statusCode;
             _statusMessage = statusMessage;
             _completed = true;
+            _responseHeaders = headers;
 
             if (_callbacks != null) {
                 RestCallback[] callbacksCopy = _callbacks.ToArray();
@@ -99,6 +101,10 @@ namespace DynamicRest {
             foreach (RestCallback callback in callbacks) {
                 callback();
             }
+        }
+
+        public string GetResponseHeader(HttpResponseHeader headerType) {
+            return _responseHeaders[headerType];
         }
     }
 }

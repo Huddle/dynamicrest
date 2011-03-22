@@ -16,7 +16,7 @@ using DynamicRest.Json;
 namespace DynamicRest {
 
     public sealed class RestClient : DynamicObject {
-        
+    
         private readonly string _operationGroup;
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
@@ -115,7 +115,7 @@ namespace DynamicRest {
             }
             return true;
         }
-
+        
         public override bool TrySetMember(SetMemberBinder binder, object value) {
             _requestBuilder.ParametersStore.SetParameter(binder.Name, value);
             return true;
@@ -127,10 +127,6 @@ namespace DynamicRest {
                 return true;
             }
             return base.TryGetIndex(binder, indexes, out result);
-        }
-
-        public string this[HttpResponseHeader index] {
-            get { return _responseHeaders[index]; }
         }
     }
 }
