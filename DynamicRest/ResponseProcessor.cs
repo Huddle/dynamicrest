@@ -20,16 +20,16 @@ namespace DynamicRest {
                 try {
                     object result = _builder.ProcessResponse(responseStream);
                     operation.Complete(result,
-                        webResponse.StatusCode, webResponse.StatusDescription);
+                        webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
                 }
                 catch (Exception e) {
                     operation.Complete(new WebException(e.Message, e),
-                        webResponse.StatusCode, webResponse.StatusDescription);
+                        webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
                 }
             }
             else {
                 operation.Complete(new WebException(webResponse.StatusDescription),
-                    webResponse.StatusCode, webResponse.StatusDescription);
+                    webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
             }
         }
     }

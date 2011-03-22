@@ -71,7 +71,7 @@ namespace DynamicRest {
             }
             catch (WebException webException) {
                 var response = (HttpWebResponse)webException.Response;
-                operation.Complete(webException, response.StatusCode, response.StatusDescription);
+                operation.Complete(webException, response.StatusCode, response.StatusDescription, response.Headers);
             }
         }
 
@@ -114,7 +114,7 @@ namespace DynamicRest {
             }
             return true;
         }
-
+        
         public override bool TrySetMember(SetMemberBinder binder, object value) {
             _requestBuilder.ParametersStore.SetParameter(binder.Name, value);
             return true;
@@ -126,10 +126,6 @@ namespace DynamicRest {
                 return true;
             }
             return base.TryGetIndex(binder, indexes, out result);
-        }
-
-        public string this[HttpResponseHeader index] {
-            get { return _responseHeaders[index]; }
         }
     }
 }
