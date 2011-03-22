@@ -16,7 +16,7 @@ using DynamicRest.Json;
 namespace DynamicRest {
 
     public sealed class RestClient : DynamicObject {
-        
+    
         private readonly string _operationGroup;
         private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
@@ -71,7 +71,7 @@ namespace DynamicRest {
             }
             catch (WebException webException) {
                 var response = (HttpWebResponse)webException.Response;
-                responseProcessor.Process(response, operation, response.Headers);
+                responseProcessor.Process(response, operation);
                 _responseHeaders.Add(response.Headers);
             }
         }

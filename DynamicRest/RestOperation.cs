@@ -23,7 +23,6 @@ namespace DynamicRest {
         private bool _completed;
         private SynchronizationContext _syncContext;
         private List<RestCallback> _callbacks;
-
         private WebHeaderCollection _responseHeaders;
 
         internal RestOperation() {
@@ -102,6 +101,10 @@ namespace DynamicRest {
             foreach (RestCallback callback in callbacks) {
                 callback();
             }
+        }
+
+        public string GetResponseHeader(HttpResponseHeader headerType) {
+            return _responseHeaders[headerType];
         }
     }
 }
