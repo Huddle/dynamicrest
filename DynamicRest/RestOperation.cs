@@ -75,19 +75,7 @@ namespace DynamicRest {
             _callbacks.Add(callback);
         }
 
-        public string GetHeader(HttpResponseHeader headerType) {
-            return _responseHeaders[headerType];
-        }
-
-        internal void Complete(object result, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
-            Complete(result, null, statusCode, statusMessage, headers);
-        }
-
-        internal void Complete(Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
-            this.Complete(null, error, statusCode, statusMessage, headers);
-        }
-
-        private void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
+        internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
             _result = result;
             _error = error;
             _statusCode = statusCode;

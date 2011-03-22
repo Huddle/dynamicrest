@@ -71,7 +71,8 @@ namespace DynamicRest {
             }
             catch (WebException webException) {
                 var response = (HttpWebResponse)webException.Response;
-                operation.Complete(webException, response.StatusCode, response.StatusDescription, response.Headers);
+                responseProcessor.Process(response, operation, response.Headers);
+                _responseHeaders.Add(response.Headers);
             }
         }
 

@@ -11,5 +11,6 @@
         IRestClientBuilder WithAcceptHeader(string acceptType);
         IRestClientBuilder WithOAuth2Token(string token);
         IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor);
+        IRestClientBuilder WithNoAcceptHeader();
     }
 }
