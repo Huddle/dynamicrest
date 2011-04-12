@@ -133,8 +133,7 @@ namespace DynamicRest.UnitTests.RestClients {
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
-    public class When_the_autofollow_option_is_not_explicitly_set
-    {
+    public class When_the_autofollow_option_is_not_explicitly_set {
         private const string TestUri = "http://api.huddle.local/v2/tasks/123456";
         private static dynamic client;
         private static FakeHttpRequestFactory requestFactory;
