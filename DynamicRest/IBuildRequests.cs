@@ -11,6 +11,9 @@ namespace DynamicRest
         string Body { get; set; }
         ParametersStore ParametersStore { get; set; }
         ICredentials Credentials { set; }
+
+        bool AllowAutoRedirect { get; set; }
+
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
         void AddHeader(HttpRequestHeader headerType, string value);
         void SetOAuth2AuthorizationHeader(string oAuth2Token);

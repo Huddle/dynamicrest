@@ -35,6 +35,8 @@ namespace DynamicRest.UnitTests.Fluent {
             fakeHttpRequestFactory.CreatedRequest.ContentType.ShouldEqual("application/xml");
         It should_have_xml_as_accept = () => 
             fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
+        It should_have_the_allow_auto_redirect_flag_set_to_false = () => 
+            fakeHttpRequestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(false);
     }
 
     [Subject(typeof(RestClientBuilder))]
@@ -59,6 +61,7 @@ namespace DynamicRest.UnitTests.Fluent {
                 .WithBody("My body")
                 .WithAcceptHeader("application/xml") 
                 .WithResponseProcessor(new ResponseProcessor(new StandardResultBuilder(RestService.Xml)))
+                .WithAutoRedirect(true)
                 .Build();
 
             _builtClient.Post();
@@ -66,17 +69,15 @@ namespace DynamicRest.UnitTests.Fluent {
 
         It should_have_the_correct_content_type_header = () =>
             fakeHttpRequestFactory.CreatedRequest.ContentType.ShouldEqual("application/vnd.data+xml");
-
         It should_have_the_correct_uri = () => 
             fakeHttpRequestFactory.CreatedRequest.RequestURI.ShouldEqual(new Uri("http://www.google.com"));
-
         It should_have_the_correct_body = () =>
             fakeHttpRequestFactory.CreatedRequest.RequestBody.ShouldEqual("My body");
-
-        It should_have_the_correct_accept_header =
-            () => fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
-
-        It should_have_the_correct_token =
-            () => fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual("OAuth2 token");
+        It should_have_the_correct_accept_header = () => 
+            fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
+        It should_have_the_correct_token = () => 
+            fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual("OAuth2 token");
+        It should_have_the_allow_auto_redirect_flag_set_to_false = () =>
+            fakeHttpRequestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(true);
     }
 }

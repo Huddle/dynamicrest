@@ -11,6 +11,7 @@ namespace DynamicRest {
         private readonly TemplatedUriBuilder _uriBuilder = new TemplatedUriBuilder();
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
         private IRestUriTransformer _uriTransformer;
+        private bool _allowAutoRedirect;
 
         public string Uri { private get; set; }
         public string ContentType { get; set; }
@@ -18,6 +19,7 @@ namespace DynamicRest {
         public string AcceptHeader { get; set; }
         public ParametersStore ParametersStore { get; set; }
         public ICredentials Credentials { private get; set; }
+        public bool AllowAutoRedirect { get; set; }
 
         public TemplatedUriRequestBuilder(IHttpRequestFactory requestFactory)
         {
@@ -35,6 +37,7 @@ namespace DynamicRest {
             webRequest.AddCredentials(Credentials);
             webRequest.Accept = AcceptHeader;
             webRequest.AddRequestBody(ContentType, Body);
+            webRequest.AllowAutoRedirect = _allowAutoRedirect;
  
             return webRequest;
         }
@@ -52,7 +55,7 @@ namespace DynamicRest {
         }
 
         private Uri BuildUri(string operationName, JsonObject parameters) {
-           _uriBuilder.ParametersStore = ParametersStore;
+            _uriBuilder.ParametersStore = ParametersStore;
             _uriBuilder.UriTemplate = this.Uri;
             _uriBuilder.SetUriTransformer(_uriTransformer);
             return _uriBuilder.CreateRequestUri(operationName, parameters);

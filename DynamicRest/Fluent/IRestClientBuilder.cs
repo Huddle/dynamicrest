@@ -12,5 +12,6 @@
         IRestClientBuilder WithOAuth2Token(string token);
         IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor);
         IRestClientBuilder WithNoAcceptHeader();
+        IRestClientBuilder WithAutoRedirect(bool autoRedirect);
     }
 }
