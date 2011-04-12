@@ -1,6 +1,4 @@
-﻿using System;
-
-using DynamicRest.HTTPInterfaces.WebWrappers;
+﻿using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace DynamicRest.Fluent {
 
@@ -67,7 +65,6 @@ namespace DynamicRest.Fluent {
         public IRestClientBuilder WithAcceptHeader(string acceptType) {
             _acceptType = acceptType;
             return this;
-
         }
 
         public IRestClientBuilder WithOAuth2Token(string token) {
