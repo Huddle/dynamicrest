@@ -20,6 +20,8 @@ namespace DynamicRest.UnitTests.TestDoubles
 
         public string Accept { get; set; }
         public string ContentType { get; private set; }
+        public bool AllowAutoRedirect { get; set; }
+
         public HttpVerb HttpVerb { get; set; }
 
         public WebHeaderCollection Headers {

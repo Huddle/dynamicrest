@@ -47,6 +47,11 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             }
         }
 
+        public bool AllowAutoRedirect {
+            get { return _webrequest.AllowAutoRedirect; }
+            set { _webrequest.AllowAutoRedirect = value; }
+        }
+
         public void AddCredentials(ICredentials credentials) {
             _webrequest.Credentials = credentials;
         }
@@ -77,7 +82,5 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
         public IHttpResponse GetResponse() {
             return new HttpWebResponseWrapper(_webrequest.GetResponse() as HttpWebResponse);
         }
-
-  
     }
 }

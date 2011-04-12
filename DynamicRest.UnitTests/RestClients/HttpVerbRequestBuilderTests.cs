@@ -93,4 +93,42 @@ namespace DynamicRest.UnitTests.RestClients {
         It should_set_the_body_of_the_request = () => _requestFactory.CreatedRequest.RequestBody.ShouldEqual(_requestBody);
         It should_set_the_content_type_of_the_request = () => _requestFactory.CreatedRequest.ContentType.ShouldEqual(ContentType);
     }
+
+    [Subject(typeof(HttpVerbRequestBuilder))]
+    public class When_the_autofollow_option_is_set_to_true {
+        private const string TestUri = "http://api.huddle.local/v2/tasks/123456";
+        private static dynamic client;
+        private static FakeHttpRequestFactory requestFactory;
+
+        Establish context = () =>
+        {
+            requestFactory = new FakeHttpRequestFactory();
+
+            var httpVerbRequestBuilder = new HttpVerbRequestBuilder(requestFactory) { Uri = TestUri, AllowAutoRedirect = true };
+            client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
+        };
+
+        Because we_make_get_call_to_an_api_via_rest_client = () => client.Get();
+
+        It should_set_the_auto_follow_option_to_true_on_the_request = () => requestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(true);
+    }
+
+    [Subject(typeof(HttpVerbRequestBuilder))]
+    public class When_the_autofollow_option_is_set_to_false {
+        private const string TestUri = "http://api.huddle.local/v2/tasks/123456";
+        private static dynamic client;
+        private static FakeHttpRequestFactory requestFactory;
+
+        Establish context = () =>
+        {
+            requestFactory = new FakeHttpRequestFactory();
+
+            var httpVerbRequestBuilder = new HttpVerbRequestBuilder(requestFactory) { Uri = TestUri, AllowAutoRedirect = false };
+            client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
+        };
+
+        Because we_make_get_call_to_an_api_via_rest_client = () => client.Get();
+
+        It should_set_the_auto_follow_option_to_false_on_the_request = () => requestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(false);
+    }
 }
