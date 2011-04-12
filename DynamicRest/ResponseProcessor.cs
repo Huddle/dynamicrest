@@ -30,7 +30,7 @@ namespace DynamicRest {
             }
             catch(Exception e) {
                 operation.Complete(null, new WebException(e.Message, e),
-                            webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
+                    webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
             }
         }
 
@@ -51,7 +51,7 @@ namespace DynamicRest {
             }
             catch (Exception e) {
                 operation.Complete(null, new WebException(e.Message, e),
-                            webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
+                    webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
             }
         }
     }
