@@ -131,4 +131,24 @@ namespace DynamicRest.UnitTests.RestClients {
 
         It should_set_the_auto_follow_option_to_false_on_the_request = () => requestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(false);
     }
+
+    [Subject(typeof(HttpVerbRequestBuilder))]
+    public class When_the_autofollow_option_is_not_explicitly_set
+    {
+        private const string TestUri = "http://api.huddle.local/v2/tasks/123456";
+        private static dynamic client;
+        private static FakeHttpRequestFactory requestFactory;
+
+        Establish context = () =>
+        {
+            requestFactory = new FakeHttpRequestFactory();
+
+            var httpVerbRequestBuilder = new HttpVerbRequestBuilder(requestFactory) { Uri = TestUri };
+            client = new RestClient(httpVerbRequestBuilder, new ResponseProcessor(new StandardResultBuilder(RestService.Xml)));
+        };
+
+        Because we_make_get_call_to_an_api_via_rest_client = () => client.Get();
+
+        It should_default_the_auto_follow_option_to_false_on_the_request = () => requestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(false);
+    }
 }
