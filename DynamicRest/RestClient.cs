@@ -11,6 +11,7 @@ using System;
 using System.Dynamic;
 using System.Net;
 using DynamicRest.HTTPInterfaces;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 using DynamicRest.Json;
 
 namespace DynamicRest {
@@ -71,7 +72,8 @@ namespace DynamicRest {
             }
             catch (WebException webException) {
                 var response = (HttpWebResponse)webException.Response;
-                responseProcessor.Process(response, operation);
+                var responseWrapper = new HttpWebResponseWrapper(response);
+                responseProcessor.Process(responseWrapper, operation);
                 _responseHeaders.Add(response.Headers);
             }
         }
