@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Net;
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
@@ -37,7 +38,6 @@ namespace DynamicRest {
             webRequest.Accept = AcceptHeader;
             webRequest.AddRequestBody(ContentType, Body);
             webRequest.AllowAutoRedirect = AllowAutoRedirect;
-
             return webRequest;
         }
 

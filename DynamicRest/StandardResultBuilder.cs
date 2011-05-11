@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
 using DynamicRest.Json;
 using DynamicRest.Xml;
@@ -38,6 +39,8 @@ namespace DynamicRest {
             dynamic result = null;
             try {
                 var responseText = (new StreamReader(responseStream)).ReadToEnd();
+                Debug.WriteLine("-- RESPONSE");
+                Debug.WriteLine(responseText);
                 result = CreateResult(responseText);
             }
             catch {}
