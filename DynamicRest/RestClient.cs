@@ -42,9 +42,6 @@ namespace DynamicRest {
 
             var operation = new RestOperation();
 
-            Debug.WriteLine("-- REQUEST");
-            Debug.WriteLine(_requestBuilder.Body);
-
             IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
             
             InterpretResponse(responseProcessor, operation, () => webRequest.GetResponse());
@@ -75,7 +72,6 @@ namespace DynamicRest {
                 _responseHeaders.Add(webResponse.Headers);
             }
             catch (WebException webException) {
-                Debug.WriteLine(webException);
                 var response = (HttpWebResponse)webException.Response;
                 var responseWrapper = new HttpWebResponseWrapper(response);
                 responseProcessor.Process(responseWrapper, operation);

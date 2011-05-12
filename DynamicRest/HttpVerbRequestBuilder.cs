@@ -22,7 +22,7 @@ namespace DynamicRest {
         public string Body { get; set; }
         public string ContentType { get; set; }
         public ICredentials Credentials { private get; set; }
-        public string Uri { private get; set; }
+        public string Uri { get; set; }
         public string AcceptHeader { get; set; }
         public bool AllowAutoRedirect { get; set; }
 
