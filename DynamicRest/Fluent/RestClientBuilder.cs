@@ -1,4 +1,5 @@
-﻿using DynamicRest.HTTPInterfaces.WebWrappers;
+﻿using System.Net;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace DynamicRest.Fluent {
 
@@ -13,6 +14,7 @@ namespace DynamicRest.Fluent {
         string _token;
         bool _noAcceptHeader;
         private bool _autoRedirect;
+        private string _acceptEncodingType;
 
         public dynamic Build() {
             _contentType = _contentType ?? "application/xml";
@@ -39,6 +41,8 @@ namespace DynamicRest.Fluent {
             _requestBuilder.Body = _body;
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
             _requestBuilder.AllowAutoRedirect = _autoRedirect;
+            if(!string.IsNullOrEmpty(_acceptEncodingType))
+                _requestBuilder.AddHeader(HttpRequestHeader.AcceptEncoding, _acceptEncodingType);
             return new RestClient(_requestBuilder, _responseProcessor);
         }
 
@@ -64,6 +68,12 @@ namespace DynamicRest.Fluent {
 
         public IRestClientBuilder WithAcceptHeader(string acceptType) {
             _acceptType = acceptType;
+            return this;
+        }
+
+        public IRestClientBuilder WithAcceptEncodingHeader(string acceptEncodingType)
+        {
+            _acceptEncodingType = acceptEncodingType;
             return this;
         }
 

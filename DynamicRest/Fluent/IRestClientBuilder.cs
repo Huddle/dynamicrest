@@ -13,5 +13,6 @@
         IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor);
         IRestClientBuilder WithNoAcceptHeader();
         IRestClientBuilder WithAutoRedirect(bool autoRedirect);
+        IRestClientBuilder WithAcceptEncodingHeader(string acceptEncodingType);
     }
 }

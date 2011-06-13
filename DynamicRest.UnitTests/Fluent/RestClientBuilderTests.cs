@@ -61,6 +61,7 @@ namespace DynamicRest.UnitTests.Fluent {
                 .WithAcceptHeader("application/xml") 
                 .WithResponseProcessor(new ResponseProcessor(new StandardResultBuilder(RestService.Xml)))
                 .WithAutoRedirect(true)
+                .WithAcceptEncodingHeader("gzip")
                 .Build();
 
             builtClient.Post();
@@ -78,5 +79,7 @@ namespace DynamicRest.UnitTests.Fluent {
             fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual("OAuth2 token");
         It should_have_the_allow_auto_redirect_flag_set_to_false = () =>
             fakeHttpRequestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(true);
+        It should_have_the_accept_encode_header = () =>
+            fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.AcceptEncoding].ShouldEqual("gzip");
     }
 }
