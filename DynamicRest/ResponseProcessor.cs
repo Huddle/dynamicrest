@@ -37,7 +37,7 @@ namespace DynamicRest
             catch(Exception e) 
             {
                 operation.Complete(null, new WebException(e.Message, e),
-                    webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers, string.Empty);
+                    webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
             }
         }
 
@@ -56,19 +56,17 @@ namespace DynamicRest
 
         private void ProcessResponseStream(IHttpResponse webResponse, Stream responseStream, RestOperation operation)
         {
-            var responseText = (new StreamReader(responseStream)).ReadToEnd();
-
             if (webResponse.StatusCode == HttpStatusCode.OK || webResponse.StatusCode == HttpStatusCode.Created) 
             {
                 object result = _builder.ProcessResponse(responseStream);
                 operation.Complete(result, null,
-                                   webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers, responseText);
+                                   webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
             }
             else 
             {
                 object result = _builder.ProcessResponse(responseStream);
                 operation.Complete(result, new WebException(webResponse.StatusDescription),
-                                   webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers, responseText);
+                                   webResponse.StatusCode, webResponse.StatusDescription, webResponse.Headers);
             }
         }
     }
