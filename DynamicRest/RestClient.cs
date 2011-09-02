@@ -20,9 +20,9 @@ namespace DynamicRest {
     public sealed class RestClient : DynamicObject {
     
         private readonly string _operationGroup;
-        private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
+        private readonly WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
-        private IProcessResponses _responseProcessor;
+        private readonly IProcessResponses _responseProcessor;
 
         public RestClient(IBuildRequests requestBuilder, IProcessResponses responseProcessor) {
             _responseProcessor = responseProcessor;

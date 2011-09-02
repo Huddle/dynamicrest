@@ -11,6 +11,16 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             this.webResponse = webResponse;
         }
 
+        public string ContentEncoding
+        {
+            get { return webResponse.ContentEncoding; }
+        }
+
+        public long ContentLength
+        {
+            get { return webResponse.ContentLength; }
+        }
+
         public WebHeaderCollection Headers {
             get {
                 return webResponse.Headers;

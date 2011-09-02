@@ -1,4 +1,6 @@
-﻿namespace DynamicRest.Fluent {
+﻿using DynamicRest.HTTPInterfaces;
+
+namespace DynamicRest.Fluent {
 
     public interface IRestClientBuilder {
 

@@ -54,6 +54,5 @@ namespace DynamicRest.Xml {
             if (input.value == "1") return true;
             return bool.Parse(input.value);
         }
-       
     }
 }

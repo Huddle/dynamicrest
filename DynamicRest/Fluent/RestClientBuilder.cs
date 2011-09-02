@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using DynamicRest.HTTPInterfaces;
 using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace DynamicRest.Fluent {
@@ -23,8 +24,9 @@ namespace DynamicRest.Fluent {
                 _acceptType = string.Empty;
             }
 
-            if(_requestBuilder == null) 
+            if (_requestBuilder == null) {
                 _requestBuilder = new HttpVerbRequestBuilder(new RequestFactory());
+            }
 
             if (_responseProcessor == null) {
                 var serviceType = _acceptType.Contains("xml") ? RestService.Xml : (_acceptType.Contains("json") ? RestService.Json : RestService.Binary);
