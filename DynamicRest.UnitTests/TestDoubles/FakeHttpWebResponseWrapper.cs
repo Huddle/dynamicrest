@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Serialization;
 using DynamicRest.HTTPInterfaces;
 
 namespace DynamicRest.UnitTests.TestDoubles
@@ -26,7 +27,7 @@ namespace DynamicRest.UnitTests.TestDoubles
 
         public long ContentLength
         {
-            get { return _contentLength; }
+            get { return _responseContent.ContentLength; }
         }
 
         public WebHeaderCollection Headers {
@@ -62,12 +63,18 @@ namespace DynamicRest.UnitTests.TestDoubles
             private ResponseContentType _contentType;
             private object _graph;
             private Type _graphRootType;
+            private long _contentLength = 0;
 
             public ResponseContent(){}
 
             public ResponseContent(string contentEncoding)
             {
                 _contentEncoding = contentEncoding;
+            }
+
+            public long ContentLength
+            {
+                get { return _contentLength; }
             }
 
             public string ContentEncoding
@@ -98,9 +105,12 @@ namespace DynamicRest.UnitTests.TestDoubles
 
             private Stream GetSerializedObjectResponseStream()
             {
-                var serializer = new DataContractSerializer(_graphRootType);
+                var serializer = new XmlSerializer(_graphRootType);
                 Stream stream = new MemoryStream();
-                serializer.WriteObject(stream, _graph);
+                serializer.Serialize(stream, _graph);
+
+                _contentLength = stream.Length;
+
                 stream.Position = 0;
                 return stream;
             }
@@ -108,6 +118,8 @@ namespace DynamicRest.UnitTests.TestDoubles
             private Stream GetRawContentResponseStream()
             {
                 byte[] bytes = GetBytes();
+
+                _contentLength = bytes.Length;
 
                 var responseStream = new MemoryStream();
 
