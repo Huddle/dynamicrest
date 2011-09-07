@@ -54,6 +54,11 @@ namespace DynamicRest.Xml {
             if (input.value == "1") return true;
             return bool.Parse(input.value);
         }
+
+        public static implicit operator string(XmlString input)
+        {
+            return input.value;
+        }
        
     }
 }
