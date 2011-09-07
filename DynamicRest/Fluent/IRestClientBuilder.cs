@@ -1,4 +1,6 @@
-﻿namespace DynamicRest.Fluent {
+﻿using DynamicRest.HTTPInterfaces;
+
+namespace DynamicRest.Fluent {
 
     public interface IRestClientBuilder {
 
@@ -12,5 +14,7 @@
         IRestClientBuilder WithOAuth2Token(string token);
         IRestClientBuilder WithResponseProcessor(IProcessResponses responseProcessor);
         IRestClientBuilder WithNoAcceptHeader();
+        IRestClientBuilder WithAutoRedirect(bool autoRedirect);
+        IRestClientBuilder WithAcceptEncodingHeader(string acceptEncodingType);
     }
 }

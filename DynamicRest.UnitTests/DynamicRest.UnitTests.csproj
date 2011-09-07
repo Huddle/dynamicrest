@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
     <Compile Include="Fluent\RestClientBuilderTests.cs" />
     <Compile Include="Json\JsonResponsesTest.cs" />
     <Compile Include="RestClients\HttpVerbRequestBuilderTests.cs" />
+    <Compile Include="Simulators\ResponseSimulatorTests.cs" />
     <Compile Include="TestDoubles\FakeHttpWebRequestWrapper.cs" />
     <Compile Include="RestClients\TemplatedUriRequestBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

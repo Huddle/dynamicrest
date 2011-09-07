@@ -106,5 +106,10 @@ namespace DynamicRest {
         public string GetResponseHeader(HttpResponseHeader headerType) {
             return _responseHeaders[headerType];
         }
+
+        public string GetResponseHeader(string headername)
+        {
+            return _responseHeaders[headername];
+        }
     }
 }

@@ -1,7 +1,7 @@
 **/bin/*
 **/obj/*
 *.suo
-*.csproj.user
 *.StyleCop
 *.ReSharper*
+*.user
 _ReSharper*/*

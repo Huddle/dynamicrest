@@ -1,4 +1,6 @@
-﻿using DynamicRest.HTTPInterfaces.WebWrappers;
+﻿using System.Net;
+using DynamicRest.HTTPInterfaces;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace DynamicRest.Fluent {
 
@@ -12,6 +14,8 @@ namespace DynamicRest.Fluent {
         string _acceptType;
         string _token;
         bool _noAcceptHeader;
+        private bool _autoRedirect;
+        private string _acceptEncodingType;
 
         public dynamic Build() {
             _contentType = _contentType ?? "application/xml";
@@ -20,8 +24,9 @@ namespace DynamicRest.Fluent {
                 _acceptType = string.Empty;
             }
 
-            if(_requestBuilder == null) 
+            if (_requestBuilder == null) {
                 _requestBuilder = new HttpVerbRequestBuilder(new RequestFactory());
+            }
 
             if (_responseProcessor == null) {
                 var serviceType = _acceptType.Contains("xml") ? RestService.Xml : (_acceptType.Contains("json") ? RestService.Json : RestService.Binary);
@@ -37,6 +42,9 @@ namespace DynamicRest.Fluent {
             _requestBuilder.AcceptHeader = _acceptType;
             _requestBuilder.Body = _body;
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
+            _requestBuilder.AllowAutoRedirect = _autoRedirect;
+            if(!string.IsNullOrEmpty(_acceptEncodingType))
+                _requestBuilder.AddHeader(HttpRequestHeader.AcceptEncoding, _acceptEncodingType);
             return new RestClient(_requestBuilder, _responseProcessor);
         }
 
@@ -63,7 +71,12 @@ namespace DynamicRest.Fluent {
         public IRestClientBuilder WithAcceptHeader(string acceptType) {
             _acceptType = acceptType;
             return this;
+        }
 
+        public IRestClientBuilder WithAcceptEncodingHeader(string acceptEncodingType)
+        {
+            _acceptEncodingType = acceptEncodingType;
+            return this;
         }
 
         public IRestClientBuilder WithOAuth2Token(string token) {
@@ -78,6 +91,11 @@ namespace DynamicRest.Fluent {
 
         public IRestClientBuilder WithNoAcceptHeader() {
             _noAcceptHeader = true;
+            return this;
+        }
+
+        public IRestClientBuilder WithAutoRedirect(bool autoRedirect) {
+            _autoRedirect = autoRedirect;
             return this;
         }
     }

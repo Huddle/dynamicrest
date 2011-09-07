@@ -8,9 +8,11 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Net;
 using DynamicRest.HTTPInterfaces;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 using DynamicRest.Json;
 
 namespace DynamicRest {
@@ -18,9 +20,9 @@ namespace DynamicRest {
     public sealed class RestClient : DynamicObject {
     
         private readonly string _operationGroup;
-        private WebHeaderCollection _responseHeaders = new WebHeaderCollection();
+        private readonly WebHeaderCollection _responseHeaders = new WebHeaderCollection();
         private readonly IBuildRequests _requestBuilder;
-        private IProcessResponses _responseProcessor;
+        private readonly IProcessResponses _responseProcessor;
 
         public RestClient(IBuildRequests requestBuilder, IProcessResponses responseProcessor) {
             _responseProcessor = responseProcessor;
@@ -41,7 +43,7 @@ namespace DynamicRest {
             var operation = new RestOperation();
 
             IHttpRequest webRequest = _requestBuilder.CreateRequest(operationName, argsObject);
-
+            
             InterpretResponse(responseProcessor, operation, () => webRequest.GetResponse());
             
             return operation;
@@ -71,7 +73,8 @@ namespace DynamicRest {
             }
             catch (WebException webException) {
                 var response = (HttpWebResponse)webException.Response;
-                responseProcessor.Process(response, operation);
+                var responseWrapper = new HttpWebResponseWrapper(response);
+                responseProcessor.Process(responseWrapper, operation);
                 _responseHeaders.Add(response.Headers);
             }
         }

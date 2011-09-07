@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace DynamicRest.HTTPInterfaces.WebWrappers {
+namespace DynamicRest.HTTPInterfaces.HttpWebRequestWrappers {
 
     public class HttpWebResponseWrapper : IHttpResponse {
 
@@ -9,16 +9,6 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
 
         public HttpWebResponseWrapper(HttpWebResponse webResponse) {
             this.webResponse = webResponse;
-        }
-
-        public string ContentEncoding
-        {
-            get { return webResponse.ContentEncoding; }
-        }
-
-        public long ContentLength
-        {
-            get { return webResponse.ContentLength; }
         }
 
         public WebHeaderCollection Headers {

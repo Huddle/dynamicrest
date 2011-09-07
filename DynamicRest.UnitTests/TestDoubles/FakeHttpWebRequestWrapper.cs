@@ -9,6 +9,7 @@ namespace DynamicRest.UnitTests.TestDoubles
 
         private readonly Uri _uri;
         private WebHeaderCollection _headers;
+        private IHttpResponse _response;
 
         public FakeHttpWebRequestWrapper(Uri uri) {
             _uri = uri;
@@ -20,6 +21,8 @@ namespace DynamicRest.UnitTests.TestDoubles
 
         public string Accept { get; set; }
         public string ContentType { get; private set; }
+        public bool AllowAutoRedirect { get; set; }
+
         public HttpVerb HttpVerb { get; set; }
 
         public WebHeaderCollection Headers {
@@ -29,6 +32,13 @@ namespace DynamicRest.UnitTests.TestDoubles
         }
 
         public string RequestBody { get; private set; }
+
+        public IHttpResponse Response
+        {
+            set {
+                _response = value;
+            }
+        }
 
         public void AddCredentials(ICredentials credentials) {
 
@@ -48,11 +58,11 @@ namespace DynamicRest.UnitTests.TestDoubles
         }
 
         public IHttpResponse EndGetResponse(object asyncRequest) {
-            return new FakeHttpWebResponseWrapper();
+            return _response ?? new FakeHttpWebResponseWrapper();
         }
 
         public IHttpResponse GetResponse() {
-            return new FakeHttpWebResponseWrapper();
+            return _response ?? new FakeHttpWebResponseWrapper();
         }
 
         public Stream GetRequestStream() {

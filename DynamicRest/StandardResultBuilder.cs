@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
 using DynamicRest.Json;
 using DynamicRest.Xml;
@@ -6,8 +8,7 @@ using DynamicRest.Xml;
 namespace DynamicRest {
 
     public class StandardResultBuilder : IBuildDynamicResults {
-
-        RestService _serviceType;
+        readonly RestService _serviceType;
 
         public StandardResultBuilder(RestService serviceType) {
             _serviceType = serviceType;

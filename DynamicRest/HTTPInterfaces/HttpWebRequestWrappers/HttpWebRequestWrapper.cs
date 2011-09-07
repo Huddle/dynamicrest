@@ -2,10 +2,9 @@
 using System.IO;
 using System.Net;
 using System.Text;
-
 using DynamicRest.Helpers;
 
-namespace DynamicRest.HTTPInterfaces.WebWrappers {
+namespace DynamicRest.HTTPInterfaces.HttpWebRequestWrappers {
 
     public class HttpWebRequestWrapper : IHttpRequest {
 

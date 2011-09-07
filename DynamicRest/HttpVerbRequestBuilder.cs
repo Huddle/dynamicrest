@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Net;
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
@@ -21,8 +22,9 @@ namespace DynamicRest {
         public string Body { get; set; }
         public string ContentType { get; set; }
         public ICredentials Credentials { private get; set; }
-        public string Uri { private get; set; }
+        public string Uri { get; set; }
         public string AcceptHeader { get; set; }
+        public bool AllowAutoRedirect { get; set; }
 
         public IHttpRequest CreateRequest(string operationName, JsonObject parameters) {
             if (string.IsNullOrEmpty(Uri)) {
@@ -35,7 +37,7 @@ namespace DynamicRest {
             webRequest.AddCredentials(Credentials);
             webRequest.Accept = AcceptHeader;
             webRequest.AddRequestBody(ContentType, Body);
-
+            webRequest.AllowAutoRedirect = AllowAutoRedirect;
             return webRequest;
         }
 
