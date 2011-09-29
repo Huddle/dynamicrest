@@ -12,6 +12,7 @@ namespace DynamicRest {
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
         private IRestUriTransformer _uriTransformer;
         private bool _allowAutoRedirect;
+        DateTime? _ifModifiedSince;
 
         public string Uri { private get; set; }
         public string ContentType { get; set; }
@@ -39,6 +40,11 @@ namespace DynamicRest {
             webRequest.AddRequestBody(ContentType, Body);
             webRequest.AllowAutoRedirect = _allowAutoRedirect;
  
+            if(_ifModifiedSince.HasValue)
+            {
+                ((HttpWebRequest)webRequest).IfModifiedSince = _ifModifiedSince.Value;
+            }
+
             return webRequest;
         }
 
@@ -48,6 +54,11 @@ namespace DynamicRest {
 
         public void SetOAuth2AuthorizationHeader(string oAuth2Token) {
             _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
+        }
+
+        public void IfModifiedSince(DateTime ifModifiedSince)
+        {
+            _ifModifiedSince = ifModifiedSince;
         }
 
         public void SetUriTransformer(IRestUriTransformer uriTransformer) {

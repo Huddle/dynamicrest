@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
+using DynamicRest.HTTPInterfaces.WebWrappers;
 using DynamicRest.Json;
 
 namespace DynamicRest {
@@ -11,6 +12,7 @@ namespace DynamicRest {
 
         private readonly IHttpRequestFactory _requestFactory;
         private readonly WebHeaderCollection _headers = new WebHeaderCollection();
+        DateTime? _ifModifiedSince;
 
         public HttpVerbRequestBuilder(IHttpRequestFactory requestFactory) {
             _requestFactory = requestFactory;
@@ -38,14 +40,26 @@ namespace DynamicRest {
             webRequest.Accept = AcceptHeader;
             webRequest.AddRequestBody(ContentType, Body);
             webRequest.AllowAutoRedirect = AllowAutoRedirect;
+            if(_ifModifiedSince.HasValue)
+            {
+                ((HttpWebRequestWrapper)webRequest).IfModifiedSince = _ifModifiedSince.Value;
+            }
+
             return webRequest;
         }
 
-        public void SetOAuth2AuthorizationHeader(string oAuth2Token) {
+        public void SetOAuth2AuthorizationHeader(string oAuth2Token) 
+        {
             _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
         }
 
-        public void AddHeader(HttpRequestHeader headerType, string value) {
+        public void IfModifiedSince(DateTime ifModifiedSince)
+        {
+            _ifModifiedSince = ifModifiedSince;
+        }
+
+        public void AddHeader(HttpRequestHeader headerType, string value) 
+        {
             _headers.Add(headerType, value);
         }
     }

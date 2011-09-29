@@ -1,5 +1,6 @@
-﻿using System.Net;
-using DynamicRest.HTTPInterfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using DynamicRest.HTTPInterfaces.WebWrappers;
 
 namespace DynamicRest.Fluent {
@@ -16,6 +17,13 @@ namespace DynamicRest.Fluent {
         bool _noAcceptHeader;
         private bool _autoRedirect;
         private string _acceptEncodingType;
+        Dictionary<HttpRequestHeader, string> _headers;
+        DateTime? _ifModifiedSince;
+
+        public RestClientBuilder()
+        {
+            _headers = new Dictionary<HttpRequestHeader, string>();
+        }
 
         public dynamic Build() {
             _contentType = _contentType ?? "application/xml";
@@ -44,7 +52,20 @@ namespace DynamicRest.Fluent {
             _requestBuilder.SetOAuth2AuthorizationHeader(_token);
             _requestBuilder.AllowAutoRedirect = _autoRedirect;
             if(!string.IsNullOrEmpty(_acceptEncodingType))
+            {
                 _requestBuilder.AddHeader(HttpRequestHeader.AcceptEncoding, _acceptEncodingType);
+            }
+
+            if(_ifModifiedSince.HasValue)
+            {
+                _requestBuilder.IfModifiedSince(_ifModifiedSince.Value);
+            }
+
+            foreach (var header in _headers)
+            {
+                _requestBuilder.AddHeader(header.Key, header.Value);
+            }
+
             return new RestClient(_requestBuilder, _responseProcessor);
         }
 
@@ -79,6 +100,12 @@ namespace DynamicRest.Fluent {
             return this;
         }
 
+        public IRestClientBuilder WithIfModifiedSinceDate(DateTime ifModifiedSince)
+        {
+            _ifModifiedSince = ifModifiedSince;
+            return this;
+        }
+
         public IRestClientBuilder WithOAuth2Token(string token) {
             _token = token;
             return this;
@@ -96,6 +123,12 @@ namespace DynamicRest.Fluent {
 
         public IRestClientBuilder WithAutoRedirect(bool autoRedirect) {
             _autoRedirect = autoRedirect;
+            return this;
+        }
+
+        public IRestClientBuilder WithHeaders(Dictionary<HttpRequestHeader, string> headers)
+        {
+            _headers = headers;
             return this;
         }
     }

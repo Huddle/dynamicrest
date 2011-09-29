@@ -1,4 +1,6 @@
-﻿using DynamicRest.HTTPInterfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace DynamicRest.Fluent {
 
@@ -16,5 +18,7 @@ namespace DynamicRest.Fluent {
         IRestClientBuilder WithNoAcceptHeader();
         IRestClientBuilder WithAutoRedirect(bool autoRedirect);
         IRestClientBuilder WithAcceptEncodingHeader(string acceptEncodingType);
+        IRestClientBuilder WithIfModifiedSinceDate(DateTime ifModifiedSince);
+        IRestClientBuilder WithHeaders(Dictionary<HttpRequestHeader, string> headers);
     }
 }

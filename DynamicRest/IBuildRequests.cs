@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using DynamicRest.HTTPInterfaces;
 using DynamicRest.Json;
 
@@ -15,5 +16,6 @@ namespace DynamicRest
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
         void AddHeader(HttpRequestHeader headerType, string value);
         void SetOAuth2AuthorizationHeader(string oAuth2Token);
+        void IfModifiedSince(DateTime ifModifiedSince);
     }
 }

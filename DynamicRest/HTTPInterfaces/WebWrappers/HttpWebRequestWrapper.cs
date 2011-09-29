@@ -52,6 +52,12 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             set { _webrequest.AllowAutoRedirect = value; }
         }
 
+        public DateTime IfModifiedSince
+        {
+            get { return _webrequest.IfModifiedSince; }
+            set { _webrequest.IfModifiedSince = value; }
+        }
+
         public void AddCredentials(ICredentials credentials) {
             _webrequest.Credentials = credentials;
         }
