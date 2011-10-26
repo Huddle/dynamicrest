@@ -20,5 +20,6 @@ namespace DynamicRest.Fluent {
         IRestClientBuilder WithAcceptEncodingHeader(string acceptEncodingType);
         IRestClientBuilder WithIfModifiedSinceDate(DateTime ifModifiedSince);
         IRestClientBuilder WithHeaders(Dictionary<HttpRequestHeader, string> headers);
+        IRestClientBuilder WithCustomHeaders(Dictionary<string, string> headers);
     }
 }
