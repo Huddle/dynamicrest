@@ -15,6 +15,7 @@ namespace DynamicRest
         bool AllowAutoRedirect { get; set; }
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
         void AddHeader(HttpRequestHeader headerType, string value);
+        void AddCustomHeader(string headerKey, string value);
         void SetOAuth2AuthorizationHeader(string oAuth2Token);
         void IfModifiedSince(DateTime ifModifiedSince);
     }

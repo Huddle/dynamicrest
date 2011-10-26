@@ -18,11 +18,13 @@ namespace DynamicRest.Fluent {
         private bool _autoRedirect;
         private string _acceptEncodingType;
         Dictionary<HttpRequestHeader, string> _headers;
+        Dictionary<string, string> _customHeaders;
         DateTime? _ifModifiedSince;
 
         public RestClientBuilder()
         {
             _headers = new Dictionary<HttpRequestHeader, string>();
+            _customHeaders = new Dictionary<string, string>();
         }
 
         public dynamic Build() {
@@ -64,6 +66,11 @@ namespace DynamicRest.Fluent {
             foreach (var header in _headers)
             {
                 _requestBuilder.AddHeader(header.Key, header.Value);
+            }
+
+            foreach (var header in _customHeaders)
+            {
+                _requestBuilder.AddCustomHeader(header.Key, header.Value);
             }
 
             return new RestClient(_requestBuilder, _responseProcessor);
@@ -128,8 +135,21 @@ namespace DynamicRest.Fluent {
 
         public IRestClientBuilder WithHeaders(Dictionary<HttpRequestHeader, string> headers)
         {
-            _headers = headers;
+            foreach (var header in headers)
+            {
+                _headers.Add(header.Key, header.Value);
+            }
             return this;
         }
+
+        public IRestClientBuilder WithCustomHeaders(Dictionary<string, string> headers)
+        {
+            foreach (var header in headers)
+            {
+                _customHeaders.Add(header.Key, header.Value);
+            }
+            return this;
+        }
+
     }
 }

@@ -52,6 +52,11 @@ namespace DynamicRest {
             _headers.Add(headerType, value);
         }
 
+        public void AddCustomHeader(string headerKey, string value)
+        {
+            _headers.Add(headerKey, value);
+        }
+
         public void SetOAuth2AuthorizationHeader(string oAuth2Token) {
             _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
         }

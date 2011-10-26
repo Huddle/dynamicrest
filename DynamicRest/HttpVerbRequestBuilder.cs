@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Net;
 using DynamicRest.Helpers;
 using DynamicRest.HTTPInterfaces;
@@ -46,6 +45,11 @@ namespace DynamicRest {
             }
 
             return webRequest;
+        }
+
+        public void AddCustomHeader(string headerKey, string value)
+        {
+            _headers.Add(headerKey, value);
         }
 
         public void SetOAuth2AuthorizationHeader(string oAuth2Token) 
