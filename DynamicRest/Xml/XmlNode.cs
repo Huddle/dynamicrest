@@ -46,7 +46,7 @@ namespace DynamicRest.Xml {
                 result = _element.Name.LocalName;
                 return true;
             }
-            else if (String.CompareOrdinal(name, "Parent") == 0) {
+            if (String.CompareOrdinal(name, "Parent") == 0) {
                 XElement parent = _element.Parent;
                 if (parent != null) {
                     result = new XmlNode(parent);
@@ -55,55 +55,50 @@ namespace DynamicRest.Xml {
                 result = null;
                 return false;
             }
-            else if (String.CompareOrdinal(name, "Value") == 0) {
+            if (String.CompareOrdinal(name, "Value") == 0) {
                 result = _element.Value;
                 return true;
             }
-            else if (String.CompareOrdinal(name, "Count") == 0) {
+            if (String.CompareOrdinal(name, "Count") == 0) {
                 result = _element.Elements().Count();
                 return true;
             }
-            else if (String.CompareOrdinal(name, "Nodes") == 0) {
+            if (String.CompareOrdinal(name, "Nodes") == 0) {
                 result = new XmlNodeList(_element.Elements());
                 return true;
             }
-            else if (String.CompareOrdinal(name, "XElement") == 0)
+            if (String.CompareOrdinal(name, "XElement") == 0)
             {
                 result = _element;
                 return true;
             }
-            else if (String.CompareOrdinal(name, "Xml") == 0) {
+            if (String.CompareOrdinal(name, "Xml") == 0) {
                 StringWriter sw = new StringWriter();
                 _element.Save(sw, SaveOptions.None);
 
                 result = sw.ToString();
                 return true;
             }
-            else {
-                XAttribute attribute = _element.Attributes().SingleOrDefault(a => a.Name.LocalName == name);
-                if (attribute != null) {
-                    result = attribute.Value;
-                    return true;
-                }
-                try {
-                    XElement childNode = _element.Elements().SingleOrDefault(a => a.Name.LocalName == name);
-                    if (childNode != null)
-                    {
-                        if (childNode.HasElements == false)
-                        {
-                            result = new XmlString(childNode.Value);
-                            return true;
-                        }
-                        result = new XmlNode(childNode);
-                        return true;
-                    }
-                }
-                catch (InvalidOperationException)
+            XAttribute attribute = _element.Attributes().SingleOrDefault(a => a.Name.LocalName == name);
+            if (attribute != null) {
+                result = attribute.Value;
+                return true;
+            }
+            try {
+                XElement requestedElement = _element.Elements().SingleOrDefault(a => a.Name.LocalName == name);
+                if (requestedElement != null)
                 {
-                    
-                    result = new XmlNodeList(_element.Elements().Where(a => a.Name.LocalName == name));
+                    if (requestedElement.HasElements)
+                        result = new XmlNode(requestedElement);
+                    else
+                        result = new XmlString(requestedElement.Value);
                     return true;
                 }
+            }
+            catch (InvalidOperationException)
+            {
+                result = new XmlNodeList(_element.Elements().Where(a => a.Name.LocalName == name));
+                return true;
             }
 
             var memberExists = base.TryGetMember(binder, out result);
