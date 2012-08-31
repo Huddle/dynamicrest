@@ -1,6 +1,7 @@
 using System;
 using DynamicRest.Xml;
 using Machine.Specifications;
+using Machine.Specifications.Model;
 
 namespace DynamicRest.UnitTests.Xml
 {
@@ -58,6 +59,51 @@ namespace DynamicRest.UnitTests.Xml
               </item>
             </news>";
     }
+
+    [Subject(typeof(StandardResultBuilder))]
+    public class When_a_response_contains_an_empty_collection
+    {
+        static StandardResultBuilder _resultBuilder;
+        static dynamic _response;
+
+        Establish context = () =>
+        {
+            _resultBuilder = new StandardResultBuilder(RestService.Xml);
+        };
+
+        Because the_response_is_created = () => { _response = _resultBuilder.CreateResult(_xml); };
+
+        It should_count_zero_elements = () => ((int)_response.images.Count).ShouldEqual(0);
+
+        static string _xml = @"
+              <item> 
+                <images></images>
+              </item>";
+    }
+
+    [Subject(typeof(StandardResultBuilder))]
+    public class When_a_parsing_in_a_datetime
+    {
+        static StandardResultBuilder _resultBuilder;
+        static dynamic _response;
+
+        Establish context = () =>
+        {
+            _resultBuilder = new StandardResultBuilder(RestService.Xml);
+        };
+
+        Because the_response_is_created = () => { _response = _resultBuilder.CreateResult(_xml); };
+
+
+        It should_pass = () => ShouldExtensionMethods.ShouldEqual(DateTime.Parse(_response.created), TimeStamp);
+
+        static string _xml = @"
+              <item> 
+                <created>2007-10-10T09:02:17Z</created>
+              </item>";
+
+        static DateTime TimeStamp = DateTime.Parse("2007-10-10T09:02:17Z");
+    }
     
     [Subject(typeof(XmlNode))]
     public class When_accessing_a_non_existing_element {
@@ -101,6 +147,7 @@ namespace DynamicRest.UnitTests.Xml
 
         private static Exception _thrownException;
     }
+
 
 
     namespace When_casting_strings_to_datetimes
