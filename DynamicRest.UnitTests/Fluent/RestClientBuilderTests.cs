@@ -39,6 +39,41 @@ namespace DynamicRest.UnitTests.Fluent {
     }
 
     [Subject(typeof(RestClientBuilder))]
+    public class When_a_rest_client_is_created_with_a_rest_client_builder_without_OAuth2_token
+    {
+        static IRestClientBuilder restClientBuilder;
+        static dynamic builtClient;
+
+        static FakeHttpRequestFactory fakeHttpRequestFactory;
+
+        Establish context = () =>
+        {
+            restClientBuilder = new RestClientBuilder();
+        };
+
+        Because the_rest_client_is_built_and_executed = () =>
+        {
+            fakeHttpRequestFactory = new FakeHttpRequestFactory();
+            builtClient = restClientBuilder
+                .WithRequestBuilder(new HttpVerbRequestBuilder(fakeHttpRequestFactory))
+                .WithUri("http://www.google.com")
+                .WithBody("My body")
+                .Build();
+
+            builtClient.Post();
+        };
+
+        It should_have_xml_as_content_type = () =>
+            fakeHttpRequestFactory.CreatedRequest.ContentType.ShouldEqual("application/xml");
+        It should_have_xml_as_accept = () =>
+            fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
+        It should_have_the_allow_auto_redirect_flag_set_to_false = () =>
+            fakeHttpRequestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(false);
+        It should_have_no_OAuth_header = () =>
+            fakeHttpRequestFactory.CreatedRequest.Headers.Keys.ShouldNotContain(HttpRequestHeader.Authorization.ToString());
+    }
+
+    [Subject(typeof(RestClientBuilder))]
     public class When_a_rest_client_is_created_with_a_rest_client_builder {
 
         static IRestClientBuilder restClientBuilder;

@@ -51,8 +51,11 @@ namespace DynamicRest.Fluent {
             _requestBuilder.ContentType = _contentType;
             _requestBuilder.AcceptHeader = _acceptType;
             _requestBuilder.Body = _body;
-            _requestBuilder.SetOAuth2AuthorizationHeader(_token);
             _requestBuilder.AllowAutoRedirect = _autoRedirect;
+            if (!string.IsNullOrEmpty(_token))
+            {
+                _requestBuilder.SetOAuth2AuthorizationHeader(_token);
+            }
             if(!string.IsNullOrEmpty(_acceptEncodingType))
             {
                 _requestBuilder.AddHeader(HttpRequestHeader.AcceptEncoding, _acceptEncodingType);
