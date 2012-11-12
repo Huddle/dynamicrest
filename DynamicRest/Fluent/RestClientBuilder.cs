@@ -20,6 +20,7 @@ namespace DynamicRest.Fluent {
         Dictionary<HttpRequestHeader, string> _headers;
         Dictionary<string, string> _customHeaders;
         DateTime? _ifModifiedSince;
+        private string _userAgent;
 
         public RestClientBuilder()
         {
@@ -52,6 +53,7 @@ namespace DynamicRest.Fluent {
             _requestBuilder.AcceptHeader = _acceptType;
             _requestBuilder.Body = _body;
             _requestBuilder.AllowAutoRedirect = _autoRedirect;
+            _requestBuilder.UserAgent = _userAgent;
             if (!string.IsNullOrEmpty(_token))
             {
                 _requestBuilder.SetOAuth2AuthorizationHeader(_token);
@@ -154,5 +156,10 @@ namespace DynamicRest.Fluent {
             return this;
         }
 
+        public IRestClientBuilder WithUserAgent(string userAgent)
+        {
+            _userAgent = userAgent;
+            return this;
+        }
     }
 }

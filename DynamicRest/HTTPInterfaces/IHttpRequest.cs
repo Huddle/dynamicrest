@@ -12,6 +12,7 @@ namespace DynamicRest.HTTPInterfaces
         string ContentType { get; }
 
         bool AllowAutoRedirect { get; set; }
+        string UserAgent { get; set; }
 
         void AddCredentials(ICredentials credentials);
         void AddHeaders(WebHeaderCollection headers);

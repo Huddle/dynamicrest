@@ -52,6 +52,18 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             set { _webrequest.AllowAutoRedirect = value; }
         }
 
+        public string UserAgent {
+            get {
+                return _webrequest.UserAgent;
+            }
+            set {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    _webrequest.UserAgent = value;
+                }
+            }
+        }
+
         public DateTime IfModifiedSince
         {
             get { return _webrequest.IfModifiedSince; }

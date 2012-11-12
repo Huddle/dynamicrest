@@ -21,6 +21,7 @@ namespace DynamicRest {
         public ParametersStore ParametersStore { get; set; }
         public ICredentials Credentials { private get; set; }
         public bool AllowAutoRedirect { get; set; }
+        public string UserAgent { get; set; }
 
         public TemplatedUriRequestBuilder(IHttpRequestFactory requestFactory)
         {

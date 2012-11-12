@@ -25,6 +25,7 @@ namespace DynamicRest.UnitTests.Fluent {
                 .WithOAuth2Token("token")
                 .WithUri("http://www.google.com")
                 .WithBody("My body")
+                .WithUserAgent("useragent")
                 .Build();
 
             builtClient.Post();
@@ -34,8 +35,10 @@ namespace DynamicRest.UnitTests.Fluent {
             fakeHttpRequestFactory.CreatedRequest.ContentType.ShouldEqual("application/xml");
         It should_have_xml_as_accept = () => 
             fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
-        It should_have_the_allow_auto_redirect_flag_set_to_false = () => 
+        It should_have_the_allow_auto_redirect_flag_set_to_false = () =>
             fakeHttpRequestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(false);
+        It should_have_the_expected_user_agent = () =>
+            fakeHttpRequestFactory.CreatedRequest.UserAgent.ShouldEqual("useragent");
     }
 
     [Subject(typeof(RestClientBuilder))]
