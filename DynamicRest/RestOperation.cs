@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace DynamicRest {
 
-    public sealed class RestOperation {
+    public class RestOperation {
 
         private object _result;
         private Exception _error;
