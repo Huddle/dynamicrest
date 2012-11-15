@@ -25,7 +25,7 @@ namespace DynamicRest {
         private List<RestCallback> _callbacks;
         private WebHeaderCollection _responseHeaders;
 
-        internal RestOperation() {
+        protected RestOperation() {
             _syncContext = SynchronizationContext.Current;
         }
 
