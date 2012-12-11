@@ -17,21 +17,29 @@ namespace DynamicRest
 
         public void Process(IHttpResponse webResponse, RestOperation operation) 
         {
-            try 
+            try
             {
-                using (var responseStream = webResponse.GetResponseStream())
+                var responseStream = webResponse.GetResponseStream();
+                if (_builder.ServiceType == RestService.Binary)
                 {
-                    if (IsGzippedReponse(webResponse.Headers["Content-Encoding"]))
+                    ProcessResponseStream(webResponse, responseStream, operation);
+                }
+                else
+                {
+                    using (responseStream)
                     {
-                        using (var gzipResponseStream = new GZipStream(responseStream, CompressionMode.Decompress))
+                        if (IsGzippedReponse(webResponse.Headers["Content-Encoding"]))
                         {
-                            ProcessResponseStream(webResponse, gzipResponseStream, operation);
+                            using (var gzipResponseStream = new GZipStream(responseStream, CompressionMode.Decompress))
+                            {
+                                ProcessResponseStream(webResponse, gzipResponseStream, operation);
+                            }
                         }
-                    }
-                    else
-                    {
-                        ProcessResponseStream(webResponse, responseStream, operation);
-                    }
+                        else
+                        {
+                            ProcessResponseStream(webResponse, responseStream, operation);
+                        }
+                    }                    
                 }
             }
             catch(Exception e) 

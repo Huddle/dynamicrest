@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Linq;
 using DynamicRest.Json;
 using DynamicRest.Xml;
@@ -8,14 +6,14 @@ using DynamicRest.Xml;
 namespace DynamicRest {
 
     public class StandardResultBuilder : IBuildDynamicResults {
-        readonly RestService _serviceType;
-
         public StandardResultBuilder(RestService serviceType) {
-            _serviceType = serviceType;
+            ServiceType = serviceType;
         }
 
+        public RestService ServiceType { get; private set; }
+
         public object CreateResult(string responseText) {
-            return _serviceType == RestService.Json 
+            return ServiceType == RestService.Json 
                        ? GetResultFromJson(responseText) 
                        : GetResultFromXml(responseText);
         }
@@ -28,12 +26,15 @@ namespace DynamicRest {
 
         public static object GetResultFromJson(string responseText) {
             var jsonReader = new JsonReader(responseText);
+
+            if (responseText == string.Empty) return new JsonObject();
+
             dynamic result = jsonReader.ReadValue();
             return result;
         }
 
         public object ProcessResponse(Stream responseStream) {
-            if (_serviceType == RestService.Binary) {
+            if (ServiceType == RestService.Binary) {
                 return responseStream;
             }
 

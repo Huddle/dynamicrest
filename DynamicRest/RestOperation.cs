@@ -25,7 +25,7 @@ namespace DynamicRest {
         private List<RestCallback> _callbacks;
         private WebHeaderCollection _responseHeaders;
 
-        protected RestOperation() {
+        protected internal RestOperation() {
             _syncContext = SynchronizationContext.Current;
         }
 
@@ -74,7 +74,7 @@ namespace DynamicRest {
             _callbacks.Add(callback);
         }
 
-        internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
+        protected internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
             _result = result;
             _error = error;
             _statusCode = statusCode;

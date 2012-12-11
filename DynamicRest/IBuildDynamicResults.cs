@@ -5,5 +5,6 @@ namespace DynamicRest {
     public interface IBuildDynamicResults {
         object CreateResult(string responseText);
         object ProcessResponse(Stream responseStream);
+        RestService ServiceType { get; }
     }
 }

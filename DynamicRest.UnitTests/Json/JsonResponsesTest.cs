@@ -115,4 +115,23 @@ namespace DynamicRest.UnitTests.Json {
         It should_give_an_exception_with_a_sensible_error_message_from_json_object = () =>
             _thrownException.Message.ShouldEqual("No member named 'doesntexist' found in the response.");
     }
+
+    [Subject(typeof(StandardResultBuilder))]
+    public class When_a_response_is_empty
+    {
+
+        static StandardResultBuilder _resultBuilder;
+        static dynamic _response;
+
+        Establish context = () =>
+        {
+            _resultBuilder = new StandardResultBuilder(RestService.Json);
+        };
+
+        Because the_response_is_created = () => { _response = _resultBuilder.CreateResult(_json); };
+
+        It should_return_empty_json_object = () => (_response as JsonObject).ShouldEqual(new JsonObject());
+
+        static string _json = @"";
+    }
 }
