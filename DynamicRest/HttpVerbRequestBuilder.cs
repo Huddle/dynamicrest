@@ -27,6 +27,7 @@ namespace DynamicRest {
         public string AcceptHeader { get; set; }
         public bool AllowAutoRedirect { get; set; }
         public string UserAgent { get; set; }
+        public int Timeout { get; set; }
 
         public IHttpRequest CreateRequest(string operationName, JsonObject parameters) {
             if (string.IsNullOrEmpty(Uri)) {
@@ -41,6 +42,7 @@ namespace DynamicRest {
             webRequest.AddRequestBody(ContentType, Body);
             webRequest.AllowAutoRedirect = AllowAutoRedirect;
             webRequest.UserAgent = UserAgent;
+            webRequest.Timeout = Timeout;
             if(_ifModifiedSince.HasValue)
             {
                 ((HttpWebRequestWrapper)webRequest).IfModifiedSince = _ifModifiedSince.Value;

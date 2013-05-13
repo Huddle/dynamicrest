@@ -21,6 +21,7 @@ namespace DynamicRest.Fluent {
         Dictionary<string, string> _customHeaders;
         DateTime? _ifModifiedSince;
         private string _userAgent;
+        private int _timeout;
 
         public RestClientBuilder()
         {
@@ -28,7 +29,10 @@ namespace DynamicRest.Fluent {
             _customHeaders = new Dictionary<string, string>();
         }
 
-        public dynamic Build() {
+        public dynamic Build() 
+        {
+            _timeout = _timeout == 0 ? 100000 : _timeout; // default timeout i the CLR is 100s
+
             _contentType = _contentType ?? "application/xml";
             _acceptType = _acceptType ?? "application/xml";
             if (_noAcceptHeader){
@@ -54,6 +58,7 @@ namespace DynamicRest.Fluent {
             _requestBuilder.Body = _body;
             _requestBuilder.AllowAutoRedirect = _autoRedirect;
             _requestBuilder.UserAgent = _userAgent;
+            _requestBuilder.Timeout = _timeout;
             if (!string.IsNullOrEmpty(_token))
             {
                 _requestBuilder.SetOAuth2AuthorizationHeader(_token);
@@ -159,6 +164,12 @@ namespace DynamicRest.Fluent {
         public IRestClientBuilder WithUserAgent(string userAgent)
         {
             _userAgent = userAgent;
+            return this;
+        }
+
+        public IRestClientBuilder WithTimeout(int timeout)
+        {
+            _timeout = timeout;
             return this;
         }
     }

@@ -22,6 +22,7 @@ namespace DynamicRest {
         public ICredentials Credentials { private get; set; }
         public bool AllowAutoRedirect { get; set; }
         public string UserAgent { get; set; }
+        public int Timeout { get; set; }
 
         public TemplatedUriRequestBuilder(IHttpRequestFactory requestFactory)
         {
@@ -40,6 +41,7 @@ namespace DynamicRest {
             webRequest.Accept = AcceptHeader;
             webRequest.AddRequestBody(ContentType, Body);
             webRequest.AllowAutoRedirect = _allowAutoRedirect;
+            webRequest.Timeout = Timeout;
  
             if(_ifModifiedSince.HasValue)
             {

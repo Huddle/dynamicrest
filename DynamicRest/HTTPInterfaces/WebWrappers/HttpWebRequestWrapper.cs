@@ -64,6 +64,12 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             }
         }
 
+        public int Timeout 
+        { 
+            get { return _webrequest.Timeout; } 
+            set { _webrequest.Timeout = value; } 
+        }
+
         public DateTime IfModifiedSince
         {
             get { return _webrequest.IfModifiedSince; }
@@ -97,7 +103,8 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             return new HttpWebResponseWrapper((HttpWebResponse) _webrequest.EndGetResponse((IAsyncResult) asyncRequest));
         }
 
-        public IHttpResponse GetResponse() {
+        public IHttpResponse GetResponse()
+        {
             return new HttpWebResponseWrapper(_webrequest.GetResponse() as HttpWebResponse);
         }
     }

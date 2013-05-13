@@ -23,6 +23,7 @@ namespace DynamicRest.UnitTests.TestDoubles
         public string ContentType { get; private set; }
         public bool AllowAutoRedirect { get; set; }
         public string UserAgent { get; set; }
+        public int Timeout { get; set; }
 
         public HttpVerb HttpVerb { get; set; }
 
@@ -63,6 +64,10 @@ namespace DynamicRest.UnitTests.TestDoubles
         }
 
         public IHttpResponse GetResponse() {
+            return _response ?? new FakeHttpWebResponseWrapper();
+        }
+
+        public IHttpResponse GetResponse(int timeout) {
             return _response ?? new FakeHttpWebResponseWrapper();
         }
 
