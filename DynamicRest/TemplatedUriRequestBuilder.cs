@@ -23,6 +23,7 @@ namespace DynamicRest {
         public bool AllowAutoRedirect { get; set; }
         public string UserAgent { get; set; }
         public int Timeout { get; set; }
+        public IWebProxy Proxy { get; set; }
 
         public TemplatedUriRequestBuilder(IHttpRequestFactory requestFactory)
         {

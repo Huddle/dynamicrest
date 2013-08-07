@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestDoubles\FakeWebProxy.cs" />
     <Compile Include="Fluent\RestClientBuilderTests.cs" />
     <Compile Include="Json\JsonResponsesTest.cs" />
     <Compile Include="RestClients\HttpVerbRequestBuilderTests.cs" />

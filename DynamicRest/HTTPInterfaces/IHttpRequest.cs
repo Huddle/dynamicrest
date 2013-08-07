@@ -13,6 +13,8 @@ namespace DynamicRest.HTTPInterfaces
         bool AllowAutoRedirect { get; set; }
         string UserAgent { get; set; }
         int Timeout { get; set; }
+        IWebProxy Proxy { get; set; }
+
         void AddCredentials(ICredentials credentials);
         void AddHeaders(WebHeaderCollection headers);
         void AddRequestBody(string contentType, string content);

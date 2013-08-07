@@ -15,6 +15,8 @@ namespace DynamicRest
         bool AllowAutoRedirect { get; set; }
         string UserAgent { get; set; }
         int Timeout { get; set; }
+        IWebProxy Proxy { get; set; }
+
         IHttpRequest CreateRequest(string operationName, JsonObject parameters);
         void AddHeader(HttpRequestHeader headerType, string value);
         void AddCustomHeader(string headerKey, string value);

@@ -24,7 +24,7 @@ namespace DynamicRest.UnitTests.TestDoubles
         public bool AllowAutoRedirect { get; set; }
         public string UserAgent { get; set; }
         public int Timeout { get; set; }
-
+        public IWebProxy Proxy { get; set; }
         public HttpVerb HttpVerb { get; set; }
 
         public WebHeaderCollection Headers {

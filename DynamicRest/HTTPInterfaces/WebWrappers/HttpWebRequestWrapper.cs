@@ -70,6 +70,12 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
             set { _webrequest.Timeout = value; } 
         }
 
+        public IWebProxy Proxy
+        {
+            get { return _webrequest.Proxy; }
+            set { _webrequest.Proxy = value; }
+        }
+
         public DateTime IfModifiedSince
         {
             get { return _webrequest.IfModifiedSince; }

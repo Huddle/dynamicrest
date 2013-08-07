@@ -23,6 +23,8 @@ namespace DynamicRest.Fluent {
         private string _userAgent;
         private int _timeout;
 
+        IWebProxy _proxy;
+
         public RestClientBuilder()
         {
             _headers = new Dictionary<HttpRequestHeader, string>();
@@ -50,6 +52,11 @@ namespace DynamicRest.Fluent {
                 }
 
                 this._responseProcessor = new ResponseProcessor(new StandardResultBuilder(serviceType));
+            }
+
+            if (_proxy != null)
+            {
+                _requestBuilder.Proxy = _proxy;
             }
 
             _requestBuilder.Uri = _uri;
@@ -170,6 +177,12 @@ namespace DynamicRest.Fluent {
         public IRestClientBuilder WithTimeout(int timeout)
         {
             _timeout = timeout;
+            return this;
+        }
+
+        public IRestClientBuilder WithProxy(IWebProxy webProxy)
+        {
+            _proxy = webProxy;
             return this;
         }
     }

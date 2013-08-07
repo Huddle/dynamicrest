@@ -120,4 +120,70 @@ namespace DynamicRest.UnitTests.Fluent {
         It should_have_the_accept_encode_header = () =>
             fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.AcceptEncoding].ShouldEqual("gzip");
     }
+
+    [Subject(typeof(RestClientBuilder))]
+    public class When_a_rest_client_is_created_with_a_rest_client_builder_with_timeout
+    {
+        static IRestClientBuilder restClientBuilder;
+        static dynamic builtClient;
+
+        static FakeHttpRequestFactory fakeHttpRequestFactory;
+
+        Establish context = () =>
+        {
+            restClientBuilder = new RestClientBuilder();
+        };
+
+        Because the_rest_client_is_built_and_executed = () =>
+        {
+            fakeHttpRequestFactory = new FakeHttpRequestFactory();
+            builtClient = restClientBuilder
+                .WithRequestBuilder(new HttpVerbRequestBuilder(fakeHttpRequestFactory))
+                .WithUri("http://www.google.com")
+                .WithTimeout(timeout)
+                .Build();
+
+            builtClient.Post();
+        };
+
+        It should_have_the_correct_timeout = () =>
+            fakeHttpRequestFactory.CreatedRequest.Timeout.ShouldEqual(timeout);
+
+        static int timeout = 100;
+    }
+
+    [Subject(typeof(RestClientBuilder))]
+    public class When_a_rest_client_is_created_with_a_rest_client_builder_with_proxy_settings
+    {
+        static IRestClientBuilder restClientBuilder;
+        static dynamic builtClient;
+        static FakeHttpRequestFactory fakeHttpRequestFactory;
+        static Uri faekUriToGetProxyFor = new Uri("http://www.google.com");
+        static int timeout = 100;
+        static FakeWebProxy fakeWebProxy = new FakeWebProxy(new Uri("http://proxy.com:5647"));
+
+        Establish context = () =>
+        {
+            restClientBuilder = new RestClientBuilder();
+        };
+
+        Because the_rest_client_is_built_and_executed = () =>
+        {
+            fakeHttpRequestFactory = new FakeHttpRequestFactory();
+            builtClient = restClientBuilder
+                .WithRequestBuilder(new HttpVerbRequestBuilder(fakeHttpRequestFactory))
+                .WithUri(faekUriToGetProxyFor.AbsoluteUri)
+                .WithProxy(fakeWebProxy)
+                .Build();
+
+            builtClient.Post();
+        };
+
+        It should_have_the_correct_proxy_uri = () =>
+            fakeHttpRequestFactory.CreatedRequest.Proxy.GetProxy(faekUriToGetProxyFor).AbsoluteUri.ShouldEqual(fakeWebProxy.GetProxy(faekUriToGetProxyFor).AbsoluteUri);
+        It should_have_the_correct_proxy_host = () =>
+            fakeHttpRequestFactory.CreatedRequest.Proxy.GetProxy(faekUriToGetProxyFor).Host.ShouldEqual(fakeWebProxy.GetProxy(faekUriToGetProxyFor).Host);
+        It should_have_the_correct_proxy_port = () =>
+            fakeHttpRequestFactory.CreatedRequest.Proxy.GetProxy(faekUriToGetProxyFor).Port.ShouldEqual(fakeWebProxy.GetProxy(faekUriToGetProxyFor).Port);
+    }
 }

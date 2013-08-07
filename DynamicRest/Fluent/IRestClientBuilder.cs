@@ -23,5 +23,6 @@ namespace DynamicRest.Fluent {
         IRestClientBuilder WithCustomHeaders(Dictionary<string, string> headers);
         IRestClientBuilder WithUserAgent(string userAgent);
         IRestClientBuilder WithTimeout(int timeout);
+        IRestClientBuilder WithProxy(IWebProxy webProxy);
     }
 }
