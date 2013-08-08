@@ -46,7 +46,7 @@ namespace DynamicRest.Fluent {
             }
 
             if (_responseProcessor == null) {
-                var serviceType = _acceptType.Contains("xml") ? RestService.Xml : (_acceptType.Contains("json") ? RestService.Json : RestService.Binary);
+                var serviceType = _acceptType.Contains("xml") ? RestService.Xml : _acceptType.Contains("json") ? RestService.Json : _acceptType.EndsWith("plain") ? RestService.Text: RestService.Binary;
                 if (_noAcceptHeader){
                     serviceType = RestService.Xml;
                 }
@@ -77,6 +77,7 @@ namespace DynamicRest.Fluent {
 
             if(_ifModifiedSince.HasValue)
             {
+
                 _requestBuilder.IfModifiedSince(_ifModifiedSince.Value);
             }
 

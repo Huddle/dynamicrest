@@ -44,7 +44,12 @@ namespace DynamicRest {
             webRequest.AllowAutoRedirect = AllowAutoRedirect;
             webRequest.UserAgent = UserAgent;
             webRequest.Timeout = Timeout;
-            webRequest.Proxy = Proxy;
+
+            if (Proxy != null)
+            {
+                webRequest.Proxy = Proxy;                
+            }
+
             if(_ifModifiedSince.HasValue)
             {
                 ((HttpWebRequestWrapper)webRequest).IfModifiedSince = _ifModifiedSince.Value;

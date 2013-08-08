@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-
 using DynamicRest.Helpers;
 
 namespace DynamicRest.HTTPInterfaces.WebWrappers {

@@ -12,10 +12,27 @@ namespace DynamicRest {
 
         public RestService ServiceType { get; private set; }
 
-        public object CreateResult(string responseText) {
-            return ServiceType == RestService.Json 
-                       ? GetResultFromJson(responseText) 
-                       : GetResultFromXml(responseText);
+        public object CreateResult(string responseText)
+        {
+            object result;
+            switch (ServiceType)
+            {
+                case RestService.Json:
+                    result = GetResultFromJson(responseText);
+                    break;
+                case RestService.Text:
+                    result = GetResultFromText(responseText);
+                    break;
+                default:
+                    result = GetResultFromXml(responseText);
+                    break;
+            }
+            return result;
+        }
+
+        public static object GetResultFromText(string responseText)
+        {
+            return responseText ?? "";
         }
 
         public static object GetResultFromXml(string responseText) {

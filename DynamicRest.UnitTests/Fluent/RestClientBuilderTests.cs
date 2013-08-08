@@ -9,7 +9,6 @@ namespace DynamicRest.UnitTests.Fluent {
     public class When_a_rest_client_is_created_with_a_rest_client_builder_using_default_values {
         static IRestClientBuilder restClientBuilder;
         static dynamic builtClient;
-
         static FakeHttpRequestFactory fakeHttpRequestFactory;
 
         Establish context = () =>

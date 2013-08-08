@@ -8,7 +8,6 @@
 //
 
 using System;
-using System.Diagnostics;
 using System.Dynamic;
 using System.Net;
 using DynamicRest.HTTPInterfaces;
