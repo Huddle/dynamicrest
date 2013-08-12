@@ -34,26 +34,25 @@ namespace DynamicRest {
             if (string.IsNullOrEmpty(Uri)) {
                 throw new InvalidOperationException("You must set a Uri for the request.");
             }
-            var webRequest = _requestFactory.Create(new Uri(Uri));
+            IHttpRequest webRequest = _requestFactory.Create(new Uri(Uri));
             
             webRequest.HttpVerb = operationName.ToHttpVerb();
             webRequest.AddHeaders(_headers);
             webRequest.AddCredentials(Credentials);
             webRequest.Accept = AcceptHeader;
-            webRequest.AddRequestBody(ContentType, Body);
+            if (Proxy != null)
+            {
+                webRequest.Proxy = Proxy;
+            }
             webRequest.AllowAutoRedirect = AllowAutoRedirect;
             webRequest.UserAgent = UserAgent;
             webRequest.Timeout = Timeout;
-
-            if (Proxy != null)
-            {
-                webRequest.Proxy = Proxy;                
-            }
 
             if(_ifModifiedSince.HasValue)
             {
                 ((HttpWebRequestWrapper)webRequest).IfModifiedSince = _ifModifiedSince.Value;
             }
+            webRequest.AddRequestBody(ContentType, Body);
 
             return webRequest;
         }
