@@ -4,8 +4,23 @@ using DynamicRest.Json;
 using DynamicRest.Xml;
 
 namespace DynamicRest {
+    public class BuilderResponse
+    {
+        public object Result { get; set; }
+        public string ResponseText { get; set; }
 
-    public class StandardResultBuilder : IBuildDynamicResults {
+        public BuilderResponse(object result)
+        {
+            Result = result;
+        }
+        public BuilderResponse(object result, string responseText) : this(result)
+        {
+            ResponseText = responseText;
+        }
+    }
+
+    public class StandardResultBuilder : IBuildDynamicResults
+    {
         public StandardResultBuilder(RestService serviceType) {
             ServiceType = serviceType;
         }
@@ -50,19 +65,22 @@ namespace DynamicRest {
             return result;
         }
 
-        public object ProcessResponse(Stream responseStream) {
+        public BuilderResponse ProcessResponse(Stream responseStream)
+        {
             if (ServiceType == RestService.Binary) {
-                return responseStream;
+                return new BuilderResponse(responseStream);
             }
 
             dynamic result = null;
             try {
                 var responseText = (new StreamReader(responseStream)).ReadToEnd();
                 result = CreateResult(responseText);
+
+                return new BuilderResponse(result, responseText);
             }
             catch {}
 
-            return result;
+            return null;
         }
     }
 }

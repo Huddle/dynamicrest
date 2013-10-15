@@ -24,7 +24,8 @@ namespace DynamicRest.UnitTests.Simulators
         {
             fakeHttpRequestFactory = new FakeHttpRequestFactory();
             var responseContent = new FakeHttpWebResponseWrapper.ResponseContent("application/vnd.data+xml");
-            responseContent.SetContent("<results><message>Test</message></results>");
+            resultAsString = "<results><message>Test</message></results>";
+            responseContent.SetContent(resultAsString);
             fakeHttpRequestFactory.SetResponse(new FakeHttpWebResponseWrapper
                                   {
                                       Headers = new WebHeaderCollection(),
@@ -41,7 +42,9 @@ namespace DynamicRest.UnitTests.Simulators
         };
 
         It should_return_a_value_built_from_interpreting_the_response = () =>ShouldExtensionMethods.ShouldEqual(_response.Result.message.Value, "Test");
+        It should_return_the_original_string_in_the_response = () => ShouldExtensionMethods.ShouldEqual(_response.ResponseText, resultAsString);
 
+        static string resultAsString;
     }
 
 
@@ -69,7 +72,6 @@ namespace DynamicRest.UnitTests.Simulators
                                       Headers = new WebHeaderCollection(),
                                       StatusCode = HttpStatusCode.OK,
                                       Content = responseContent
-
                                   });
 
             _response = restClientBuilder
@@ -80,7 +82,6 @@ namespace DynamicRest.UnitTests.Simulators
         };
 
         It should_return_a_value_built_from_interpreting_the_response = () => ShouldExtensionMethods.ShouldEqual(_response.Result.Message.Value, "Test");
-
     }
     public class Result
     {

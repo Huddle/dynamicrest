@@ -59,6 +59,8 @@ namespace DynamicRest {
             }
         }
 
+        public string ResponseText { get; set; }
+
         public void Callback(RestCallback callback) {
             if (callback == null) {
                 throw new ArgumentNullException("callback");
@@ -74,13 +76,14 @@ namespace DynamicRest {
             _callbacks.Add(callback);
         }
 
-        protected internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers) {
+        protected internal void Complete(object result, Exception error, HttpStatusCode statusCode, string statusMessage, WebHeaderCollection headers, string responseText) {
             _result = result;
             _error = error;
             _statusCode = statusCode;
             _statusMessage = statusMessage;
             _completed = true;
             _responseHeaders = headers;
+            ResponseText = responseText;
 
             if (_callbacks != null) {
                 RestCallback[] callbacksCopy = _callbacks.ToArray();
