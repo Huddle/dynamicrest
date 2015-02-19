@@ -7,19 +7,17 @@
 // more information.
 //
 
-using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("DynamicRest")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Huddle.DynamicRest")]
+[assembly: AssemblyDescription("A Huddle fork of Nikhil Kothari's DynamicRest")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://www.nikhilk.net")]
-[assembly: AssemblyProduct("Dynamic REST")]
-[assembly: AssemblyCopyright("Copyright © 2011, Nikhil Kothari")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCompany("Ninian Solutions Ltd")]
+[assembly: AssemblyProduct("Huddle")]
+[assembly: AssemblyCopyright("Copyright 2015 Huddle and Nikhil Kothari")]
+[assembly: AssemblyTrademark("Huddle")]
 [assembly: ComVisible(false)]
+[assembly: AssemblyInformationalVersion("1.0.0")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
