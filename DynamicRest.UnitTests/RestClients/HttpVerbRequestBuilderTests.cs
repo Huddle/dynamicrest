@@ -66,7 +66,7 @@ namespace DynamicRest.UnitTests.RestClients {
 
         Because we_make_get_call_to_an_api_via_rest_client = () => exception = Catch.Exception(() => client.NotHttp());
 
-        It should_throw_an_exception = () => ((Exception) exception).ShouldBeOfType<InvalidOperationException>();
+        It should_throw_an_exception = () => ((Exception) exception).ShouldBeAssignableTo<InvalidOperationException>();
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]

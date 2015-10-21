@@ -125,7 +125,7 @@ namespace DynamicRest.UnitTests.Xml
 
             Because we_parse_as_a_date = () => The_result = Catch.Exception(() => Console.Write((DateTime)The_string));
 
-            private It should_have_the_expected_value = () => The_result.ShouldBeOfType<FormatException>();
+            private It should_have_the_expected_value = () => The_result.ShouldBeAssignableTo<FormatException>();
 
             private static XmlString The_string;
             private static Exception The_result;
@@ -154,7 +154,7 @@ namespace DynamicRest.UnitTests.Xml
 
             Because we_parse_as_an_int = () => The_result = Catch.Exception(() => Console.Write((int)The_string));
 
-            private It should_have_the_expected_value = () => The_result.ShouldBeOfType<OverflowException>();
+            private It should_have_the_expected_value = () => The_result.ShouldBeAssignableTo<OverflowException>();
 
             private static XmlString The_string;
             private static Exception The_result;
@@ -168,7 +168,7 @@ namespace DynamicRest.UnitTests.Xml
 
             Because we_parse_as_an_int= () => The_result = Catch.Exception(() => Console.Write((int)The_string));
 
-            private It should_have_the_expected_value = () => The_result.ShouldBeOfType<FormatException>();
+            private It should_have_the_expected_value = () => The_result.ShouldBeAssignableTo<FormatException>();
 
             private static XmlString The_string;
             private static Exception The_result;
@@ -197,7 +197,7 @@ namespace DynamicRest.UnitTests.Xml
 
             Because we_parse_as_a_long = () => The_result = Catch.Exception(() => Console.Write((long)The_string));
 
-            private It should_have_the_expected_value = () => The_result.ShouldBeOfType<OverflowException>();
+            private It should_have_the_expected_value = () => The_result.ShouldBeAssignableTo<OverflowException>();
 
             private static XmlString The_string;
             private static Exception The_result;
@@ -211,7 +211,7 @@ namespace DynamicRest.UnitTests.Xml
 
             Because we_parse_as_a_long = () => The_result = Catch.Exception(() => Console.Write((long)The_string));
 
-            private It should_have_the_expected_value = () => The_result.ShouldBeOfType<FormatException>();
+            private It should_have_the_expected_value = () => The_result.ShouldBeAssignableTo<FormatException>();
 
             private static XmlString The_string;
             private static Exception The_result;
@@ -225,7 +225,7 @@ namespace DynamicRest.UnitTests.Xml
             Because we_parse_string_empty =
                 () => Result = Catch.Exception(() => Console.Write((bool) new XmlString(string.Empty)));
 
-            It should_throw_format_exception = () => Result.ShouldBeOfType<FormatException>();
+            It should_throw_format_exception = () => Result.ShouldBeAssignableTo<FormatException>();
 
             protected static Exception Result { get; set; }
         }

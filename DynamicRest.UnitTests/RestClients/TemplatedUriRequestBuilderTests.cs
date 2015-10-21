@@ -87,7 +87,7 @@ namespace DynamicRest.UnitTests.RestClients {
 
         Because we_make_a_call_to_an_api_via_rest_client = () => exception = Catch.Exception(() => bing.Invoke());
         
-        It should_throw_an_exception = () => exception.ShouldBeOfType(typeof (ArgumentException));
+        It should_throw_an_exception = () => exception.ShouldBeAssignableTo(typeof (ArgumentException));
 
         It should_contain_helpful_error_message = () => exception.Message.ShouldEqual("You are missing one or more expected template parameters in the uri: http://api.bing.net/json.aspx?AppId={appID}&Version=2.2&Market=en-US");
     }
