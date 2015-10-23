@@ -1,5 +1,7 @@
 #Dynamic REST
 
+[![Build status](https://ci.appveyor.com/api/projects/status/xt1dr93om1ukgrbw/branch/master?svg=true)](https://ci.appveyor.com/project/Huddle/dynamicrest/branch/master)
+
 This is a small project demonstrating REST service access,
 working against JSON data and XML data using late-bound
 dynamic code using the new dynamic programming features being
