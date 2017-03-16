@@ -22,7 +22,6 @@ http://www.nikhilk.net/CSharp-Dynamic-Programming-REST-Services.aspx
                 .WithUri("http://some.uri")
                 .WithOAuth2Token("token")
                 .Build();
-ss
 * Issue a GET
 
         var response = client.Get();
