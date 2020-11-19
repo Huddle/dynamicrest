@@ -64,7 +64,7 @@ namespace DynamicRest {
 
         public void SetOAuth2AuthorizationHeader(string oAuth2Token) 
         {
-            _headers.Add(HttpRequestHeader.Authorization, string.Format("OAuth2 {0}", oAuth2Token));
+            _headers.Add(HttpRequestHeader.Authorization, $"Bearer {oAuth2Token}");
         }
 
         public void IfModifiedSince(DateTime ifModifiedSince)
