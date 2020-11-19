@@ -1,12 +1,12 @@
 ﻿namespace DynamicRest.HTTPInterfaces {
 
     public enum HttpVerb {
-        Get,
-        Post,
-        Put,
-        Delete,
-        Options,
-        Head,
-        Patch
+        GET,
+        POST,
+        PUT,
+        DELETE,
+        OPTIONS,
+        HEAD,
+        PATCH
     }
 }
