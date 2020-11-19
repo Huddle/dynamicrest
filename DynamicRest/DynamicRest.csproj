@@ -1,88 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.11001</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6761F94D-EFCD-49C7-9E8E-ECBCA014FF63}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DynamicRest</RootNamespace>
-    <AssemblyName>DynamicRest</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net452</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <PropertyGroup>
-    <StartupObject />
+    <Company>Huddle</Company>
+    <Authors>Nikhil Kothari, Huddle</Authors>
+    <Copyright>Copyright 2015 Huddle and Nikhil Kothari</Copyright>
+    <PackageProjectUrl>https://github.com/HuddleEng/dynamicrest/</PackageProjectUrl>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageLicenseFile></PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/HuddleEng/dynamicrest/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageId>Huddle.DynamicRest</PackageId>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BinaryResponseProcessor.cs" />
-    <Compile Include="DynamicParsingException.cs" />
-    <Compile Include="Fluent\IRestClientBuilder.cs" />
-    <Compile Include="Fluent\RestClientBuilder.cs" />
-    <Compile Include="Helpers\HttpVerbHelpers.cs" />
-    <Compile Include="HTTPInterfaces\HttpVerb.cs" />
-    <Compile Include="HTTPInterfaces\WebWrappers\HttpWebResponseWrapper.cs" />
-    <Compile Include="HTTPInterfaces\WebWrappers\RequestFactory.cs" />
-    <Compile Include="HTTPInterfaces\WebWrappers\HttpWebRequestWrapper.cs" />
-    <Compile Include="HttpVerbRequestBuilder.cs" />
-    <Compile Include="IBuildDynamicResults.cs" />
-    <Compile Include="IBuildRequests.cs" />
-    <Compile Include="HTTPInterfaces\IHttpRequest.cs" />
-    <Compile Include="HTTPInterfaces\IHttpRequestFactory.cs" />
-    <Compile Include="HTTPInterfaces\IHttpResponse.cs" />
-    <Compile Include="IProcessResponses.cs" />
-    <Compile Include="ParametersStore.cs" />
-    <Compile Include="ResponseProcessor.cs" />
-    <Compile Include="RestCallback.cs" />
-    <Compile Include="RestOperation.cs" />
-    <Compile Include="IRestUriTransformer.cs" />
-    <Compile Include="RestService.cs" />
-    <Compile Include="Json\JsonArray.cs" />
-    <Compile Include="Json\JsonObject.cs" />
-    <Compile Include="Json\JsonReader.cs" />
-    <Compile Include="Json\JsonWriter.cs" />
-    <Compile Include="StandardResultBuilder.cs" />
-    <Compile Include="TemplatedUriRequestBuilder.cs" />
-    <Compile Include="TemplatedUriBuilder.cs" />
-    <Compile Include="Xml\XmlNode.cs" />
-    <Compile Include="Xml\XmlNodeList.cs" />
-    <Compile Include="RestClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xml\XmlString.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Huddle.DynamicRest.nuspec" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

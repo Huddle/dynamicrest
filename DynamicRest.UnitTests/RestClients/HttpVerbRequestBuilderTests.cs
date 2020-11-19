@@ -26,7 +26,8 @@ namespace DynamicRest.UnitTests.RestClients {
 
         It should_build_the_expected_uri = () => TestUri.ShouldEqual(requestFactory.CreatedRequest.RequestURI.ToString());
         It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.POST);
-        It should_set_the_correct_authorization_header_on_the_request = () => requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual(string.Format("OAuth2 {0}", oAuth2Token));
+        It should_set_the_correct_authorization_header_on_the_request = () => requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual(
+            $"Bearer {oAuth2Token}");
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
@@ -168,7 +169,7 @@ namespace DynamicRest.UnitTests.RestClients {
 
         It should_build_the_expected_uri = () => TestUri.ShouldEqual(requestFactory.CreatedRequest.RequestURI.ToString());
         It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.DELETE);
-        It should_set_the_correct_authorization_header_on_the_request = () => requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual(string.Format("OAuth2 {0}", oAuth2Token));
+        It should_set_the_correct_authorization_header_on_the_request = () => requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual(string.Format("Bearer {0}", oAuth2Token));
     }
 
 }

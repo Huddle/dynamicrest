@@ -71,14 +71,16 @@ namespace DynamicRest {
                 return new BuilderResponse(responseStream);
             }
 
-            dynamic result = null;
             try {
                 var responseText = (new StreamReader(responseStream)).ReadToEnd();
-                result = CreateResult(responseText);
+                dynamic result = CreateResult(responseText);
 
                 return new BuilderResponse(result, responseText);
             }
-            catch {}
+            catch
+            {
+                // ignored
+            }
 
             return null;
         }

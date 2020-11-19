@@ -64,7 +64,7 @@ namespace Application {
 
             for (int i = 0; i < queryStringParts.Length; i++) {
                 string[] nameValueParts = queryStringParts[i].Split(parameterSeparator);
-                parameters[nameValueParts[0]] = HttpUtility.UrlDecode(nameValueParts[1]);
+                parameters[nameValueParts[0]] = System.Net.WebUtility.UrlDecode(nameValueParts[1]);
             }
 
             return parameters;
@@ -75,7 +75,7 @@ namespace Application {
             // This is necessary because .NET's HttpUtility.UrlEncode does not encode
             // according to the above standard.
 
-            s = HttpUtility.UrlEncode(s).
+            s = System.Net.WebUtility.UrlEncode(s)?.
                             Replace("'", "%27").
                             Replace("(", "%28").
                             Replace(")", "%29").

@@ -113,7 +113,7 @@ namespace DynamicRest.UnitTests.Fluent {
         It should_have_the_correct_accept_header = () => 
             fakeHttpRequestFactory.CreatedRequest.Accept.ShouldEqual("application/xml");
         It should_have_the_correct_token = () => 
-            fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual("OAuth2 token");
+            fakeHttpRequestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual("Bearer token");
         It should_have_the_allow_auto_redirect_flag_set_to_false = () =>
             fakeHttpRequestFactory.CreatedRequest.AllowAutoRedirect.ShouldEqual(true);
         It should_have_the_accept_encode_header = () =>

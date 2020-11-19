@@ -8,78 +8,80 @@ namespace DynamicRest.HTTPInterfaces.HttpWebRequestWrappers {
 
     public class HttpWebRequestWrapper : IHttpRequest {
 
-        private readonly HttpWebRequest _webrequest;
+        private readonly HttpWebRequest _webRequest;
 
-        public HttpWebRequestWrapper(HttpWebRequest webrequest) {
-            _webrequest = webrequest;
+        public HttpWebRequestWrapper(HttpWebRequest webRequest) {
+            _webRequest = webRequest;
         }
 
-        public Uri RequestURI {
-            get { return _webrequest.RequestUri; }
-        }
+        public Uri RequestURI => _webRequest.RequestUri;
 
         public HttpVerb HttpVerb {
-            get {
-                return _webrequest.Method.ToHttpVerb();
-            }
-            set {
-                _webrequest.Method = value.ToString();
-            }
+            get => _webRequest.Method.ToHttpVerb();
+            set => _webRequest.Method = value.ToString();
         }
 
-        public WebHeaderCollection Headers {
-            get { return _webrequest.Headers; }
-        }
- 
+        public WebHeaderCollection Headers => _webRequest.Headers;
+
         public string Accept {
-            get {
-                return _webrequest.Accept;
-            }
-            set {
-                _webrequest.Accept = value;
-            }
+            get => _webRequest.Accept;
+            set => _webRequest.Accept = value;
         }
         
-        public string ContentType {
-            get {
-                return _webrequest.ContentType;
-            }
-        }
+        public string ContentType => _webRequest.ContentType;
 
         public bool AllowAutoRedirect {
-            get { return _webrequest.AllowAutoRedirect; }
-            set { _webrequest.AllowAutoRedirect = value; }
+            get => _webRequest.AllowAutoRedirect;
+            set => _webRequest.AllowAutoRedirect = value;
+        }
+
+        public string UserAgent
+        {
+            get => _webRequest.UserAgent;
+            set => _webRequest.UserAgent = value;
+        }
+
+        public int Timeout
+        {
+            get => _webRequest.Timeout;
+            set => _webRequest.Timeout = value;
+        }
+
+        public IWebProxy Proxy
+        {
+            get => _webRequest.Proxy;
+            set => _webRequest.Proxy = value;
         }
 
         public void AddCredentials(ICredentials credentials) {
-            _webrequest.Credentials = credentials;
+            _webRequest.Credentials = credentials;
         }
 
         public void AddHeaders(WebHeaderCollection headers) {
-            _webrequest.Headers.Add(headers);
+            _webRequest.Headers.Add(headers);
         }
 
         public void AddRequestBody(string contentType, string content) {
             if (content != null) {
                 byte[] bytes = Encoding.UTF8.GetBytes(content);
-                _webrequest.ContentType = contentType;
-                _webrequest.ContentLength = bytes.Length;
-                using (Stream requestStream = _webrequest.GetRequestStream()) {
+                _webRequest.ContentType = contentType;
+                _webRequest.ContentLength = bytes.Length;
+                using (Stream requestStream = _webRequest.GetRequestStream()) {
                     requestStream.Write(bytes, 0, bytes.Length);
                 }
             }
         }
 
         public void BeginGetResponse(Action<object> action, object asyncRequest) {
-            _webrequest.BeginGetResponse(ar => action(ar), asyncRequest);
+            _webRequest.BeginGetResponse(ar => action(ar), asyncRequest);
         }
 
         public IHttpResponse EndGetResponse(object asyncRequest) {
-            return new HttpWebResponseWrapper((HttpWebResponse) _webrequest.EndGetResponse((IAsyncResult) asyncRequest));
+            return new HttpWebResponseWrapper((HttpWebResponse) _webRequest.EndGetResponse((IAsyncResult) asyncRequest));
         }
 
         public IHttpResponse GetResponse() {
-            return new HttpWebResponseWrapper(_webrequest.GetResponse() as HttpWebResponse);
+            return new HttpWebResponseWrapper(_webRequest.GetResponse() as HttpWebResponse);
         }
     }
 }
