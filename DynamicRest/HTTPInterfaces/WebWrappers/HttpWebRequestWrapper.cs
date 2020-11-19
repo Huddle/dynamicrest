@@ -23,7 +23,7 @@ namespace DynamicRest.HTTPInterfaces.WebWrappers {
                 return _webrequest.Method.ToHttpVerb();
             }
             set {
-                _webrequest.Method = value.ToString();
+                _webrequest.Method = value.ToString().ToUpper();
             }
         }
 
