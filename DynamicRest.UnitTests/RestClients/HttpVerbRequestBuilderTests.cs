@@ -25,7 +25,7 @@ namespace DynamicRest.UnitTests.RestClients {
         Because we_make_get_call_to_an_api_via_rest_client = () => client.Post();
 
         It should_build_the_expected_uri = () => TestUri.ShouldEqual(requestFactory.CreatedRequest.RequestURI.ToString());
-        It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Post);
+        It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.POST);
         It should_set_the_correct_authorization_header_on_the_request = () => requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual(string.Format("OAuth2 {0}", oAuth2Token));
     }
 
@@ -46,7 +46,7 @@ namespace DynamicRest.UnitTests.RestClients {
         Because we_make_get_call_to_an_api_via_rest_client = () => client.Get();
 
         It should_build_the_expected_uri = () => TestUri.ShouldEqual(requestFactory.CreatedRequest.RequestURI.ToString());
-        It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Get);
+        It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.GET);
     }
 
     [Subject(typeof(HttpVerbRequestBuilder))]
@@ -167,7 +167,7 @@ namespace DynamicRest.UnitTests.RestClients {
         Because we_make_get_call_to_an_api_via_rest_client = () => client.Delete();
 
         It should_build_the_expected_uri = () => TestUri.ShouldEqual(requestFactory.CreatedRequest.RequestURI.ToString());
-        It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.Delete);
+        It should_set_the_correct_http_verb_on_the_request = () => requestFactory.CreatedRequest.HttpVerb.ShouldEqual(HttpVerb.DELETE);
         It should_set_the_correct_authorization_header_on_the_request = () => requestFactory.CreatedRequest.Headers[HttpRequestHeader.Authorization].ShouldEqual(string.Format("OAuth2 {0}", oAuth2Token));
     }
 
