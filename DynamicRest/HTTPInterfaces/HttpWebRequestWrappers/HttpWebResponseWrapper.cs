@@ -11,23 +11,15 @@ namespace DynamicRest.HTTPInterfaces.HttpWebRequestWrappers {
             this.webResponse = webResponse;
         }
 
-        public WebHeaderCollection Headers {
-            get {
-                return webResponse.Headers;
-            }
-        }
+        public string ContentEncoding => webResponse.ContentEncoding;
 
-        public HttpStatusCode StatusCode {
-            get {
-                return webResponse.StatusCode;
-            }
-        }
+        public long ContentLength => webResponse.ContentLength;
 
-        public string StatusDescription {
-            get {
-                return webResponse.StatusDescription;
-            }
-        }
+        public WebHeaderCollection Headers => webResponse.Headers;
+
+        public HttpStatusCode StatusCode => webResponse.StatusCode;
+
+        public string StatusDescription => webResponse.StatusDescription;
 
         public Stream GetResponseStream() {
             return webResponse.GetResponseStream();

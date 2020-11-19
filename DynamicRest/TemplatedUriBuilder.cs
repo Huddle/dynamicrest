@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 
 using DynamicRest.Json;
 
@@ -90,23 +90,26 @@ namespace DynamicRest {
                         continue;
                     }
 
-                    if (value is Delegate) {
-                        // Ignore callbacks in the async scenario.
-                        continue;
-                    }
+                    switch (value)
+                    {
+                        case Delegate _:
+                            // Ignore callbacks in the async scenario.
+                            continue;
+                        case JsonObject jsonObject:
+                        {
+                            // Nested object... use name.subName=value format.
+                            foreach (KeyValuePair<string, object> nestedParam in jsonObject){
+                                uriBuilder.AppendFormat("&{0}.{1}={2}",
+                                    name, nestedParam.Key,
+                                    FormatUriParameter(nestedParam.Value));
+                            }
 
-                    if (value is JsonObject) {
-                        // Nested object... use name.subName=value format.
-                        foreach (KeyValuePair<string, object> nestedParam in (IDictionary<string, object>)value){
-                            uriBuilder.AppendFormat("&{0}.{1}={2}",
-                                                    name, nestedParam.Key,
-                                                    FormatUriParameter(nestedParam.Value));
+                            continue;
                         }
-
-                        continue;
+                        default:
+                            uriBuilder.AppendFormat("&{0}={1}", name, FormatUriParameter(value));
+                            break;
                     }
-
-                    uriBuilder.AppendFormat("&{0}={1}", name, FormatUriParameter(value));
                 }
             }
         }
@@ -124,10 +127,11 @@ namespace DynamicRest {
         }
 
         internal string FormatUriParameter(object value) {
-            if (value is IEnumerable<string>) {
-                return String.Join("+", (IEnumerable<string>)value);
+            if (value is IEnumerable<string> enumerable) 
+            {
+                return string.Join("+", enumerable);
             }
-            return HttpUtility.UrlEncode(String.Format(CultureInfo.InvariantCulture, "{0}", value));
+            return  WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}", value));
         }
 
      }
