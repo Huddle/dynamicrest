@@ -27,6 +27,8 @@
     <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Description>REST API Client working against JSON data and XML data using late-bound
+dynamic code using the dynamic programming features</Description>
   </PropertyGroup>
 
   <ItemGroup>
