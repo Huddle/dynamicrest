@@ -10,7 +10,7 @@
     <Copyright>Copyright 2015 Huddle and Nikhil Kothari</Copyright>
     <PackageProjectUrl>https://github.com/HuddleEng/dynamicrest/</PackageProjectUrl>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <PackageLicenseFile></PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/HuddleEng/dynamicrest/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
